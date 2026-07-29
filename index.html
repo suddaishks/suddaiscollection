@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Suddais Collection - Premium Attars</title>
+    <title>Suddais Collection - Premium Fragrances</title>
     <style>
         :root {
             --primary-gold: #d4af37;
@@ -13,6 +13,7 @@
             --card-bg: #faf9f6;
             --text-dark: #2c2c2c;
             --border-gold: #e6dbb9;
+            --whatsapp-green: #25d366;
         }
 
         body {
@@ -73,11 +74,38 @@
             padding: 0 20px;
         }
 
+        /* Categories Filter Tabs */
+        .categories-nav {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+
+        .cat-btn {
+            background: var(--card-bg);
+            border: 2px solid var(--primary-gold);
+            color: var(--text-dark);
+            padding: 10px 25px;
+            font-size: 1.1rem;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .cat-btn:hover, .cat-btn.active {
+            background: linear-gradient(135deg, var(--primary-gold), var(--dark-gold));
+            color: #ffffff;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+        }
+
         .section-title {
             text-align: center;
             color: var(--dark-gold);
             font-size: 2rem;
-            margin-bottom: 30px;
+            margin: 40px 0 20px 0;
             position: relative;
         }
 
@@ -94,6 +122,7 @@
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
             gap: 25px;
+            margin-bottom: 40px;
         }
 
         .card {
@@ -135,8 +164,8 @@
             margin: 5px 0 15px 0;
         }
 
-        .btn {
-            background: linear-gradient(135deg, var(--primary-gold), var(--dark-gold));
+        .whatsapp-btn {
+            background: linear-gradient(135deg, var(--whatsapp-green), #1ebe5d);
             color: #ffffff;
             border: none;
             padding: 10px 20px;
@@ -146,9 +175,12 @@
             font-weight: bold;
             transition: opacity 0.2s;
             width: 100%;
+            text-decoration: none;
+            display: inline-block;
+            box-shadow: 0 4px 10px rgba(37, 211, 102, 0.3);
         }
 
-        .btn:hover {
+        .whatsapp-btn:hover {
             opacity: 0.9;
         }
 
@@ -178,179 +210,205 @@
         <img src="offer-banner.jpg" alt="Special Offer Banner">
     </div>
 
-    <!-- Products Section -->
+    <!-- Main Container -->
     <div class="container">
-        <h2 class="section-title">ہمارے خاص عطر</h2>
-        
+
+        <!-- Categories / Navigation -->
+        <div class="categories-nav">
+            <button class="cat-btn active">ال پروڈکٹس</button>
+            <button class="cat-btn">عطر (Attars)</button>
+            <button class="cat-btn">پرفیوم (Perfumes)</button>
+            <button class="cat-btn">ٹوپی (Caps)</button>
+        </div>
+
+        <!-- Section: Attars -->
+        <h2 class="section-title">خصوصی عطر</h2>
         <div class="grid">
             <!-- 1. Blue C -->
             <div class="card">
                 <img src="blue-c.jpg" alt="بلو سی">
                 <h3>بلو سی</h3>
-                <p></p>
-                <button class="btn">تفصیلات</button>
+                <p>خالص اور دلکش خوشبو</p>
+                <a href="https://wa.me/923001234567?text=السلام علیکم، مجھے بلو سی عطر کے بارے میں معلومات چاہیے" class="whatsapp-btn" target="_blank">واٹس ایپ پر رابطہ کریں</a>
             </div>
 
             <!-- 2. Mashooga -->
             <div class="card">
                 <img src="mashooga.jpg" alt="معشوقہ">
                 <h3>معشوقہ</h3>
-                <p></p>
-                <button class="btn">تفصیلات</button>
+                <p>دل موہ لینے والا عطر</p>
+                <a href="https://wa.me/923001234567?text=السلام علیکم، مجھے معشوقہ عطر کے بارے میں معلومات چاہیے" class="whatsapp-btn" target="_blank">واٹس ایپ پر رابطہ کریں</a>
             </div>
 
             <!-- 3. Saba -->
             <div class="card">
                 <img src="saba.jpg" alt="صبا">
                 <h3>صبا</h3>
-                <p></p>
-                <button class="btn">تفصیلات</button>
+                <p>تازہ ترین خوشبو</p>
+                <a href="https://wa.me/923001234567?text=السلام علیکم، مجھے صبا عطر کے بارے میں معلومات چاہیے" class="whatsapp-btn" target="_blank">واٹس ایپ پر رابطہ کریں</a>
             </div>
 
             <!-- 4. Imperial Valley -->
             <div class="card">
                 <img src="imperial-valley.jpg" alt="امپیریل ویلی">
                 <h3>امپیریل ویلی</h3>
-                <p></p>
-                <button class="btn">تفصیلات</button>
+                <p>شاہانہ خوشبو</p>
+                <a href="https://wa.me/923001234567?text=السلام علیکم، مجھے امپیریل ویلی عطر کے بارے میں معلومات چاہیے" class="whatsapp-btn" target="_blank">واٹس ایپ پر رابطہ کریں</a>
             </div>
 
             <!-- 5. Janan Sport -->
             <div class="card">
                 <img src="janan-sport.jpg" alt="جانان سپورٹ">
                 <h3>جانان سپورٹ</h3>
-                <p></p>
-                <button class="btn">تفصیلات</button>
+                <p>اسپورٹی اور انرجیٹک</p>
+                <a href="https://wa.me/923001234567?text=السلام علیکم، مجھے جانان سپورٹ کے بارے میں معلومات چاہیے" class="whatsapp-btn" target="_blank">واٹس ایپ پر رابطہ کریں</a>
             </div>
 
             <!-- 6. Open -->
             <div class="card">
                 <img src="open.jpg" alt="اوپن">
                 <h3>اوپن</h3>
-                <p></p>
-                <button class="btn">تفصیلات</button>
+                <p>क्لاسک خوشبو</p>
+                <a href="https://wa.me/923001234567?text=السلام علیکم، مجھے اوپن عطر کے بارے میں معلومات چاہیے" class="whatsapp-btn" target="_blank">واٹس ایپ پر رابطہ کریں</a>
             </div>
 
             <!-- 7. Darbar -->
             <div class="card">
                 <img src="darbar.jpg" alt="دربار">
                 <h3>دربار</h3>
-                <p></p>
-                <button class="btn">تفصیلات</button>
+                <p>روایتی اور بھاری خوشبو</p>
+                <a href="https://wa.me/923001234567?text=السلام علیکم، مجھے دربار عطر کے بارے میں معلومات چاہیے" class="whatsapp-btn" target="_blank">واٹس ایپ پر رابطہ کریں</a>
             </div>
 
             <!-- 8. Fawakah -->
             <div class="card">
                 <img src="fawakah.jpg" alt="فواکہ">
                 <h3>فواکہ</h3>
-                <p></p>
-                <button class="btn">تفصیلات</button>
+                <p>پھلوں کی مہک سے بھرپور</p>
+                <a href="https://wa.me/923001234567?text=السلام علیکم، مجھے فواکہ عطر کے بارے میں معلومات چاہیے" class="whatsapp-btn" target="_blank">واٹس ایپ پر رابطہ کریں</a>
             </div>
 
             <!-- 9. Dandy Zair -->
             <div class="card">
                 <img src="dandy-zair.jpg" alt="ڈینڈل زائر">
                 <h3>ڈینڈل زائر</h3>
-                <p></p>
-                <button class="btn">تفصیلات</button>
+                <p>ماڈرن اور پریمیم</p>
+                <a href="https://wa.me/923001234567?text=السلام علیکم، مجھے ڈینڈل زائر کے بارے میں معلومات چاہیے" class="whatsapp-btn" target="_blank">واٹس ایپ پر رابطہ کریں</a>
             </div>
 
             <!-- 10. Ameer Al Oud -->
             <div class="card">
                 <img src="ameer-al-oud.jpg" alt="امیر العود">
                 <h3>امیر العود</h3>
-                <p></p>
-                <button class="btn">تفصیلات</button>
+                <p>خالص عود کی خوشبو</p>
+                <a href="https://wa.me/923001234567?text=السلام علیکم، مجھے امیر العود کے بارے میں معلومات چاہیے" class="whatsapp-btn" target="_blank">واٹس ایپ پر رابطہ کریں</a>
             </div>
 
             <!-- 11. Attar 360 -->
             <div class="card">
                 <img src="attar-360.jpg" alt="عطرِ 360">
                 <h3>عطرِ 360</h3>
-                <p></p>
-                <button class="btn">تفصیلات</button>
+                <p>الگ انداز اور خوشبو</p>
+                <a href="https://wa.me/923001234567?text=السلام علیکم، مجھے عطر 360 کے بارے میں معلومات چاہیے" class="whatsapp-btn" target="_blank">واٹس ایپ پر رابطہ کریں</a>
             </div>
 
             <!-- 12. Shada -->
             <div class="card">
                 <img src="shada.jpg" alt="شادہ">
                 <h3>شادہ</h3>
-                <p></p>
-                <button class="btn">تفصیلات</button>
+                <p>خاص عطر کلیکشن</p>
+                <a href="https://wa.me/923001234567?text=السلام علیکم، مجھے شادہ عطر کے بارے میں معلومات چاہیے" class="whatsapp-btn" target="_blank">واٹس ایپ پر رابطہ کریں</a>
             </div>
 
-            <!-- 13. Azzaro Wanted -->
-            <div class="card">
-                <img src="azzaro-wanted.jpg" alt="ازارو وانٹڈ">
-                <h3>ازارو وانٹڈ</h3>
-                <p></p>
-                <button class="btn">تفصیلات</button>
-            </div>
-
-            <!-- 14. Poison -->
-            <div class="card">
-                <img src="poison.jpg" alt="پوائزن">
-                <h3>پوائزن</h3>
-                <p></p>
-                <button class="btn">تفصیلات</button>
-            </div>
-
-            <!-- 15. Kulsoom -->
+            <!-- 13. Kulsoom -->
             <div class="card">
                 <img src="kulsoom.jpg" alt="کلثوم">
                 <h3>کلثوم</h3>
-                <p></p>
-                <button class="btn">تفصیلات</button>
+                <p>نرم اور دلکش مہک</p>
+                <a href="https://wa.me/923001234567?text=السلام علیکم، مجھے کلثوم عطر کے بارے میں معلومات چاہیے" class="whatsapp-btn" target="_blank">واٹس ایپ پر رابطہ کریں</a>
             </div>
 
-            <!-- 16. Bakhoor Arab -->
+            <!-- 14. Bakhoor Arab -->
             <div class="card">
                 <img src="bakhoor-arab.jpg" alt="بخور عرب">
                 <h3>بخور عرب</h3>
-                <p></p>
-                <button class="btn">تفصیلات</button>
+                <p>عربی بخور کی خوشبو</p>
+                <a href="https://wa.me/923001234567?text=السلام علیکم، مجھے بخور عرب کے بارے میں معلومات چاہیے" class="whatsapp-btn" target="_blank">واٹس ایپ پر رابطہ کریں</a>
+            </div>
+        </div>
+
+        <!-- Section: Perfumes -->
+        <h2 class="section-title">لگژری پرفیومز</h2>
+        <div class="grid">
+            <!-- 15. Azzaro Wanted -->
+            <div class="card">
+                <img src="azzaro-wanted.jpg" alt="ازارو وانٹڈ">
+                <h3>ازارو وانٹڈ</h3>
+                <p>پریمیم برانڈ پرفیوم</p>
+                <a href="https://wa.me/923001234567?text=السلام علیکم، مجھے ازارو وانٹڈ پرفیوم چاہیے" class="whatsapp-btn" target="_blank">واٹس ایپ پر رابطہ کریں</a>
+            </div>
+
+            <!-- 16. Poison -->
+            <div class="card">
+                <img src="poison.jpg" alt="پوائزن">
+                <h3>پوائزن</h3>
+                <p>مضبوط اور لانگ لاسٹنگ</p>
+                <a href="https://wa.me/923001234567?text=السلام علیکم، مجھے پوائزن پرفیوم چاہیے" class="whatsapp-btn" target="_blank">واٹس ایپ پر رابطہ کریں</a>
             </div>
 
             <!-- 17. Hugo Boss -->
             <div class="card">
                 <img src="hugo-boss.jpg" alt="ہوگو باس">
                 <h3>ہوگو باس</h3>
-                <p></p>
-                <button class="btn">تفصیلات</button>
+                <p>برانডেڈ پرفیوم</p>
+                <a href="https://wa.me/923001234567?text=السلام علیکم، مجھے ہوگو باس پرفیوم چاہیے" class="whatsapp-btn" target="_blank">واٹس ایپ پر رابطہ کریں</a>
             </div>
 
             <!-- 18. Shams Dubai -->
             <div class="card">
                 <img src="shams-dubai.jpg" alt="شمس دبی">
                 <h3>شمس دبی</h3>
-                <p></p>
-                <button class="btn">تفصیلات</button>
+                <p>دبئی کی خاص خوشبو</p>
+                <a href="https://wa.me/923001234567?text=السلام علیکم، مجھے شمس دبی پرفیوم چاہیے" class="whatsapp-btn" target="_blank">واٹس ایپ پر رابطہ کریں</a>
             </div>
 
             <!-- 19. Delicia -->
             <div class="card">
                 <img src="delicia.jpg" alt="ڈیلیشیا">
                 <h3>ڈیلیشیا</h3>
-                <p></p>
-                <button class="btn">تفصیلات</button>
+                <p>دلکش امپورٹڈ پرفیوم</p>
+                <a href="https://wa.me/923001234567?text=السلام علیکم، مجھے ڈیلیشیا پرفیوم چاہیے" class="whatsapp-btn" target="_blank">واٹس ایپ پر رابطہ کریں</a>
             </div>
 
             <!-- 20. Chanel -->
             <div class="card">
                 <img src="chanel.jpg" alt="چینل">
                 <h3>چینل</h3>
-                <p></p>
-                <button class="btn">تفصیلات</button>
+                <p>عالمی شہرت یافتہ پرفیوم</p>
+                <a href="https://wa.me/923001234567?text=السلام علیکم، مجھے چینل پرفیوم چاہیے" class="whatsapp-btn" target="_blank">واٹس ایپ پر رابطہ کریں</a>
             </div>
 
             <!-- 21. Hevik -->
             <div class="card">
                 <img src="hevik.jpg" alt="ہیوک">
                 <h3>ہیوک</h3>
-                <p></p>
-                <button class="btn">تفصیلات</button>
+                <p>خاص لگژری پرفیوم</p>
+                <a href="https://wa.me/923001234567?text=السلام علیکم، مجھے ہیوک پرفیوم چاہیے" class="whatsapp-btn" target="_blank">واٹس ایپ پر رابطہ کریں</a>
             </div>
         </div>
+
+        <!-- Section: Caps / Topi -->
+        <h2 class="section-title">ٹوپیاں (Caps)</h2>
+        <div class="grid">
+            <!-- ٹوپی کے خالی کارڈز آپ بعد میں تصویر اور نام کے ساتھ ایڈ کر سکتے ہیں -->
+            <div class="card">
+                <img src="" alt="ٹوپی تصویر">
+                <h3>ٹوپی نام</h3>
+                <p>خالی پروڈکٹ کارڈ</p>
+                <a href="https://wa.me/923001234567?text=السلام علیکم، مجھے ٹوپی کے بارے میں معلومات چاہیے" class="whatsapp-btn" target="_blank">واٹس ایپ پر رابطہ کریں</a>
+            </div>
+        </div>
+
     </div>
 
     <!-- Footer Section -->
