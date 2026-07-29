@@ -3,418 +3,379 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Suddais Collection - Premium Fragrances</title>
+    <title>SUDDAIS COLLECTION | VIP Store</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Jameel+Noori+Nastaleeq&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --primary-gold: #d4af37;
+        :root { 
+            --primary: #d4af37; 
             --dark-gold: #aa820a;
-            --light-gold: #f3e5ab;
-            --bg-white: #ffffff;
+            --bg: #ffffff; 
             --card-bg: #faf9f6;
-            --text-dark: #2c2c2c;
-            --border-gold: #e6dbb9;
-            --whatsapp-green: #25d366;
+            --text: #2c2c2c; 
+            --accent: #1a1a1a; 
+            --whatsapp: #25d366;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Jameel Noori Nastaleeq', 'Poppins', sans-serif; }
+        body { background: var(--bg); color: var(--text); scroll-behavior: smooth; overflow-x: hidden; }
+
+        /* HEADER */
+        header { background: var(--accent); padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid var(--primary); position: sticky; top: 0; z-index: 1000; }
+        .logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+        .logo img { width: 55px; height: 55px; border-radius: 50%; border: 2px solid var(--primary); object-fit: cover; }
+        .brand-name { font-weight: 800; font-size: 1.4rem; color: var(--primary); letter-spacing: 1px; }
+        .cart-trigger { position: relative; font-size: 1.6rem; color: var(--primary); cursor: pointer; transition: 0.3s; }
+        #cart-count { position: absolute; top: -8px; right: -10px; background: #ff4757; color: white; font-size: 0.75rem; padding: 2px 7px; border-radius: 50%; font-weight: bold; }
+
+        /* SHINE ANIMATION */
+        .shine { animation: shine 0.6s ease-in-out; }
+        @keyframes shine { 
+            0% { transform: scale(1); filter: brightness(1); } 
+            50% { transform: scale(1.25); color: #fff; text-shadow: 0 0 15px var(--primary); } 
+            100% { transform: scale(1); filter: brightness(1); } 
         }
 
-        body {
-            font-family: 'Jameel Noori Nastaleeq', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg-white);
-            color: var(--text-dark);
-            margin: 0;
-            padding: 0;
-            direction: rtl;
-        }
+        /* OFFERS */
+        .offers-container { padding: 20px 4%; background: #fdfcf7; }
+        .offer-banner { width: 100%; height: 180px; border-radius: 12px; overflow: hidden; border: 2px solid var(--primary); box-shadow: 0 4px 15px rgba(212,175,55,0.2); }
+        .offer-banner img { width: 100%; height: 100%; object-fit: cover; }
 
-        header {
-            background: linear-gradient(135deg, #1a1a1a, #2c2c2c);
-            color: var(--primary-gold);
-            text-align: center;
-            padding: 25px 20px;
-            border-bottom: 4px solid var(--primary-gold);
-        }
+        /* TABS */
+        .tabs { display: flex; overflow-x: auto; gap: 12px; padding: 15px 5%; background: #fff; border-bottom: 1px solid #eee; justify-content: center; }
+        .tab-btn { padding: 10px 25px; border: 2px solid var(--primary); background: #fff; color: var(--text); border-radius: 50px; font-weight: 700; cursor: pointer; transition: 0.3s; font-size: 1rem; white-space: nowrap; }
+        .tab-btn.active, .tab-btn:hover { background: linear-gradient(135deg, var(--primary), var(--dark-gold)); color: #fff; border-color: var(--primary); box-shadow: 0 4px 10px rgba(212,175,55,0.3); }
 
-        .logo-container img {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            border: 3px solid var(--primary-gold);
-            object-fit: cover;
-            margin-bottom: 10px;
-        }
+        /* GRID */
+        .container { padding: 30px 4%; max-width: 1300px; margin: auto; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; }
 
-        header h1 {
-            margin: 10px 0 5px 0;
-            font-size: 2.5rem;
-            letter-spacing: 1px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-        }
+        /* CARD */
+        .card { background: var(--card-bg); border-radius: 12px; overflow: hidden; border: 1px solid #e6dbb9; display: flex; flex-direction: column; box-shadow: 0 4px 15px rgba(0,0,0,0.03); transition: 0.3s; }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 8px 25px rgba(212,175,55,0.2); border-color: var(--primary); }
+        .image-slider { position: relative; width: 100%; height: 210px; overflow: hidden; background: #fff; border-bottom: 1px solid #eee; }
+        .image-slider img { width: 100%; height: 100%; object-fit: contain; padding: 5px; }
+        .card-body { padding: 15px; text-align: center; display: flex; flex-direction: column; flex-grow: 1; justify-content: space-between; }
+        .card-body h3 { font-size: 1.3rem; color: var(--text); margin-bottom: 5px; }
+        .price { font-weight: 800; color: var(--dark-gold); font-size: 1.1rem; margin-bottom: 12px; display: block; }
+        
+        .btn { padding: 10px; border-radius: 8px; text-decoration: none; font-size: 0.9rem; font-weight: 700; text-align: center; cursor: pointer; border: none; transition: 0.2s; width: 100%; }
+        .btn-cart { background: linear-gradient(135deg, var(--primary), var(--dark-gold)); color: #fff; box-shadow: 0 4px 10px rgba(212,175,55,0.3); }
+        .btn-cart:hover { opacity: 0.9; }
 
-        header p {
-            margin: 0;
-            color: var(--light-gold);
-            font-size: 1.2rem;
-        }
+        /* CART DRAWER */
+        #cart-drawer { position: fixed; top: 0; right: -100%; width: 100%; max-width: 380px; height: 100%; background: #fff; z-index: 2000; box-shadow: -5px 0 25px rgba(0,0,0,0.15); transition: 0.4s; display: flex; flex-direction: column; }
+        #cart-drawer.open { right: 0; }
+        .cart-header { padding: 20px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; background: var(--accent); color: var(--primary); }
+        .cart-content { flex-grow: 1; overflow-y: auto; padding: 20px; }
+        
+        /* CUSTOMER FORM FIELDS INSIDE CART */
+        .customer-form { background: #fdfcf7; padding: 15px; border-radius: 8px; border: 1px solid #e6dbb9; margin-bottom: 15px; }
+        .customer-form h4 { font-size: 1rem; color: var(--dark-gold); margin-bottom: 10px; text-align: center; }
+        .form-group { margin-bottom: 10px; }
+        .form-group input, .form-group textarea { width: 100%; padding: 8px 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 0.9rem; outline: none; transition: 0.2s; }
+        .form-group input:focus, .form-group textarea:focus { border-color: var(--primary); box-shadow: 0 0 5px rgba(212,175,55,0.3); }
 
-        .banner-container {
-            width: 100%;
-            max-height: 350px;
-            overflow: hidden;
-            border-bottom: 3px solid var(--primary-gold);
-        }
+        .cart-item { display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid #f0f0f0; }
+        .qty-box { display: flex; align-items: center; gap: 8px; }
+        .qty-btn { width: 26px; height: 26px; border-radius: 50%; border: 1px solid var(--primary); background: #fff; color: var(--dark-gold); font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+        .cart-footer { padding: 20px; border-top: 1px solid #eee; background: #faf9f6; }
+        .btn-wa-order { background: var(--whatsapp); color: #fff; box-shadow: 0 4px 12px rgba(37,211,102,0.3); margin-top: 10px; }
+        .btn-wa-order:hover { opacity: 0.9; }
 
-        .banner-container img {
-            width: 100%;
-            height: auto;
-            object-fit: cover;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 40px auto;
-            padding: 0 20px;
-        }
-
-        /* Categories Filter Tabs */
-        .categories-nav {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-bottom: 40px;
-            flex-wrap: wrap;
-        }
-
-        .cat-btn {
-            background: var(--card-bg);
-            border: 2px solid var(--primary-gold);
-            color: var(--text-dark);
-            padding: 10px 25px;
-            font-size: 1.1rem;
-            border-radius: 30px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: all 0.3s ease;
-        }
-
-        .cat-btn:hover, .cat-btn.active {
-            background: linear-gradient(135deg, var(--primary-gold), var(--dark-gold));
-            color: #ffffff;
-            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
-        }
-
-        .section-title {
-            text-align: center;
-            color: var(--dark-gold);
-            font-size: 2rem;
-            margin: 40px 0 20px 0;
-            position: relative;
-        }
-
-        .section-title::after {
-            content: '';
-            display: block;
-            width: 80px;
-            height: 3px;
-            background: var(--primary-gold);
-            margin: 10px auto 0;
-        }
-
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 25px;
-            margin-bottom: 40px;
-        }
-
-        .card {
-            background: var(--card-bg);
-            border: 1px solid var(--border-gold);
-            border-radius: 12px;
-            padding: 20px;
-            text-align: center;
-            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.25);
-            border-color: var(--primary-gold);
-        }
-
-        .card img {
-            width: 100%;
-            height: 220px;
-            object-fit: contain;
-            background-color: #fff;
-            border-radius: 8px;
-            border: 1px solid #eee;
-            margin-bottom: 15px;
-            padding: 5px;
-        }
-
-        .card h3 {
-            color: var(--text-dark);
-            font-size: 1.5rem;
-            margin: 10px 0;
-        }
-
-        .card p {
-            color: #666;
-            font-size: 1rem;
-            margin: 5px 0 15px 0;
-        }
-
-        .whatsapp-btn {
-            background: linear-gradient(135deg, var(--whatsapp-green), #1ebe5d);
-            color: #ffffff;
-            border: none;
-            padding: 10px 20px;
-            font-size: 1rem;
-            border-radius: 25px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: opacity 0.2s;
-            width: 100%;
-            text-decoration: none;
-            display: inline-block;
-            box-shadow: 0 4px 10px rgba(37, 211, 102, 0.3);
-        }
-
-        .whatsapp-btn:hover {
-            opacity: 0.9;
-        }
-
-        footer {
-            background: #1a1a1a;
-            color: var(--light-gold);
-            text-align: center;
-            padding: 20px;
-            margin-top: 50px;
-            border-top: 3px solid var(--primary-gold);
-        }
+        /* ABOUT & FOOTER */
+        .about { background: #faf9f6; padding: 35px; margin-top: 40px; border-radius: 15px; text-align: center; border: 1px solid #e6dbb9; }
+        .about h3 { color: var(--dark-gold); font-size: 1.8rem; margin-bottom: 10px; }
+        footer { background: var(--accent); color: var(--primary); padding: 40px 5%; margin-top: 40px; text-align: center; border-top: 3px solid var(--primary); }
+        .footer-socials { display: flex; justify-content: center; gap: 20px; margin: 20px 0; font-size: 1.5rem; }
+        .footer-socials a { color: var(--primary); transition: 0.3s; }
+        
+        .wa-float { position: fixed; bottom: 25px; right: 25px; width: 60px; height: 60px; background: var(--whatsapp); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 32px; z-index: 1001; box-shadow: 0 4px 15px rgba(37,211,102,0.4); text-decoration: none; }
+        
+        #toast { display: none; position: fixed; bottom: 90px; left: 50%; transform: translateX(-50%); background: var(--accent); color: var(--primary); border: 1px solid var(--primary); padding: 12px 25px; border-radius: 30px; z-index: 3000; font-weight: bold; box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
     </style>
 </head>
 <body>
 
-    <!-- Header & Logo Section -->
+    <!-- Header -->
     <header>
-        <div class="logo-container">
-            <img src="logo.png" alt="Suddais Collection Logo">
+        <a href="#" class="logo">
+            <img src="Logo.jpg" alt="Logo" onerror="this.src='https://via.placeholder.com/55?text=S'">
+            <span class="brand-name">SUDDAIS COLLECTION</span>
+        </a>
+        <div class="cart-trigger" id="cartIcon" onclick="toggleCart()">
+            <i class="fas fa-shopping-bag"></i>
+            <span id="cart-count">0</span>
         </div>
-        <h1>Suddais Collection</h1>
-        <p>Premium Attars & Luxury Fragrances</p>
     </header>
 
-    <!-- Offer / Banner Section -->
-    <div class="banner-container">
-        <img src="offer-banner.jpg" alt="Special Offer Banner">
+    <!-- Banner Offers -->
+    <div class="offers-container">
+        <div class="offer-banner">
+            <img id="offerImg" src="offer-banner1.jpg" alt="Special Offers" onerror="this.src='https://via.placeholder.com/1200x350?text=Suddais+Collection+Special+Offer'">
+        </div>
     </div>
 
-    <!-- Main Container -->
+    <!-- Category Tabs (Separate Sections) -->
+    <div class="tabs">
+        <button class="tab-btn active" onclick="filter('all', event)">ال پروڈکٹس (All)</button>
+        <button class="tab-btn" onclick="filter('attar', event)">عطر (Attars)</button>
+        <button class="tab-btn" onclick="filter('perfume', event)">پرفیوم (Perfumes)</button>
+        <button class="tab-btn" onclick="filter('kufi', event)">ٹوپی (Caps)</button>
+    </div>
+
+    <!-- Main Products Grid -->
     <div class="container">
-
-        <!-- Categories / Navigation -->
-        <div class="categories-nav">
-            <button class="cat-btn active">ال پروڈکٹس</button>
-            <button class="cat-btn">عطر (Attars)</button>
-            <button class="cat-btn">پرفیوم (Perfumes)</button>
-            <button class="cat-btn">ٹوپی (Caps)</button>
-        </div>
-
-        <!-- Section: Attars -->
-        <h2 class="section-title">خصوصی عطر</h2>
-        <div class="grid">
-            <!-- 1. Blue C -->
-            <div class="card">
-                <img src="blue-c.jpg" alt="بلو سی">
-                <h3>بلو سی</h3>
-                <p>خالص اور دلکش خوشبو</p>
-                <a href="https://wa.me/923001234567?text=السلام علیکم، مجھے بلو سی عطر کے بارے میں معلومات چاہیے" class="whatsapp-btn" target="_blank">واٹس ایپ پر رابطہ کریں</a>
-            </div>
-
-            <!-- 2. Mashooga -->
-            <div class="card">
-                <img src="mashooga.jpg" alt="معشوقہ">
-                <h3>معشوقہ</h3>
-                <p>دل موہ لینے والا عطر</p>
-                <a href="https://wa.me/923001234567?text=السلام علیکم، مجھے معشوقہ عطر کے بارے میں معلومات چاہیے" class="whatsapp-btn" target="_blank">واٹس ایپ پر رابطہ کریں</a>
-            </div>
-
-            <!-- 3. Saba -->
-            <div class="card">
-                <img src="saba.jpg" alt="صبا">
-                <h3>صبا</h3>
-                <p>تازہ ترین خوشبو</p>
-                <a href="https://wa.me/923001234567?text=السلام علیکم، مجھے صبا عطر کے بارے میں معلومات چاہیے" class="whatsapp-btn" target="_blank">واٹس ایپ پر رابطہ کریں</a>
-            </div>
-
-            <!-- 4. Imperial Valley -->
-            <div class="card">
-                <img src="imperial-valley.jpg" alt="امپیریل ویلی">
-                <h3>امپیریل ویلی</h3>
-                <p>شاہانہ خوشبو</p>
-                <a href="https://wa.me/923001234567?text=السلام علیکم، مجھے امپیریل ویلی عطر کے بارے میں معلومات چاہیے" class="whatsapp-btn" target="_blank">واٹس ایپ پر رابطہ کریں</a>
-            </div>
-
-            <!-- 5. Janan Sport -->
-            <div class="card">
-                <img src="janan-sport.jpg" alt="جانان سپورٹ">
-                <h3>جانان سپورٹ</h3>
-                <p>اسپورٹی اور انرجیٹک</p>
-                <a href="https://wa.me/923001234567?text=السلام علیکم، مجھے جانان سپورٹ کے بارے میں معلومات چاہیے" class="whatsapp-btn" target="_blank">واٹس ایپ پر رابطہ کریں</a>
-            </div>
-
-            <!-- 6. Open -->
-            <div class="card">
-                <img src="open.jpg" alt="اوپن">
-                <h3>اوپن</h3>
-                <p>क्لاسک خوشبو</p>
-                <a href="https://wa.me/923001234567?text=السلام علیکم، مجھے اوپن عطر کے بارے میں معلومات چاہیے" class="whatsapp-btn" target="_blank">واٹس ایپ پر رابطہ کریں</a>
-            </div>
-
-            <!-- 7. Darbar -->
-            <div class="card">
-                <img src="darbar.jpg" alt="دربار">
-                <h3>دربار</h3>
-                <p>روایتی اور بھاری خوشبو</p>
-                <a href="https://wa.me/923001234567?text=السلام علیکم، مجھے دربار عطر کے بارے میں معلومات چاہیے" class="whatsapp-btn" target="_blank">واٹس ایپ پر رابطہ کریں</a>
-            </div>
-
-            <!-- 8. Fawakah -->
-            <div class="card">
-                <img src="fawakah.jpg" alt="فواکہ">
-                <h3>فواکہ</h3>
-                <p>پھلوں کی مہک سے بھرپور</p>
-                <a href="https://wa.me/923001234567?text=السلام علیکم، مجھے فواکہ عطر کے بارے میں معلومات چاہیے" class="whatsapp-btn" target="_blank">واٹس ایپ پر رابطہ کریں</a>
-            </div>
-
-            <!-- 9. Dandy Zair -->
-            <div class="card">
-                <img src="dandy-zair.jpg" alt="ڈینڈل زائر">
-                <h3>ڈینڈل زائر</h3>
-                <p>ماڈرن اور پریمیم</p>
-                <a href="https://wa.me/923001234567?text=السلام علیکم، مجھے ڈینڈل زائر کے بارے میں معلومات چاہیے" class="whatsapp-btn" target="_blank">واٹس ایپ پر رابطہ کریں</a>
-            </div>
-
-            <!-- 10. Ameer Al Oud -->
-            <div class="card">
-                <img src="ameer-al-oud.jpg" alt="امیر العود">
-                <h3>امیر العود</h3>
-                <p>خالص عود کی خوشبو</p>
-                <a href="https://wa.me/923001234567?text=السلام علیکم، مجھے امیر العود کے بارے میں معلومات چاہیے" class="whatsapp-btn" target="_blank">واٹس ایپ پر رابطہ کریں</a>
-            </div>
-
-            <!-- 11. Attar 360 -->
-            <div class="card">
-                <img src="attar-360.jpg" alt="عطرِ 360">
-                <h3>عطرِ 360</h3>
-                <p>الگ انداز اور خوشبو</p>
-                <a href="https://wa.me/923001234567?text=السلام علیکم، مجھے عطر 360 کے بارے میں معلومات چاہیے" class="whatsapp-btn" target="_blank">واٹس ایپ پر رابطہ کریں</a>
-            </div>
-
-            <!-- 12. Shada -->
-            <div class="card">
-                <img src="shada.jpg" alt="شادہ">
-                <h3>شادہ</h3>
-                <p>خاص عطر کلیکشن</p>
-                <a href="https://wa.me/923001234567?text=السلام علیکم، مجھے شادہ عطر کے بارے میں معلومات چاہیے" class="whatsapp-btn" target="_blank">واٹس ایپ پر رابطہ کریں</a>
-            </div>
-
-            <!-- 13. Kulsoom -->
-            <div class="card">
-                <img src="kulsoom.jpg" alt="کلثوم">
-                <h3>کلثوم</h3>
-                <p>نرم اور دلکش مہک</p>
-                <a href="https://wa.me/923001234567?text=السلام علیکم، مجھے کلثوم عطر کے بارے میں معلومات چاہیے" class="whatsapp-btn" target="_blank">واٹس ایپ پر رابطہ کریں</a>
-            </div>
-
-            <!-- 14. Bakhoor Arab -->
-            <div class="card">
-                <img src="bakhoor-arab.jpg" alt="بخور عرب">
-                <h3>بخور عرب</h3>
-                <p>عربی بخور کی خوشبو</p>
-                <a href="https://wa.me/923001234567?text=السلام علیکم، مجھے بخور عرب کے بارے میں معلومات چاہیے" class="whatsapp-btn" target="_blank">واٹس ایپ پر رابطہ کریں</a>
-            </div>
-        </div>
-
-        <!-- Section: Perfumes -->
-        <h2 class="section-title">لگژری پرفیومز</h2>
-        <div class="grid">
-            <!-- 15. Azzaro Wanted -->
-            <div class="card">
-                <img src="azzaro-wanted.jpg" alt="ازارو وانٹڈ">
-                <h3>ازارو وانٹڈ</h3>
-                <p>پریمیم برانڈ پرفیوم</p>
-                <a href="https://wa.me/923001234567?text=السلام علیکم، مجھے ازارو وانٹڈ پرفیوم چاہیے" class="whatsapp-btn" target="_blank">واٹس ایپ پر رابطہ کریں</a>
-            </div>
-
-            <!-- 16. Poison -->
-            <div class="card">
-                <img src="poison.jpg" alt="پوائزن">
-                <h3>پوائزن</h3>
-                <p>مضبوط اور لانگ لاسٹنگ</p>
-                <a href="https://wa.me/923001234567?text=السلام علیکم، مجھے پوائزن پرفیوم چاہیے" class="whatsapp-btn" target="_blank">واٹس ایپ پر رابطہ کریں</a>
-            </div>
-
-            <!-- 17. Hugo Boss -->
-            <div class="card">
-                <img src="hugo-boss.jpg" alt="ہوگو باس">
-                <h3>ہوگو باس</h3>
-                <p>برانডেڈ پرفیوم</p>
-                <a href="https://wa.me/923001234567?text=السلام علیکم، مجھے ہوگو باس پرفیوم چاہیے" class="whatsapp-btn" target="_blank">واٹس ایپ پر رابطہ کریں</a>
-            </div>
-
-            <!-- 18. Shams Dubai -->
-            <div class="card">
-                <img src="shams-dubai.jpg" alt="شمس دبی">
-                <h3>شمس دبی</h3>
-                <p>دبئی کی خاص خوشبو</p>
-                <a href="https://wa.me/923001234567?text=السلام علیکم، مجھے شمس دبی پرفیوم چاہیے" class="whatsapp-btn" target="_blank">واٹس ایپ پر رابطہ کریں</a>
-            </div>
-
-            <!-- 19. Delicia -->
-            <div class="card">
-                <img src="delicia.jpg" alt="ڈیلیشیا">
-                <h3>ڈیلیشیا</h3>
-                <p>دلکش امپورٹڈ پرفیوم</p>
-                <a href="https://wa.me/923001234567?text=السلام علیکم، مجھے ڈیلیشیا پرفیوم چاہیے" class="whatsapp-btn" target="_blank">واٹس ایپ پر رابطہ کریں</a>
-            </div>
-
-            <!-- 20. Chanel -->
-            <div class="card">
-                <img src="chanel.jpg" alt="چینل">
-                <h3>چینل</h3>
-                <p>عالمی شہرت یافتہ پرفیوم</p>
-                <a href="https://wa.me/923001234567?text=السلام علیکم، مجھے چینل پرفیوم چاہیے" class="whatsapp-btn" target="_blank">واٹس ایپ پر رابطہ کریں</a>
-            </div>
-
-            <!-- 21. Hevik -->
-            <div class="card">
-                <img src="hevik.jpg" alt="ہیوک">
-                <h3>ہیوک</h3>
-                <p>خاص لگژری پرفیوم</p>
-                <a href="https://wa.me/923001234567?text=السلام علیکم، مجھے ہیوک پرفیوم چاہیے" class="whatsapp-btn" target="_blank">واٹس ایپ پر رابطہ کریں</a>
-            </div>
-        </div>
-
-        <!-- Section: Caps / Topi -->
-        <h2 class="section-title">ٹوپیاں (Caps)</h2>
-        <div class="grid">
-            <!-- ٹوپی کے خالی کارڈز آپ بعد میں تصویر اور نام کے ساتھ ایڈ کر سکتے ہیں -->
-            <div class="card">
-                <img src="" alt="ٹوپی تصویر">
-                <h3>ٹوپی نام</h3>
-                <p>خالی پروڈکٹ کارڈ</p>
-                <a href="https://wa.me/923001234567?text=السلام علیکم، مجھے ٹوپی کے بارے میں معلومات چاہیے" class="whatsapp-btn" target="_blank">واٹس ایپ پر رابطہ کریں</a>
-            </div>
-        </div>
-
+        <div class="grid" id="productGrid"></div>
+        
+        <!-- About Section -->
+        <section class="about">
+            <h3>Suddais Collection کے بارے میں</h3>
+            <p>ہم آپ کو فراہم کرتے ہیں بہترین اور خالص ترین عطر، دلکش لگژری پرفیومز اور اعلیٰ معیار کی ٹوپیاں۔ اپنی پسندیدہ خوشبو کا انتخاب کریں اور ابھی کارٹ میں شامل کر کے واٹس ایپ پر آرڈر بک کروائیں۔</p>
+        </section>
     </div>
 
-    <!-- Footer Section -->
+    <!-- Cart Drawer Sidebar -->
+    <div id="cart-drawer">
+        <div class="cart-header">
+            <h3>آپ کی کارٹ (Cart)</h3>
+            <i class="fas fa-times" onclick="toggleCart()" style="cursor:pointer; font-size: 1.2rem;"></i>
+        </div>
+        <div class="cart-content" id="cartContent">
+            <!-- Items & Form will render here -->
+        </div>
+        <div class="cart-footer">
+            <div style="display:flex; justify-content:space-between; font-weight:bold; font-size: 1.1rem; margin-bottom:15px;">
+                <span>کل رقم (Total):</span>
+                <span id="totalPrice" style="color: var(--dark-gold);">Rs. 0</span>
+            </div>
+            <button class="btn btn-wa-order" onclick="sendOrder()">واٹس ایپ پر آرڈر بھیجیں</button>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast">پروڈکٹ کارٹ میں شامل کر دی گئی! 🛍️</div>
+
+    <!-- Floating WhatsApp Button -->
+    <a href="https://wa.me/923182187575" class="wa-float" target="_blank"><i class="fab fa-whatsapp"></i></a>
+
+    <!-- Footer -->
     <footer>
-        <p>&copy; 2026 Suddais Collection. All Rights Reserved.</p>
+        <div class="footer-socials">
+            <a href="#"><i class="fab fa-facebook"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="https://wa.me/923182187575" target="_blank"><i class="fab fa-whatsapp"></i></a>
+        </div>
+        <p>&copy; 2026 SUDDAIS COLLECTION. All Rights Reserved.</p>
     </footer>
 
+    <!-- JavaScript Logic -->
+    <script>
+        // Banner Slider
+        const offers = ['offer-banner1.jpg', 'offer-banner2.jpg'];
+        let currentOffer = 0; 
+        setInterval(() => { 
+            currentOffer = (currentOffer + 1) % offers.length; 
+            const banner = document.getElementById('offerImg');
+            banner.src = offers[currentOffer];
+            banner.onerror = function() { this.src='https://via.placeholder.com/1200x350?text=Suddais+Collection+Special+Offer'; };
+        }, 4000);
+        
+        // Products Database
+        const products = [
+            // Attars (14)
+            { id: 1, category: 'attar', name: 'بلو سی (Blue C)', price: 1200, img: 'blue-c.jpg' },
+            { id: 2, category: 'attar', name: 'معشوقہ (Mashooga)', price: 1500, img: 'mashooga.jpg' },
+            { id: 3, category: 'attar', name: 'صبا (Saba)', price: 1000, img: 'saba.jpg' },
+            { id: 4, category: 'attar', name: 'امپیریل ویلی (Imperial Valley)', price: 2000, img: 'imperial-valley.jpg' },
+            { id: 5, category: 'attar', name: 'جانان سپورٹ (Janan Sport)', price: 1300, img: 'janan-sport.jpg' },
+            { id: 6, category: 'attar', name: 'اوپن (Open)', price: 1100, img: 'open.jpg' },
+            { id: 7, category: 'attar', name: 'دربار (Darbar)', price: 1400, img: 'darbar.jpg' },
+            { id: 8, category: 'attar', name: 'فواکہ (Fawakah)', price: 1250, img: 'fawakah.jpg' },
+            { id: 9, category: 'attar', name: 'ڈینڈل زائر (Dandy Zair)', price: 1600, img: 'dandy-zair.jpg' },
+            { id: 10, category: 'attar', name: 'امیر العود (Ameer Al Oud)', price: 1800, img: 'ameer-al-oud.jpg' },
+            { id: 11, category: 'attar', name: 'عطرِ 360 (Attar 360)', price: 1500, img: 'attar-360.jpg' },
+            { id: 12, category: 'attar', name: 'شادہ (Shada)', price: 1350, img: 'shada.jpg' },
+            { id: 13, category: 'attar', name: 'کلثوم (Kulsoom)', price: 1150, img: 'kulsoom.jpg' },
+            { id: 14, category: 'attar', name: 'بخور عرب (Bakhoor Arab)', price: 1700, img: 'bakhoor-arab.jpg' },
+
+            // Perfumes (7)
+            { id: 15, category: 'perfume', name: 'ازارو وانٹڈ (Azzaro Wanted)', price: 3500, img: 'azzaro-wanted.jpg' },
+            { id: 16, category: 'perfume', name: 'پوائزن (Poison)', price: 3200, img: 'poison.jpg' },
+            { id: 17, category: 'perfume', name: 'ہوگو باس (Hugo Boss)', price: 3800, img: 'hugo-boss.jpg' },
+            { id: 18, category: 'perfume', name: 'شمس دبی (Shams Dubai)', price: 3000, img: 'shams-dubai.jpg' },
+            { id: 19, category: 'perfume', name: 'ڈیلیشیا (Delicia)', price: 2800, img: 'delicia.jpg' },
+            { id: 20, category: 'perfume', name: 'چینل (Chanel)', price: 4000, img: 'chanel.jpg' },
+            { id: 21, category: 'perfume', name: 'ہیوک (Hevik)', price: 3100, img: 'hevik.jpg' },
+
+            // Kufi Caps (2)
+            { id: 22, category: 'kufi', name: 'پریمیم ٹوپی 1 (Kufi Cap)', price: 500, img: 'kufi-1.jpg' },
+            { id: 23, category: 'kufi', name: 'پریمیم ٹوپی 2 (Kufi Cap)', price: 600, img: 'kufi-2.jpg' }
+        ];
+
+        let cart = [];
+        let customer = { name: '', phone: '', address: '' };
+
+        function render(f='all') {
+            const grid = document.getElementById('productGrid'); 
+            grid.innerHTML = '';
+            
+            const filteredProducts = products.filter(p => f === 'all' || p.category === f);
+            
+            filteredProducts.forEach(p => {
+                grid.innerHTML += `
+                    <div class="card">
+                        <div class="image-slider">
+                            <img src="${p.img}" alt="${p.name}" onerror="this.src='https://via.placeholder.com/300x400?text=Suddais+Collection'">
+                        </div>
+                        <div class="card-body">
+                            <div>
+                                <h3>${p.name}</h3>
+                                <span class="price">Rs. ${p.price}</span>
+                            </div>
+                            <button class="btn btn-cart" onclick="addToCart(${p.id})">کارٹ میں شامل کریں</button>
+                        </div>
+                    </div>`;
+            });
+        }
+
+        function addToCart(id) {
+            const prod = products.find(p => p.id === id); 
+            const inCart = cart.find(item => item.id === id);
+            
+            if(inCart) {
+                inCart.qty++;
+            } else {
+                cart.push({...prod, qty: 1});
+            }
+            
+            // Trigger Shine Animation on Cart Icon
+            const icon = document.getElementById('cartIcon'); 
+            icon.classList.add('shine'); 
+            setTimeout(() => icon.classList.remove('shine'), 600);
+            
+            showToast('پروڈکٹ کارٹ میں شامل کر دی گئی! 🛍️'); 
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            const content = document.getElementById('cartContent'), 
+                  count = document.getElementById('cart-count'), 
+                  total = document.getElementById('totalPrice');
+                  
+            let totalCount = 0;
+            cart.forEach(i => totalCount += i.qty);
+            count.innerText = totalCount;
+
+            let sum = 0;
+            let htmlContent = `
+                <div class="customer-form">
+                    <h4>آرڈر کی تفصیلات (مای معلومات)</h4>
+                    <div class="form-group">
+                        <input type="text" id="custName" placeholder="آپ کا نام" value="${customer.name}" oninput="customer.name=this.value">
+                    </div>
+                    <div class="form-group">
+                        <input type="tel" id="custPhone" placeholder="فون نمبر (مثلاً 03001234567)" value="${customer.phone}" oninput="customer.phone=this.value">
+                    </div>
+                    <div class="form-group">
+                        <textarea id="custAddress" placeholder="مکمل پتہ (ایڈریس اور شہر)" rows="2" oninput="customer.address=this.value">${customer.address}</textarea>
+                    </div>
+                </div>
+            `;
+
+            if(cart.length === 0) { 
+                htmlContent += '<p style="text-align:center; color:#777; margin-top:20px;">آپ کی کارٹ خالی ہے!</p>'; 
+                content.innerHTML = htmlContent;
+                total.innerText = 'Rs. 0'; 
+                return; 
+            }
+            
+            htmlContent += '<h4 style="font-size:0.95rem; margin-bottom:10px; color:#555;">منتخب کردہ اشیاء:</h4>';
+            cart.forEach(item => { 
+                let subTotal = item.price * item.qty;
+                sum += subTotal;
+                htmlContent += `
+                    <div class="cart-item">
+                        <div>
+                            <h4 style="font-size:0.9rem; margin-bottom:2px;">${item.name}</h4>
+                            <small style="color:#666;">Rs. ${item.price} × ${item.qty} = <b>Rs. ${subTotal}</b></small>
+                        </div>
+                        <div class="qty-box">
+                            <button class="qty-btn" onclick="changeQty(${item.id}, -1)">-</button>
+                            <span style="font-weight:bold; font-size:0.9rem;">${item.qty}</span>
+                            <button class="qty-btn" onclick="changeQty(${item.id}, 1)">+</button>
+                        </div>
+                    </div>`; 
+            });
+            
+            content.innerHTML = htmlContent;
+            total.innerText = 'Rs. ' + sum;
+        }
+
+        function changeQty(id, delta) {
+            const item = cart.find(x => x.id === id); 
+            if(item) {
+                item.qty += delta;
+                if(item.qty < 1) {
+                    cart = cart.filter(x => x.id !== id);
+                }
+            }
+            updateCartUI();
+        }
+
+        function toggleCart() { 
+            document.getElementById('cart-drawer').classList.toggle('open'); 
+        }
+        
+        function showToast(text) { 
+            const t = document.getElementById('toast'); 
+            t.innerText = text;
+            t.style.display = 'block'; 
+            setTimeout(() => t.style.display = 'none', 2500); 
+        }
+        
+        function filter(c, event) { 
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active')); 
+            event.target.classList.add('active'); 
+            render(c); 
+        }
+        
+        function sendOrder() {
+            if(cart.length === 0) {
+                alert('براہ کرم پہلے کارٹ میں کم از کم ایک پروڈکٹ شامل کریں۔');
+                return;
+            }
+            if(!customer.name.trim() || !customer.phone.trim() || !customer.address.trim()) {
+                alert('براہ کرم کارٹ میں اپنا نام، فون نمبر اور مکمل پتہ (Address) ضرور درج کریں۔');
+                return;
+            }
+
+            let msg = `🛍️ *نیا آرڈر موصول ہوا - Suddais Collection*\n\n`;
+            msg += `👤 *گاہک کا نام:* ${customer.name}\n`;
+            msg += `📞 *فون نمبر:* ${customer.phone}\n`;
+            msg += `📍 *مکمل پتہ:* ${customer.address}\n\n`;
+            msg += `📦 *آرڈر کی تفصیلات:*\n`;
+            
+            let totalSum = 0;
+            cart.forEach((i, index) => {
+                let subTotal = i.price * i.qty;
+                totalSum += subTotal;
+                msg += `${index + 1}. ${i.name} (مقدار: ${i.qty}) - Rs. ${subTotal}\n`;
+            });
+            
+            msg += `\n💰 *کل رقم (Total): Rs. ${totalSum}*\n\n`;
+            msg += `براہ کرم میرا یہ آرڈر کنفرم کریں۔ شکریہ!`;
+            
+            // Show Success Confirmation Toast to Customer
+            showToast('شکریہ! آپ کا آرڈر واٹس ایپ پر بھیجا جا رہا ہے ✅');
+
+            setTimeout(() => {
+                window.open(`https://wa.me/923182187575?text=${encodeURIComponent(msg)}`);
+            }, 1000);
+        }
+
+        // Initial Load
+        render();
+        updateCartUI();
+    </script>
 </body>
 </html>
