@@ -35,10 +35,17 @@
             100% { transform: scale(1); } 
         }
 
-        /* OFFERS */
-        .offers-container { padding: 12px 10px; background: #fdfcf7; }
+        /* OFFERS & PROMO SLIDER SECTION */
+        .offers-container { padding: 12px 10px; background: #fdfcf7; display: flex; flex-direction: column; gap: 10px; }
         .offer-banner { width: 100%; height: 140px; border-radius: 10px; overflow: hidden; border: 2px solid var(--primary); box-shadow: 0 3px 10px rgba(212,175,55,0.2); }
-        .offer-banner img { width: 100%; height: 100%; object-fit: cover; }
+        .offer-banner img { width: 100%; height: 100%; object-fit: cover; transition: opacity 0.5s ease-in-out; }
+
+        /* OFFER SLIDES SHOWCASE (30% OFF, 50% OFF) */
+        .promo-slider { width: 100%; height: 90px; border-radius: 10px; background: linear-gradient(135deg, var(--accent), #2c2c2c); border: 2px solid var(--primary); display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; box-shadow: 0 3px 10px rgba(212,175,55,0.2); text-align: center; }
+        .promo-slide-item { position: absolute; width: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.8s ease-in-out; }
+        .promo-slide-item.active { opacity: 1; }
+        .promo-slide-item h3 { color: var(--primary); font-size: 1.2rem; font-weight: 800; margin-bottom: 2px; }
+        .promo-slide-item p { color: #fff; font-size: 0.85rem; }
 
         /* TABS */
         .tabs { display: flex; overflow-x: auto; gap: 8px; padding: 10px 10px; background: #fff; border-bottom: 1px solid #eee; scrollbar-width: none; }
@@ -121,16 +128,30 @@
         </div>
     </header>
 
-    <!-- Banner Offers -->
+    <!-- Banner Offers & Promo Slides -->
     <div class="offers-container">
+        <!-- Main Image Banner -->
         <div class="offer-banner">
             <img id="offerImg" src="offer-banner1.jpg" alt="Special Offers" onerror="this.src='https://via.placeholder.com/1200x350?text=Suddais+Collection+Special+Offer'">
+        </div>
+        
+        <!-- Offer Slides (30% OFF / 50% OFF) -->
+        <div class="promo-slider">
+            <div class="promo-slide-item active">
+                <h3>بگ سیل آفر (Big Sale Offer)</h3>
+                <p>تمام پرفیومز اور عطر پر پورے **30% OFF** کیچ چھوٹ!</p>
+            </div>
+            <div class="promo-slide-item">
+                <h3>لگژری ڈسکاؤنট (Mega Discount)</h3>
+                <p>خصوصی گفٹ پیک اور ٹوپیوں پر حاصل کریں **50% OFF** تک کی بچت!</p>
+            </div>
         </div>
     </div>
 
     <!-- Category Tabs -->
     <div class="tabs">
         <button class="tab-btn active" onclick="filter('all', event)">ال پروڈکٹس (All)</button>
+        <button class="tab-btn" onclick="filter('our-products', event)">آور پروڈکٹس (Our Products)</button>
         <button class="tab-btn" onclick="filter('attar', event)">عطر (Attars)</button>
         <button class="tab-btn" onclick="filter('perfume', event)">پرفیوم (Perfumes)</button>
         <button class="tab-btn" onclick="filter('kufi', event)">ٹوپی (Caps)</button>
@@ -143,7 +164,7 @@
         <!-- About Section -->
         <section class="about">
             <h3>Suddais Collection کے بارے میں</h3>
-            <p>ہم آپ کو فراہم کرتے ہیں بہترین اور خالص ترین عطر، دلکش لگژری پرفیومز اور اعلیٰ معیار کی ٹوپیاں۔ اپنی پسندیدہ خوشبو کا انتخاب کریں اور ابھی کارٹ میں شامل کر کے واٹس ایپ پر آرڈر بک کروائیں۔</p>
+            <p>ہم آپ کو فراہم کرتے ہیں بہترین اور خالص ترین عطر، دلکش لگژری پرفیومز اور اعلیٰ معیار کی ٹوپیاں۔ ہم خالص عطر سے بہترین پرفیومز خود تیار کرتے ہیں۔ اپنی پسندیدہ خوشبو کا انتخاب کریں اور ابھی کارڈ  میں شامل کر کے واٹس ایپ پر آرڈر بک کروائیں۔</p>
         </section>
     </div>
 
@@ -156,7 +177,7 @@
     <!-- Cart Drawer Sidebar -->
     <div id="cart-drawer">
         <div class="cart-header">
-            <h3>آپ کی کارڈ (Cart)</h3>
+            <h3>آپ کی کارٹ (Cart)</h3>
             <i class="fas fa-times" onclick="toggleCart()" style="cursor:pointer; font-size: 1.1rem;"></i>
         </div>
         <div class="cart-content" id="cartContent"></div>
@@ -170,7 +191,7 @@
     </div>
 
     <!-- Toast Notification -->
-    <div id="toast">پروڈکٹ کارڈ میں شامل کر دی گئی! 🛍️</div>
+    <div id="toast">پروڈکٹ کارڈ  میں شامل کر دی گئی! 🛍️</div>
 
     <!-- Floating WhatsApp Button -->
     <a href="https://wa.me/923182187575" class="wa-float" target="_blank"><i class="fab fa-whatsapp"></i></a>
@@ -187,6 +208,7 @@
 
     <!-- JavaScript Logic -->
     <script>
+        // Banner Image Slider
         const offers = ['offer-banner1.jpg', 'offer-banner2.jpg'];
         let currentOffer = 0; 
         setInterval(() => { 
@@ -195,8 +217,26 @@
             banner.src = offers[currentOffer];
             banner.onerror = function() { this.src='https://via.placeholder.com/1200x350?text=Suddais+Collection+Special+Offer'; };
         }, 4000);
+
+        // Promo 30% / 50% Text Slider
+        const promoSlides = document.querySelectorAll('.promo-slide-item');
+        let currentPromo = 0;
+        setInterval(() => {
+            promoSlides[currentPromo].classList.remove('active');
+            currentPromo = (currentPromo + 1) % promoSlides.length;
+            promoSlides[currentPromo].classList.add('active');
+        }, 3500);
         
         const products = [
+            // Our Products Placeholders (5-6 cards added for your custom product photos)
+            { id: 101, category: 'our-products', name: '(Special Product 1)', price: 1500, rating: '5.0', reviews: '(12)', img: 'product1.jpg' },
+            { id: 102, category: 'our-products', name: '(Special Product 2)', price: 1800, rating: '4.9', reviews: '(18)', img: 'product2.jpg' },
+            { id: 103, category: 'our-products', name: '(Special Product 3)', price: 2000, rating: '5.0', reviews: '(24)', img: 'product3.jpg' },
+            { id: 104, category: 'our-products', name: '(Special Product 4)', price: 1600, rating: '4.8', reviews: '(15)', img: 'product4.jpg' },
+            { id: 105, category: 'our-products', name: '(Special Product 5)', price: 2200, rating: '5.0', reviews: '(30)', img: 'product5.jpg' },
+            { id: 106, category: 'our-products', name: '(Special Product 6)', price: 2500, rating: '4.9', reviews: '(21)', img: 'product6.jpg' },
+
+            // Regular Catalog Products
             { id: 1, category: 'attar', name: '(Blue Sea Attar 12 ML)', price: 1200, rating: '4.9', reviews: '(42)', img: 'bulesea.jpg' },
             { id: 2, category: 'attar', name: '(Majmuaa Attar 12 ML)', price: 1200, rating: '5.0', reviews: '(38)', img: 'majmua.jpg' },
             { id: 3, category: 'attar', name: '(Ameer al oud Attar 12 ML)', price: 1200, rating: '4.8', reviews: '(25)', img: 'ameeraloud.jpg' },
@@ -219,7 +259,6 @@
             { id: 20, category: 'perfume', name: '(9MP Perfume 50 ML) ', price: 3000, rating: '5.0', reviews: '(110)', img: '9mp.jpg' },
             { id: 21, category: 'perfume', name: '(Khamra Perfume 50 ML)', price: 2000, rating: '4.8', reviews: '(35)', img: 'khamrap.jpg' },
             { id: 22, category: 'kufi', name: 'پریمیم ٹوپی 1 (Summer comfort cap)', price: 800, rating: '4.9', reviews: '(40)', img: 'kufi-1.jpg' },
-            
         ];
 
         let cart = [];
@@ -230,6 +269,11 @@
             grid.innerHTML = '';
             const filteredProducts = products.filter(p => f === 'all' || p.category === f);
             
+            if (filteredProducts.length === 0) {
+                grid.innerHTML = `<div style="grid-column: span 2; text-align: center; padding: 30px; color: #777; font-size: 0.9rem;">اس کیٹیگری میں جلد ہی پروڈکٹس اپ لوڈ کیے جائیں گے!</div>`;
+                return;
+            }
+
             filteredProducts.forEach(p => {
                 grid.innerHTML += `
                     <div class="card">
@@ -249,7 +293,7 @@
                                 </div>
                                 <span class="price">Rs. ${p.price}</span>
                             </div>
-                            <button class="btn btn-cart" onclick="addToCart(${p.id})">کارڈ میں شامل کریں</button>
+                            <button class="btn btn-cart" onclick="addToCart(${p.id})">کارڈ  میں شامل کریں</button>
                         </div>
                     </div>`;
             });
@@ -277,7 +321,7 @@
             icon.classList.add('shine'); 
             setTimeout(() => icon.classList.remove('shine'), 600);
             
-            showToast('پروڈکٹ کارڈ میں شامل کر دی گئی! 🛍️'); 
+            showToast('پروڈکٹ کارڈ  میں شامل کر دی گئی! 🛍️'); 
             updateCartUI();
         }
 
@@ -307,7 +351,7 @@
             `;
 
             if(cart.length === 0) { 
-                htmlContent += '<p style="text-align:center; color:#777; margin-top:15px; font-size:0.85rem;">آپ کی کارڈ خالی ہے!</p>'; 
+                htmlContent += '<p style="text-align:center; color:#777; margin-top:15px; font-size:0.85rem;">آپ کی کارڈ  خالی ہے!</p>'; 
                 content.innerHTML = htmlContent;
                 total.innerText = 'Rs. 0'; 
                 return; 
@@ -363,7 +407,7 @@
         
         function sendOrder() {
             if(cart.length === 0) {
-                alert('براہ کرم پہلے کارڈ میں کم از کم ایک پروڈکٹ شامل کریں۔');
+                alert('براہ کرم پہلے کارڈ  میں کم از کم ایک پروڈکٹ شامل کریں۔');
                 return;
             }
             if(!customer.name.trim() || !customer.phone.trim() || !customer.address.trim()) {
