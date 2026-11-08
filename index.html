@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>SUDDAIS COLLECTION | Official Store</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -17,8 +17,8 @@
             --whatsapp: #25d366;
             --danger: #e74c3c;
         }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
-        body { background: var(--bg); color: var(--text); scroll-behavior: smooth; overflow-x: hidden; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; -webkit-tap-highlight-color: transparent; }
+        body { background: var(--bg); color: var(--text); overflow-x: hidden; width: 100%; }
 
         /* ANNOUNCEMENT BAR */
         .announcement-bar {
@@ -26,7 +26,7 @@
             color: #fff;
             text-align: center;
             padding: 8px 12px;
-            font-size: 0.85rem;
+            font-size: 0.78rem;
             font-weight: 600;
             position: relative;
             z-index: 1001;
@@ -34,33 +34,41 @@
             letter-spacing: 0.5px;
         }
 
-        /* HEADER & NAVBAR FIX */
-        header { background: var(--accent); padding: 10px 15px; border-bottom: 3px solid var(--primary); position: sticky; top: 0; z-index: 1000; }
-        .header-top { display: flex; justify-content: space-between; align-items: center; max-width: 1400px; margin: 0 auto; }
-        .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
-        .logo img { width: 42px; height: 42px; border-radius: 50%; border: 2px solid var(--primary); object-fit: cover; flex-shrink: 0; }
-        .brand-name { font-weight: 800; font-size: 1.1rem; color: var(--primary); letter-spacing: 0.5px; white-space: nowrap; }
-        .cart-trigger { position: relative; font-size: 1.5rem; color: var(--primary); cursor: pointer; padding: 5px; }
-        #cart-count { position: absolute; top: -2px; right: -5px; background: #ff4757; color: white; font-size: 0.7rem; padding: 2px 6px; border-radius: 50%; font-weight: bold; }
+        /* HEADER & NAVBAR MOBILE RESPONSIVE */
+        header { background: var(--accent); padding: 10px 12px; border-bottom: 3px solid var(--primary); position: sticky; top: 0; z-index: 9999; width: 100%; }
+        .header-top { display: flex; justify-content: space-between; align-items: center; max-width: 1400px; margin: 0 auto; gap: 8px; }
+        .logo { display: flex; align-items: center; gap: 8px; text-decoration: none; min-width: 0; }
+        .logo img { width: 38px; height: 38px; border-radius: 50%; border: 2px solid var(--primary); object-fit: cover; flex-shrink: 0; }
+        .brand-name { font-weight: 800; font-size: 0.95rem; color: var(--primary); letter-spacing: 0.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        
+        /* SEARCH BAR */
+        .header-search { flex-grow: 1; max-width: 350px; position: relative; display: flex; align-items: center; }
+        .header-search input { width: 100%; padding: 6px 10px 6px 32px; border-radius: 20px; border: 1px solid var(--primary); background: #252525; color: #fff; font-size: 0.78rem; outline: none; }
+        .header-search input::placeholder { color: #bbb; }
+        .header-search i { position: absolute; left: 10px; color: var(--primary); font-size: 0.78rem; }
 
-        /* NAVIGATION MENU FIX */
-        nav { display: flex; justify-content: center; background: #252525; border-top: 1px solid #333; margin-top: 8px; padding: 6px 5px; }
-        .nav-links { display: flex; list-style: none; gap: 8px; align-items: center; justify-content: space-between; width: 100%; max-width: 600px; }
-        .nav-links li { text-align: center; }
-        .nav-links a { color: #fff; text-decoration: none; font-size: 0.82rem; font-weight: 600; padding: 5px 8px; transition: 0.3s; border-radius: 4px; white-space: nowrap; display: inline-block; }
+        .header-right-actions { display: flex; align-items: center; gap: 10px; }
+        .cart-trigger { position: relative; font-size: 1.35rem; color: var(--primary); cursor: pointer; padding: 4px; }
+        #cart-count { position: absolute; top: -2px; right: -5px; background: #ff4757; color: white; font-size: 0.65rem; padding: 2px 5px; border-radius: 50%; font-weight: bold; }
+
+        /* NAVIGATION MENU & PROPER DROPDOWN FIX */
+        nav { display: flex; justify-content: flex-start; background: #252525; border-top: 1px solid #333; margin-top: 8px; padding: 6px 8px; overflow-x: visible; position: relative; }
+        .nav-links { display: flex; list-style: none; gap: 12px; align-items: center; white-space: nowrap; position: relative; }
+        .nav-links li { text-align: center; position: relative; }
+        .nav-links a { color: #fff; text-decoration: none; font-size: 0.78rem; font-weight: 600; padding: 4px 8px; transition: 0.3s; border-radius: 4px; display: inline-block; }
         .nav-links a:hover { color: var(--primary); background: rgba(212,175,55,0.1); }
         
-        /* DROPDOWN MENU */
+        /* DROPDOWN MENU FIX */
         .dropdown { position: relative; }
-        .dropdown-content { display: none; position: absolute; background-color: var(--accent); min-width: 150px; box-shadow: 0px 8px 16px rgba(0,0,0,0.4); z-index: 1002; border: 1px solid var(--primary); border-radius: 6px; top: 100%; left: 0; text-align: left; }
-        .dropdown-content a { color: #fff; padding: 8px 12px; text-decoration: none; display: block; font-size: 0.8rem; }
-        .dropdown-content a:hover { background-color: var(--primary); color: #000; }
+        .dropdown-content { display: none; position: absolute; background-color: var(--accent); min-width: 190px; box-shadow: 0px 10px 25px rgba(0,0,0,0.5); z-index: 10000; border: 1px solid var(--primary); border-radius: 6px; top: 100%; left: 0; text-align: left; padding: 6px 0; margin-top: 4px; }
+        .dropdown-content a { color: #fff; padding: 8px 14px; text-decoration: none; display: block; font-size: 0.78rem; white-space: nowrap; transition: 0.2s; }
+        .dropdown-content a:hover { background-color: var(--primary); color: #000; padding-left: 18px; }
         .dropdown:hover .dropdown-content { display: block; }
 
         /* CATEGORY HEADER INDICATOR */
-        .category-indicator { background: #f4efd8; text-align: center; padding: 10px; font-weight: 700; color: var(--dark-gold); font-size: 1rem; border-bottom: 1px solid #e6dbb9; }
+        .category-indicator { background: #f4efd8; text-align: center; padding: 8px; font-weight: 700; color: var(--dark-gold); font-size: 0.9rem; border-bottom: 1px solid #e6dbb9; }
 
-        /* SHINE ANIMATION FOR CART ICON */
+        /* SHINE ANIMATION */
         .shine { animation: shine 0.6s ease-in-out; }
         @keyframes shine { 
             0% { transform: scale(1); } 
@@ -68,119 +76,190 @@
             100% { transform: scale(1); } 
         }
 
-        /* BANNER SLIDERS */
-        .offers-container { padding: 12px; max-width: 1400px; margin: 0 auto; display: flex; flex-direction: column; gap: 12px; }
-        .offer-banner { width: 100%; height: 200px; border-radius: 12px; overflow: hidden; border: 2px solid var(--primary); box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        /* BANNERS & PROMO */
+        .offers-container { padding: 10px; max-width: 1400px; margin: 0 auto; display: flex; flex-direction: column; gap: 10px; }
+        .offer-banner { width: 100%; height: 160px; border-radius: 10px; overflow: hidden; border: 2px solid var(--primary); box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
         .offer-banner img { width: 100%; height: 100%; object-fit: cover; transition: opacity 0.5s ease-in-out; }
 
         /* PROMO TEXT SLIDER */
-        .promo-slider { width: 100%; height: 70px; border-radius: 12px; background: linear-gradient(135deg, var(--accent), #2c2c2c); border: 2px solid var(--primary); display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.1); text-align: center; padding: 0 10px; }
+        .promo-slider { width: 100%; height: 50px; border-radius: 10px; background: linear-gradient(135deg, var(--accent), #2c2c2c); border: 2px solid var(--primary); display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.1); text-align: center; padding: 0 8px; }
         .promo-slide-item { position: absolute; width: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.8s ease-in-out; }
         .promo-slide-item.active { opacity: 1; }
-        .promo-slide-item h3 { color: var(--primary); font-size: 1.1rem; font-weight: 700; letter-spacing: 0.5px; }
+        .promo-slide-item h3 { color: var(--primary); font-size: 0.82rem; font-weight: 700; letter-spacing: 0.5px; padding: 0 5px; }
 
-        /* TABS FIX (Full View & Smooth Scroll) */
-        .tabs { display: flex; justify-content: flex-start; overflow-x: auto; gap: 8px; padding: 12px 15px; background: #fff; border-bottom: 1px solid #eee; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+        /* TABS */
+        .tabs { display: flex; justify-content: flex-start; overflow-x: auto; gap: 6px; padding: 10px 12px; background: #fff; border-bottom: 1px solid #eee; scrollbar-width: none; }
         .tabs::-webkit-scrollbar { display: none; }
-        .tab-btn { padding: 8px 18px; border: 2px solid var(--primary); background: #fff; color: var(--text); border-radius: 50px; font-weight: 700; cursor: pointer; font-size: 0.85rem; white-space: nowrap; flex-shrink: 0; transition: 0.3s; }
+        .tab-btn { padding: 6px 14px; border: 2px solid var(--primary); background: #fff; color: var(--text); border-radius: 50px; font-weight: 700; cursor: pointer; font-size: 0.78rem; white-space: nowrap; flex-shrink: 0; transition: 0.3s; }
         .tab-btn.active, .tab-btn:hover { background: linear-gradient(135deg, var(--primary), var(--dark-gold)); color: #fff; border-color: var(--primary); }
 
-        /* GRID SYSTEM (Responsive Layout for Laptops & Mobile) */
-        .container { padding: 15px 10px; max-width: 1400px; margin: auto; }
-        .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+        /* GRID SYSTEM */
+        .container { padding: 12px 8px; max-width: 1400px; margin: auto; width: 100%; }
+        .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
 
-        /* DESKTOP & LAPTOP LARGE VIEW STYLING */
-        @media (min-width: 768px) {
-            .grid { grid-template-columns: repeat(3, 1fr); gap: 20px; }
+        @media (min-width: 576px) {
+            .grid { grid-template-columns: repeat(3, 1fr); gap: 14px; }
+            .offer-banner { height: 220px; }
+        }
+        @media (min-width: 992px) {
+            .grid { grid-template-columns: repeat(4, 1fr); gap: 20px; }
             .offer-banner { height: 320px; }
-            .card-body h3 { font-size: 1.05rem; }
-            .price { font-size: 1.1rem; }
-            .brand-name { font-size: 1.3rem; }
-            .nav-links { gap: 20px; justify-content: center; }
-            .nav-links a { font-size: 0.95rem; padding: 6px 12px; }
-            .tabs { justify-content: center; }
-        }
-        @media (min-width: 1200px) {
-            .grid { grid-template-columns: repeat(4, 1fr); gap: 25px; }
-            .image-slider { height: 220px !important; }
+            .brand-name { font-size: 1.2rem; }
+            .nav-links a { font-size: 0.85rem; padding: 6px 12px; }
+            .header-search { max-width: 400px; }
         }
 
-        /* PRODUCT CARD STYLING */
-        .card { background: var(--card-bg); border-radius: 12px; overflow: hidden; border: 1px solid #e6dbb9; display: flex; flex-direction: column; box-shadow: 0 4px 12px rgba(0,0,0,0.05); position: relative; transition: 0.3s; }
-        .card:hover { transform: translateY(-4px); box-shadow: 0 8px 20px rgba(0,0,0,0.12); }
-        .badge-discount { position: absolute; top: 8px; left: 8px; background: var(--danger); color: #fff; padding: 3px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: 700; z-index: 10; text-transform: uppercase; }
+        /* PRODUCT CARD */
+        .card { background: var(--card-bg); border-radius: 10px; overflow: hidden; border: 1px solid #e6dbb9; display: flex; flex-direction: column; box-shadow: 0 3px 10px rgba(0,0,0,0.04); position: relative; transition: 0.3s; }
+        .card:hover { transform: translateY(-3px); box-shadow: 0 6px 16px rgba(0,0,0,0.1); }
+        .badge-discount { position: absolute; top: 6px; left: 6px; background: var(--danger); color: #fff; padding: 2px 6px; border-radius: 3px; font-size: 0.62rem; font-weight: 700; z-index: 10; text-transform: uppercase; }
         
-        .image-slider { position: relative; width: 100%; height: 160px; overflow: hidden; background: #fff; border-bottom: 1px solid #eee; cursor: pointer; }
-        .image-slider img { width: 100%; height: 100%; object-fit: contain; padding: 8px; transition: transform 0.4s ease; }
-        .image-slider:hover img { transform: scale(1.08); }
+        .image-slider { position: relative; width: 100%; height: 135px; overflow: hidden; background: #fff; border-bottom: 1px solid #eee; cursor: pointer; }
+        @media (min-width: 576px) { .image-slider { height: 170px; } }
+        .image-slider img { width: 100%; height: 100%; object-fit: contain; padding: 6px; transition: transform 0.4s ease; }
+        .image-slider:hover img { transform: scale(1.05); }
         
-        .card-body { padding: 12px; text-align: center; display: flex; flex-direction: column; flex-grow: 1; justify-content: space-between; }
-        .card-body h3 { font-size: 0.9rem; color: var(--text); font-weight: 700; margin-bottom: 4px; line-height: 1.3; }
+        .card-body { padding: 8px; text-align: center; display: flex; flex-direction: column; flex-grow: 1; justify-content: space-between; }
+        .card-body h3 { font-size: 0.78rem; color: var(--text); font-weight: 700; margin-bottom: 3px; line-height: 1.25; cursor: pointer; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; height: 2.5em; }
+        @media (min-width: 576px) { .card-body h3 { font-size: 0.88rem; } }
+        .card-body h3:hover { color: var(--dark-gold); }
         
-        .rating-box { display: flex; align-items: center; justify-content: center; gap: 3px; margin-bottom: 6px; font-size: 0.75rem; color: #f39c12; }
-        .rating-box span { color: #777; font-size: 0.7rem; font-weight: 500; }
+        .rating-box { display: flex; align-items: center; justify-content: center; gap: 2px; margin-bottom: 3px; font-size: 0.65rem; color: #f39c12; }
+        .rating-box span { color: #777; font-size: 0.62rem; font-weight: 500; }
 
-        .price { font-weight: 800; color: var(--dark-gold); font-size: 0.95rem; margin-bottom: 8px; display: block; }
+        .size-selector-box { margin: 4px 0; text-align: left; }
+        .size-selector-box label { font-size: 0.65rem; font-weight: 700; color: #555; display: block; margin-bottom: 1px; }
+        .size-dropdown { width: 100%; padding: 4px 6px; border: 1px solid var(--primary); border-radius: 4px; font-size: 0.72rem; font-weight: 600; background: #fff; color: var(--text); outline: none; cursor: pointer; }
+
+        .price { font-weight: 800; color: var(--dark-gold); font-size: 0.85rem; margin: 4px 0; display: block; }
+        @media (min-width: 576px) { .price { font-size: 0.95rem; } }
         
-        .btn-group { display: flex; gap: 6px; flex-direction: column; }
-        .btn { padding: 8px 6px; border-radius: 6px; text-decoration: none; font-size: 0.8rem; font-weight: 700; text-align: center; cursor: pointer; border: none; width: 100%; transition: 0.3s; }
-        .btn-cart { background: linear-gradient(135deg, var(--primary), var(--dark-gold)); color: #fff; box-shadow: 0 3px 8px rgba(212,175,55,0.3); }
+        .btn-group { display: flex; gap: 4px; flex-direction: column; }
+        .btn { padding: 6px 4px; border-radius: 5px; text-decoration: none; font-size: 0.72rem; font-weight: 700; text-align: center; cursor: pointer; border: none; width: 100%; transition: 0.3s; }
+        @media (min-width: 576px) { .btn { font-size: 0.78rem; padding: 7px 5px; } }
+        .btn-cart { background: linear-gradient(135deg, var(--primary), var(--dark-gold)); color: #fff; box-shadow: 0 2px 6px rgba(212,175,55,0.3); }
         .btn-cart:hover { opacity: 0.9; }
         .btn-detail { background: #333; color: #fff; }
         .btn-detail:hover { background: #555; }
 
-        /* PRODUCT DETAIL MODAL */
-        #productModal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 3500; justify-content: center; align-items: center; padding: 15px; }
-        .product-modal-content { background: #fff; width: 100%; max-width: 500px; border-radius: 14px; overflow: hidden; border: 2px solid var(--primary); position: relative; max-height: 90vh; overflow-y: auto; padding: 20px; }
-        .close-product-modal { position: absolute; top: 10px; right: 15px; color: #333; font-size: 2rem; cursor: pointer; font-weight: bold; }
-        .product-gallery { width: 100%; height: 230px; overflow: hidden; border-radius: 10px; margin-bottom: 12px; }
-        .product-gallery img { width: 100%; height: 100%; object-fit: contain; }
-        .product-details-title { font-size: 1.15rem; color: var(--dark-gold); margin-bottom: 6px; font-weight: 700; }
-        .product-details-desc { font-size: 0.85rem; color: #555; margin-bottom: 15px; line-height: 1.5; }
-
-        /* CART DRAWER SIDEBAR */
-        #cart-drawer { position: fixed; top: 0; right: -100%; width: 100%; max-width: 360px; height: 100%; background: #fff; z-index: 2000; box-shadow: -5px 0 25px rgba(0,0,0,0.25); transition: 0.4s ease; display: flex; flex-direction: column; }
-        #cart-drawer.open { right: 0; }
-        .cart-header { padding: 15px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; background: var(--accent); color: var(--primary); }
-        .cart-header h3 { font-size: 1.1rem; font-weight: 700; }
-        .cart-content { flex-grow: 1; overflow-y: auto; padding: 15px; }
-        
-        .delivery-progress { background: #fff8e7; border: 1px dashed var(--primary); padding: 10px; border-radius: 8px; text-align: center; font-size: 0.8rem; font-weight: 600; margin-bottom: 12px; color: var(--dark-gold); }
-
-        .customer-form { background: #fdfcf7; padding: 12px; border-radius: 8px; border: 1px solid #e6dbb9; margin-bottom: 15px; }
-        .customer-form h4 { font-size: 0.85rem; color: var(--dark-gold); margin-bottom: 8px; text-align: center; font-weight: 700; }
-        .form-group { margin-bottom: 8px; }
-        .form-group input, .form-group textarea { width: 100%; padding: 8px 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 0.82rem; outline: none; }
-
-        .cart-item { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid #f0f0f0; }
-        .qty-box { display: flex; align-items: center; gap: 6px; }
-        .qty-btn { width: 24px; height: 24px; border-radius: 50%; border: 1px solid var(--primary); background: #fff; color: var(--dark-gold); font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; }
-        .cart-footer { padding: 15px; border-top: 1px solid #eee; background: #faf9f6; }
-        .btn-wa-order { background: var(--whatsapp); color: #fff; box-shadow: 0 4px 12px rgba(37,211,102,0.3); margin-top: 8px; font-size: 0.9rem; padding: 10px; font-weight: 700; }
-
-        /* SECTIONS (ABOUT & CONTACT) */
+        /* FULL PRODUCT DETAILS PAGE */
         .section-view { display: none; }
         .section-view.active { display: block; }
-        
-        .about, .contact-box { background: #faf9f6; padding: 25px 18px; margin-top: 20px; border-radius: 12px; text-align: center; border: 1px solid #e6dbb9; }
-        .about h3, .contact-box h3 { color: var(--dark-gold); font-size: 1.3rem; margin-bottom: 10px; font-weight: 700; }
-        .about p, .contact-box p { font-size: 0.9rem; line-height: 1.6; color: #444; }
 
-        /* PAYMENT BADGES */
-        .payment-badges { display: flex; justify-content: center; gap: 10px; margin-top: 15px; flex-wrap: wrap; }
-        .payment-badge { background: #fff; border: 1px solid #ccc; padding: 4px 10px; border-radius: 5px; font-size: 0.72rem; font-weight: 700; color: #555; }
+        .product-detail-container { max-width: 1000px; margin: 15px auto; background: #faf9f6; border-radius: 12px; border: 1px solid #e6dbb9; padding: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.06); }
+        @media (min-width: 768px) { .product-detail-container { padding: 20px; } }
+        .back-btn-box { margin-bottom: 12px; }
+        .btn-back { background: #333; color: #fff; padding: 6px 12px; border-radius: 6px; font-size: 0.78rem; font-weight: 600; border: none; cursor: pointer; display: inline-flex; align-items: center; gap: 5px; transition: 0.3s; }
+        .btn-back:hover { background: var(--dark-gold); }
+
+        .product-detail-grid { display: grid; grid-template-columns: 1fr; gap: 15px; }
+        @media(min-width: 768px) {
+            .product-detail-grid { grid-template-columns: 1fr 1fr; gap: 25px; align-items: start; }
+        }
+
+        /* GALLERY */
+        .gallery-main { width: 100%; height: 260px; background: #fff; border-radius: 8px; border: 1px solid #ddd; overflow: hidden; display: flex; align-items: center; justify-content: center; margin-bottom: 8px; }
+        @media (min-width: 768px) { .gallery-main { height: 320px; } }
+        .gallery-main img { width: 100%; height: 100%; object-fit: contain; padding: 8px; }
+        .gallery-thumbs { display: flex; gap: 6px; flex-wrap: wrap; }
+        .thumb-img { width: 50px; height: 50px; border-radius: 5px; border: 2px solid #ccc; overflow: hidden; cursor: pointer; background: #fff; }
+        .thumb-img.active { border-color: var(--primary); box-shadow: 0 0 6px rgba(212,175,55,0.4); }
+        .thumb-img img { width: 100%; height: 100%; object-fit: contain; }
+
+        /* PRODUCT INFO */
+        .detail-info h2 { font-size: 1.15rem; color: var(--accent); margin-bottom: 4px; font-weight: 800; }
+        @media (min-width: 768px) { .detail-info h2 { font-size: 1.4rem; } }
+        .detail-info .category-tag { display: inline-block; background: #f4efd8; color: var(--dark-gold); font-size: 0.7rem; font-weight: 700; padding: 2px 6px; border-radius: 4px; margin-bottom: 8px; text-transform: uppercase; }
+        .detail-price { font-size: 1.15rem; font-weight: 800; color: var(--dark-gold); margin: 8px 0; display: block; }
+        @media (min-width: 768px) { .detail-price { font-size: 1.3rem; } }
+        .detail-desc { font-size: 0.82rem; color: #555; line-height: 1.5; margin-bottom: 12px; }
+
+        /* NOTES & DEAL SELECTORS */
+        .detail-notes-box, .deal-includes-box { background: #fff; border: 1px dashed var(--primary); padding: 10px; border-radius: 6px; margin: 12px 0; font-size: 0.78rem; }
+        .detail-notes-box h4, .deal-includes-box h4 { color: var(--dark-gold); margin-bottom: 5px; font-size: 0.82rem; font-weight: 700; display: flex; align-items: center; gap: 5px; }
+        .detail-notes-box p, .deal-includes-box li { color: #555; line-height: 1.4; margin-bottom: 3px; }
+        .deal-includes-box ul { padding-left: 16px; }
+
+        /* INTERACTIVE 11.11 DEAL BUILDER BOX */
+        .deal-builder-box { background: #fff; border: 2px solid var(--primary); padding: 12px; border-radius: 8px; margin: 12px 0; }
+        .deal-builder-box h4 { color: var(--dark-gold); font-size: 0.85rem; font-weight: 700; margin-bottom: 8px; }
+        .deal-select-group { margin-bottom: 8px; }
+        .deal-select-group label { font-size: 0.75rem; font-weight: 700; color: #444; display: block; margin-bottom: 2px; }
+        .deal-dropdown { width: 100%; padding: 6px; border: 1px solid var(--primary); border-radius: 5px; font-size: 0.78rem; background: #fff; color: var(--text); outline: none; }
+        .free-gift-badge { background: #e8f8f5; border: 1px dashed #2ecc71; color: #27ae60; padding: 8px; border-radius: 6px; font-size: 0.78rem; font-weight: 700; text-align: center; margin: 10px 0; }
+
+        .qty-selector-row { display: flex; align-items: center; gap: 12px; margin: 12px 0; }
+        .qty-selector-row label { font-size: 0.8rem; font-weight: 700; color: #444; }
+        .qty-control { display: flex; align-items: center; border: 1px solid var(--primary); border-radius: 6px; overflow: hidden; background: #fff; }
+        .qty-control button { width: 30px; height: 30px; background: #fff; border: none; font-weight: bold; font-size: 0.95rem; color: var(--dark-gold); cursor: pointer; }
+        .qty-control button:hover { background: var(--primary); color: #fff; }
+        .qty-control span { width: 35px; text-align: center; font-weight: 700; font-size: 0.85rem; }
+
+        .detail-action-buttons { display: flex; gap: 8px; margin-top: 15px; }
+        .btn-add-detail { flex: 1; padding: 10px; background: linear-gradient(135deg, var(--primary), var(--dark-gold)); color: #fff; border: none; border-radius: 6px; font-weight: 700; font-size: 0.82rem; cursor: pointer; box-shadow: 0 3px 10px rgba(212,175,55,0.3); }
+        .btn-buy-detail { flex: 1; padding: 10px; background: var(--whatsapp); color: #fff; border: none; border-radius: 6px; font-weight: 700; font-size: 0.82rem; cursor: pointer; box-shadow: 0 3px 10px rgba(37,211,102,0.3); }
+
+        /* RECOMMENDED SECTION */
+        .recommended-section { margin-top: 30px; border-top: 2px solid #e6dbb9; padding-top: 15px; }
+        .recommended-title { font-size: 1rem; font-weight: 700; color: var(--dark-gold); margin-bottom: 12px; text-align: center; }
+
+        /* CART DRAWER SIDEBAR */
+        #cart-drawer { position: fixed; top: 0; right: -100%; width: 100%; max-width: 350px; height: 100%; background: #fff; z-index: 20000; box-shadow: -5px 0 25px rgba(0,0,0,0.25); transition: 0.4s ease; display: flex; flex-direction: column; }
+        #cart-drawer.open { right: 0; }
+        .cart-header { padding: 14px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; background: var(--accent); color: var(--primary); }
+        .cart-header h3 { font-size: 1.05rem; font-weight: 700; }
+        .cart-content { flex-grow: 1; overflow-y: auto; padding: 12px; }
+        
+        .delivery-progress { background: #fff8e7; border: 1px dashed var(--primary); padding: 8px; border-radius: 6px; text-align: center; font-size: 0.75rem; font-weight: 600; margin-bottom: 10px; color: var(--dark-gold); }
+
+        .customer-form { background: #fdfcf7; padding: 10px; border-radius: 6px; border: 1px solid #e6dbb9; margin-bottom: 12px; }
+        .customer-form h4 { font-size: 0.8rem; color: var(--dark-gold); margin-bottom: 6px; text-align: center; font-weight: 700; }
+        .form-group { margin-bottom: 6px; }
+        .form-group input, .form-group textarea { width: 100%; padding: 7px 9px; border: 1px solid #ccc; border-radius: 5px; font-size: 0.78rem; outline: none; }
+
+        .cart-item { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; padding-bottom: 6px; border-bottom: 1px solid #f0f0f0; }
+        .qty-box { display: flex; align-items: center; gap: 5px; }
+        .qty-btn { width: 22px; height: 22px; border-radius: 50%; border: 1px solid var(--primary); background: #fff; color: var(--dark-gold); font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; }
+        .cart-footer { padding: 12px; border-top: 1px solid #eee; background: #faf9f6; }
+        .btn-wa-order { background: var(--whatsapp); color: #fff; box-shadow: 0 3px 10px rgba(37,211,102,0.3); margin-top: 6px; font-size: 0.85rem; padding: 9px; font-weight: 700; }
+
+        /* ABOUT & CONTACT SECTIONS */
+        .about, .contact-box { background: #faf9f6; padding: 20px 15px; margin-top: 15px; border-radius: 10px; text-align: center; border: 1px solid #e6dbb9; }
+        .about h3, .contact-box h3 { color: var(--dark-gold); font-size: 1.2rem; margin-bottom: 8px; font-weight: 700; }
+        .about p, .contact-box p { font-size: 0.85rem; line-height: 1.5; color: #444; }
 
         /* FOOTER */
-        footer { background: var(--accent); color: var(--primary); padding: 25px 15px; margin-top: 35px; text-align: center; border-top: 3px solid var(--primary); }
-        .footer-socials { display: flex; justify-content: center; gap: 20px; margin: 12px 0; font-size: 1.3rem; }
+        footer { background: var(--accent); color: #ccc; padding: 30px 15px 15px 15px; margin-top: 30px; border-top: 3px solid var(--primary); }
+        .footer-container { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr; gap: 25px; text-align: left; }
+        @media (min-width: 576px) { .footer-container { grid-template-columns: repeat(2, 1fr); } }
+        @media (min-width: 992px) { .footer-container { grid-template-columns: repeat(4, 1fr); } }
+
+        .footer-col h4 { color: var(--primary); font-size: 0.95rem; font-weight: 700; margin-bottom: 12px; position: relative; padding-bottom: 5px; }
+        .footer-col h4::after { content: ''; position: absolute; left: 0; bottom: 0; width: 35px; height: 2px; background: var(--primary); }
+        .footer-col p { font-size: 0.78rem; line-height: 1.6; color: #bbb; margin-bottom: 10px; }
+        .footer-col ul { list-style: none; }
+        .footer-col ul li { margin-bottom: 7px; }
+        .footer-col ul li a { color: #bbb; text-decoration: none; font-size: 0.78rem; transition: 0.3s; display: inline-block; }
+        .footer-col ul li a:hover { color: var(--primary); transform: translateX(3px); }
+
+        .footer-bottom-bar { max-width: 1200px; margin: 25px auto 0 auto; padding-top: 15px; border-top: 1px solid #333; display: flex; flex-direction: column; align-items: center; gap: 10px; text-align: center; }
+        @media (min-width: 768px) { .footer-bottom-bar { flex-direction: row; justify-content: space-between; } }
+        .footer-bottom-bar p { font-size: 0.75rem; color: #999; }
+        .footer-legal-links { display: flex; gap: 15px; font-size: 0.75rem; }
+        .footer-legal-links a { color: #999; text-decoration: none; transition: 0.3s; }
+        .footer-legal-links a:hover { color: var(--primary); }
+
+        .payment-badges { display: flex; justify-content: center; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+        .payment-badge { background: #252525; border: 1px solid #444; padding: 4px 8px; border-radius: 4px; font-size: 0.68rem; font-weight: 600; color: #ddd; }
+
+        .footer-socials { display: flex; gap: 12px; margin-top: 10px; font-size: 1.1rem; }
         .footer-socials a { color: var(--primary); transition: 0.3s; }
-        .footer-socials a:hover { transform: scale(1.15); }
-        footer p { font-size: 0.8rem; color: #bbb; }
-        
-        .wa-float { position: fixed; bottom: 20px; right: 20px; width: 50px; height: 50px; background: var(--whatsapp); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 26px; z-index: 1001; box-shadow: 0 4px 15px rgba(37,211,102,0.4); text-decoration: none; transition: 0.3s; }
+        .footer-socials a:hover { transform: scale(1.15); color: #fff; }
+
+        .wa-float { position: fixed; bottom: 20px; right: 20px; width: 45px; height: 45px; background: var(--whatsapp); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; z-index: 10001; box-shadow: 0 4px 15px rgba(37,211,102,0.4); text-decoration: none; transition: 0.3s; }
         .wa-float:hover { transform: scale(1.1); }
         
-        #toast { display: none; position: fixed; bottom: 85px; left: 50%; transform: translateX(-50%); background: var(--accent); color: var(--primary); border: 1px solid var(--primary); padding: 10px 22px; border-radius: 30px; z-index: 3000; font-weight: 700; font-size: 0.85rem; box-shadow: 0 5px 20px rgba(0,0,0,0.3); white-space: nowrap; }
+        #toast { display: none; position: fixed; bottom: 75px; left: 50%; transform: translateX(-50%); background: var(--accent); color: var(--primary); border: 1px solid var(--primary); padding: 8px 18px; border-radius: 30px; z-index: 30000; font-weight: 700; font-size: 0.78rem; box-shadow: 0 4px 15px rgba(0,0,0,0.3); white-space: nowrap; }
     </style>
 </head>
 <body>
@@ -197,32 +276,44 @@
                 <img src="Logo.jpg" alt="Suddais Collection Logo" onerror="this.src='https://via.placeholder.com/55?text=S'">
                 <span class="brand-name">SUDDAIS COLLECTION</span>
             </a>
-            <div class="cart-trigger" id="cartIcon" onclick="toggleCart()">
-                <i class="fas fa-shopping-bag"></i>
-                <span id="cart-count">0</span>
+
+            <!-- Search Bar -->
+            <div class="header-search">
+                <i class="fas fa-search"></i>
+                <input type="text" id="searchInput" placeholder="Search products..." oninput="handleSearch(this.value)">
+            </div>
+
+            <div class="header-right-actions">
+                <div class="cart-trigger" id="cartIcon" onclick="toggleCart()">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span id="cart-count">0</span>
+                </div>
             </div>
         </div>
 
-        <!-- Navigation Bar -->
+        <!-- Navigation Bar with Correct Products Dropdown -->
         <nav>
             <ul class="nav-links">
                 <li><a href="#" onclick="resetToHome(event)">Home</a></li>
                 <li class="dropdown">
                     <a href="#" onclick="resetToHome(event)">Products <i class="fas fa-caret-down"></i></a>
                     <div class="dropdown-content">
+                        <a href="#" onclick="filter('signature', event)">Our Signature Products</a>
+                        <a href="#" onclick="filter('deals', event)">🔥 Deals & Offers</a>
                         <a href="#" onclick="filter('attar', event)">Attars</a>
                         <a href="#" onclick="filter('perfume', event)">Perfumes</a>
                         <a href="#" onclick="filter('kufi', event)">Caps (Kufi)</a>
                         <a href="#" onclick="resetToHome(event)">All Products</a>
                     </div>
                 </li>
+                <li><a href="#" onclick="filter('deals', event)">Deals & Offers</a></li>
                 <li><a href="#" onclick="showSection('about-view', event)">About Us</a></li>
                 <li><a href="#" onclick="showSection('contact-view', event)">Contact Us</a></li>
             </ul>
         </nav>
     </header>
 
-    <!-- SECTION: HOME PAGE -->
+    <!-- SECTION: HOME / CATALOGUE PAGE -->
     <div id="home-view" class="section-view active">
         <!-- Banner Offers & Promo Slides -->
         <div class="offers-container">
@@ -232,7 +323,7 @@
             
             <div class="promo-slider">
                 <div class="promo-slide-item active">
-                    <h3>BIG SALE OFFER - PREMIUM QUALITY</h3>
+                    <h3>مہک ایسی جو دل کو چھو جائے، احساس ایسا جو ہمیشہ یاد رہ جائے۔</h3>
                 </div>
                 <div class="promo-slide-item">
                     <h3>MEGA DISCOUNT - FREE DELIVERY OVER RS. 5000</h3>
@@ -248,7 +339,8 @@
         <!-- Category Tabs -->
         <div class="tabs">
             <button class="tab-btn active" id="tab-all" onclick="filter('all', event)">All Products</button>
-            <button class="tab-btn" id="tab-our-products" onclick="filter('our-products', event)">Special Offers</button>
+            <button class="tab-btn" id="tab-signature" onclick="filter('signature', event)">Our Signature Products</button>
+            <button class="tab-btn" id="tab-deals" onclick="filter('deals', event)">🔥 Deals & Offers</button>
             <button class="tab-btn" id="tab-attar" onclick="filter('attar', event)">Attars</button>
             <button class="tab-btn" id="tab-perfume" onclick="filter('perfume', event)">Perfumes</button>
             <button class="tab-btn" id="tab-kufi" onclick="filter('kufi', event)">Caps (Kufi)</button>
@@ -260,11 +352,83 @@
         </div>
     </div>
 
+    <!-- SECTION: FULL PRODUCT DETAILS PAGE -->
+    <div id="product-detail-view" class="section-view container">
+        <div class="product-detail-container">
+            <div class="back-btn-box">
+                <button class="btn-back" onclick="goBackToCatalog()"><i class="fas fa-arrow-left"></i> Back to Products</button>
+            </div>
+            
+            <div class="product-detail-grid">
+                <!-- Gallery Column -->
+                <div class="detail-gallery-col">
+                    <div class="gallery-main">
+                        <img id="detailMainImg" src="" alt="Product Image" onerror="this.src='https://via.placeholder.com/400?text=Suddais+Collection'">
+                    </div>
+                    <div class="gallery-thumbs" id="detailThumbs"></div>
+                </div>
+
+                <!-- Info Column -->
+                <div class="detail-info">
+                    <span class="category-tag" id="detailCategoryTag">Category</span>
+                    <h2 id="detailName">Product Name</h2>
+                    
+                    <div class="rating-box" style="justify-content: flex-start; margin-bottom: 6px;" id="detailRatingBox">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                        <span id="detailRatingText">5.0 (20)</span>
+                    </div>
+
+                    <span class="detail-price" id="detailPrice">Rs. 0</span>
+
+                    <!-- Standard Size Selector -->
+                    <div class="size-selector-box" id="detailSizeBox" style="margin: 10px 0;">
+                        <label for="detailSizeSelect">Select Size / Variant:</label>
+                        <select id="detailSizeSelect" class="size-dropdown" onchange="updateDetailPrice()"></select>
+                    </div>
+
+                    <!-- Interactive 11.11 Deal Selector Box -->
+                    <div id="dealBuilderContainer" style="display:none;"></div>
+
+                    <p class="detail-desc" id="detailDesc">Description goes here...</p>
+
+                    <!-- Fragrance Notes Box -->
+                    <div id="detailNotesContainer"></div>
+
+                    <!-- Deal Includes Box -->
+                    <div id="detailDealIncludesContainer"></div>
+
+                    <!-- Quantity Selector -->
+                    <div class="qty-selector-row" id="qtySelectorRow">
+                        <label>Quantity:</label>
+                        <div class="qty-control">
+                            <button onclick="adjustDetailQty(-1)">-</button>
+                            <span id="detailQtyVal">1</span>
+                            <button onclick="adjustDetailQty(1)">+</button>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="detail-action-buttons">
+                        <button class="btn-add-detail" onclick="addDetailToCart()"><i class="fas fa-shopping-bag"></i> Add to Cart</button>
+                        <button class="btn-buy-detail" onclick="buyDetailViaWhatsApp()"><i class="fab fa-whatsapp"></i> Order on WhatsApp</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recommended Section -->
+            <div class="recommended-section">
+                <div class="recommended-title">You May Also Like</div>
+                <div class="grid" id="recommendedGrid"></div>
+            </div>
+        </div>
+    </div>
+
     <!-- SECTION: ABOUT US PAGE -->
     <div id="about-view" class="section-view container">
         <section class="about">
             <h3>About Suddais Collection</h3>
             <p>Welcome to <b>Suddais Collection</b>! We specialize in premium non-alcoholic Attars, long-lasting luxury spray Perfumes, and high-quality Islamic Caps (Kufi). All our fragrances are carefully crafted using original concentrated perfume oils to ensure long-lasting freshness. Choose your favorite product and order directly via WhatsApp!</p>
+            <p style="margin-top: 12px; font-style: italic; color: var(--dark-gold); font-weight: 600;">"مہک ایسی جو دل کو چھو جائے، احساس ایسا جو ہمیشہ یاد رہ جائے۔"</p>
         </section>
     </div>
 
@@ -278,20 +442,6 @@
         </section>
     </div>
 
-    <!-- PRODUCT DETAIL VIEW MODAL -->
-    <div id="productModal">
-        <div class="product-modal-content">
-            <span class="close-product-modal" onclick="closeProductModal()">&times;</span>
-            <div class="product-gallery">
-                <img id="detailImg" src="" alt="Product Image">
-            </div>
-            <h3 class="product-details-title" id="detailName">Product Name</h3>
-            <span class="price" id="detailPrice">Rs. 0</span>
-            <p class="product-details-desc" id="detailDesc">High quality long-lasting perfume oil formulated with premium ingredients for maximum projection and durability.</p>
-            <button class="btn btn-cart" id="detailAddBtn">Add to Cart 🛍️</button>
-        </div>
-    </div>
-
     <!-- Cart Drawer Sidebar -->
     <div id="cart-drawer">
         <div class="cart-header">
@@ -300,7 +450,7 @@
         </div>
         <div class="cart-content" id="cartContent"></div>
         <div class="cart-footer">
-            <div style="display:flex; justify-content:space-between; font-weight:bold; font-size: 1.05rem; margin-bottom:12px;">
+            <div style="display:flex; justify-content:space-between; font-weight:bold; font-size: 1rem; margin-bottom:10px;">
                 <span>Total Amount:</span>
                 <span id="totalPrice" style="color: var(--dark-gold);">Rs. 0</span>
             </div>
@@ -316,26 +466,73 @@
 
     <!-- Footer -->
     <footer>
-        <div class="footer-socials">
-            <a href="#"><i class="fab fa-facebook"></i></a>
-            <a href="#"><i class="fab fa-instagram"></i></a>
-            <a href="https://wa.me/923182187575" target="_blank"><i class="fab fa-whatsapp"></i></a>
-        </div>
-        
-        <!-- Payment Badges -->
-        <div class="payment-badges">
-            <span class="payment-badge"><i class="fas fa-wallet"></i> EasyPaisa</span>
-            <span class="payment-badge"><i class="fas fa-mobile-alt"></i> JazzCash</span>
-            <span class="payment-badge"><i class="fas fa-university"></i> Bank Transfer</span>
-            <span class="payment-badge"><i class="fas fa-money-bill-wave"></i> Cash on Delivery</span>
+        <div class="footer-container">
+            <div class="footer-col">
+                <h4>SUDDAIS COLLECTION</h4>
+                <p>Premium fragrances, attars and carefully selected products with a focus on quality and customer satisfaction.</p>
+                <p>📞 <b>Phone / WhatsApp:</b> +92 318 2187575</p>
+                <p>📍 Karachi, Pakistan</p>
+                <div class="footer-socials">
+                    <a href="https://wa.me/923182187575" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                </div>
+            </div>
+
+            <div class="footer-col">
+                <h4>SHOP BY CATEGORY</h4>
+                <ul>
+                    <li><a href="#" onclick="filter('all', event)">All Products</a></li>
+                    <li><a href="#" onclick="filter('signature', event)">Our Signature Products</a></li>
+                    <li><a href="#" onclick="filter('deals', event)">Deals & Offers</a></li>
+                    <li><a href="#" onclick="filter('attar', event)">Attars</a></li>
+                    <li><a href="#" onclick="filter('perfume', event)">Perfumes</a></li>
+                    <li><a href="#" onclick="filter('kufi', event)">Caps (Kufi)</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h4>CUSTOMER SERVICE</h4>
+                <ul>
+                    <li><a href="#" onclick="showSection('about-view', event)">About Us</a></li>
+                    <li><a href="#" onclick="showSection('contact-view', event)">Contact Us</a></li>
+                    <li><a href="#" onclick="showSection('about-view', event)">How to Order</a></li>
+                    <li><a href="#" onclick="showSection('about-view', event)">Shipping Information</a></li>
+                    <li><a href="#" onclick="showSection('about-view', event)">Cash on Delivery</a></li>
+                    <li><a href="#" onclick="showSection('about-view', event)">Return & Exchange Policy</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h4>WHY SHOP WITH US</h4>
+                <p>✓ Premium Quality Products<br>
+                ✓ Secure & Easy Ordering<br>
+                ✓ Cash on Delivery Available<br>
+                ✓ Dedicated Customer Support<br>
+                ✓ Easy WhatsApp Ordering</p>
+                
+                <h4 style="margin-top: 15px; font-size: 0.85rem;">PAYMENT METHODS</h4>
+                <div class="payment-badges" style="justify-content: flex-start;">
+                    <span class="payment-badge">COD</span>
+                    <span class="payment-badge">EasyPaisa</span>
+                    <span class="payment-badge">JazzCash</span>
+                    <span class="payment-badge">Bank</span>
+                </div>
+            </div>
         </div>
 
-        <p style="margin-top: 18px;">&copy; 2026 SUDDAIS COLLECTION. All Rights Reserved.</p>
+        <div class="footer-bottom-bar">
+            <p>&copy; 2026 SUDDAIS COLLECTION. All Rights Reserved.</p>
+            <div class="footer-legal-links">
+                <a href="#" onclick="showSection('about-view', event)">Privacy Policy</a>
+                <span>|</span>
+                <a href="#" onclick="showSection('about-view', event)">Terms & Conditions</a>
+            </div>
+        </div>
     </footer>
 
     <!-- JavaScript Logic -->
     <script>
-        // Banner Image Slider
         const offers = ['offer-banner1.jpg', 'offer-banner2.jpg'];
         let currentOffer = 0; 
         setInterval(() => { 
@@ -347,7 +544,6 @@
             }
         }, 4000);
 
-        // Promo Text Slider
         const promoSlides = document.querySelectorAll('.promo-slide-item');
         let currentPromo = 0;
         setInterval(() => {
@@ -358,42 +554,446 @@
             }
         }, 3500);
         
+        // Products Database
         const products = [
-            { id: 101, category: 'our-products', name: 'Suddais Collection - 5 Pcs Spray Perfume Set (5 ML Each)', price: 1500, rating: '5.0', reviews: '(12)', img: 'product1.jpg', discount: 'Special Combo', desc: 'Set of 5 premium spray perfumes. Long-lasting performance and ideal for gifting.' },
-            { id: 1, category: 'attar', name: 'Blue Sea Attar - 12 ML', price: 1200, rating: '4.9', reviews: '(42)', img: 'bulesea.jpg', discount: '10% OFF', desc: 'Fresh, oceanic aquatic fragrance with long projection.' },
-            { id: 2, category: 'attar', name: 'Majmuaa Attar - 12 ML', price: 1200, rating: '5.0', reviews: '(38)', img: 'majmua.jpg', discount: '', desc: 'Classic traditional floral and woody attar blend.' },
-            { id: 3, category: 'attar', name: 'Ameer Al Oud Attar - 12 ML', price: 1200, rating: '4.8', reviews: '(25)', img: 'ameeraloud.jpg', discount: '', desc: 'Rich, oriental agarwood fragrance for royalty.' },
-            { id: 4, category: 'attar', name: 'Bakhoor Attar - 12 ML', price: 1200, rating: '4.9', reviews: '(64)', img: 'bakhor.jpg', discount: 'HOT', desc: 'Warm, smoky oriental incense note attar.' },
-            { id: 5, category: 'attar', name: 'Hina Attar - 12 ML', price: 1200, rating: '4.7', reviews: '(19)', img: 'hina.jpg', discount: '', desc: 'Traditional warm henna herbal attar.' },
-            { id: 6, category: 'attar', name: 'Office For Men Attar - 12 ML', price: 1200, rating: '4.8', reviews: '(31)', img: 'office.jpg', discount: '', desc: 'Fresh, subtle, professional daily office wear fragrance.' },
-            { id: 7, category: 'attar', name: 'Oud Ul Lail Attar - 12 ML', price: 1200, rating: '5.0', reviews: '(50)', img: 'oudlail.jpg', discount: '15% OFF', desc: 'Deep, mysterious night-time oudh fragrance.' },
-            { id: 8, category: 'attar', name: 'Zam Zam Attar - 12 ML', price: 1250, rating: '4.8', reviews: '(22)', img: 'zamzam.jpg', discount: '', desc: 'Spiritual, fresh, clean floral fragrance.' },
-            { id: 9, category: 'attar', name: 'Dirham Attar - 12 ML', price: 1200, rating: '4.9', reviews: '(45)', img: 'Drham.jpg', discount: '', desc: 'Popular Arabic citrus and woody blend.' },
-            { id: 10, category: 'attar', name: 'Royal Mirage Attar - 12 ML', price: 1400, rating: '5.0', reviews: '(89)', img: 'Royal.jpg', discount: 'BEST SELLER', desc: 'Classic fresh spicy fragrance with massive projection.' },
-            { id: 11, category: 'attar', name: 'Aseel Super Attar - 12 ML', price: 1600, rating: '4.8', reviews: '(27)', img: 'aseel.jpg', discount: '', desc: 'Rich oriental spicy attar.' },
-            { id: 12, category: 'attar', name: 'Romantic Coffee Attar - 12 ML', price: 2400, rating: '4.7', reviews: '(18)', img: 'kafi.jpg', discount: '', desc: 'Unique gourmet coffee & dark chocolate fragrance blend.' },
-            { id: 13, category: 'attar', name: 'White Oudh Attar - 12 ML', price: 1400, rating: '4.9', reviews: '(33)', img: 'Whiteoudh.jpg', discount: '', desc: 'Soft, clean, luxurious white agarwood fragrance.' },
-            { id: 14, category: 'attar', name: 'Musk Ul Hind Attar - 12 ML', price: 1200, rating: '5.0', reviews: '(55)', img: 'muskhind.jpg', discount: '', desc: 'Authentic Indian oriental musk.' },
-            { id: 15, category: 'perfume', name: 'Bakhoor Spray Perfume - 50 ML', price: 2000, rating: '4.9', reviews: '(72)', img: 'br.jpg', discount: '', desc: '50 ML high concentration Bakhoor spray perfume.' },
-            { id: 16, category: 'perfume', name: 'Imperial Valley Perfume - 50 ML', price: 3000, rating: '4.8', reviews: '(41)', img: 'iv.jpg', discount: 'POPULAR', desc: 'Luxury designer style Imperial Valley spray perfume.' },
-            { id: 17, category: 'perfume', name: 'Havoc Spray Perfume', price: 1700, rating: '5.0', reviews: '(94)', img: 'havokk.jpg', discount: '', desc: 'Classic Havoc iconic long-lasting scent.' },
-            { id: 18, category: 'perfume', name: 'White Musk Spray Perfume - 50 ML', price: 3000, rating: '4.9', reviews: '(60)', img: 'wm.jpg', discount: '', desc: '50 ML elegant White Musk spray.' },
-            { id: 19, category: 'perfume', name: 'Royal Mirage Perfume - 50 ML', price: 2800, rating: '4.7', reviews: '(29)', img: 'rm.jpg', discount: '', desc: '50 ML Royal Mirage intense spray perfume.' },
-            { id: 20, category: 'perfume', name: '9 PM Style Perfume - 50 ML', price: 3000, rating: '5.0', reviews: '(110)', img: '9mp.jpg', discount: 'TOP RATED', desc: 'Sweet, vanilla, bubblegum evening party scent.' },
-            { id: 21, category: 'perfume', name: 'Khamrah Perfume - 50 ML', price: 2000, rating: '4.8', reviews: '(35)', img: 'khamrap.jpg', discount: '', desc: 'Warm cinnamon, gourmand luxury fragrance.' },
-            { id: 22, category: 'kufi', name: 'Premium Summer Comfort Cap', price: 800, rating: '4.9', reviews: '(40)', img: 'kufi-1.jpg', discount: '', desc: 'Breathable, soft, high quality Islamic cap.' },
+            {
+                id: 301,
+                category: 'deals',
+                name: '5 Perfume Testers Deal',
+                rating: '5.0',
+                reviews: '(30)',
+                images: ['deal-testers.jpg'],
+                discount: 'DEAL',
+                price: 1500,
+                desc: 'Get 5 exclusive 5 ML perfume testers in a special combo deal. Try multiple luxury fragrances at an amazing online price!',
+                dealIncludes: [
+                    '5 × 5 ML Premium Perfume Testers',
+                    'Long-lasting concentrated formulations',
+                    'Pocket-friendly convenient bottles'
+                ]
+            },
+            {
+                id: 302,
+                category: 'deals',
+                name: '11.11 MEGA SALE — LIMITED OFFER',
+                rating: '5.0',
+                reviews: '(68)',
+                images: ['deal-11-11.jpg'],
+                discount: 'MEGA SALE',
+                isInteractiveDeal: true,
+                onlinePrice: 3500,
+                shopPrice: 3000,
+                desc: 'CHOOSE ANY 2 PERFUMES (30 ML EACH) — GET TALIB SIGNATURE PERFUME FREE! Online Price: Rs. 3,500 | Shop Visit Price: Rs. 3,000.',
+                dealIncludes: [
+                    'Choose any 2 Perfumes of 30 ML',
+                    '🎁 GET TALIB Signature Perfume FREE',
+                    '🌐 Online Price: Rs. 3,500',
+                    '🏪 Shop Visit Price: Rs. 3,000 (Visit our shop and get this deal for Rs. 3,000)'
+                ],
+                howItWorks: [
+                    'Choose any 2 perfumes (both must be 30 ML)',
+                    'Add the deal to cart',
+                    'Get TALIB Signature Perfume FREE 🎁',
+                    '🌐 Online Deal Price: Rs. 3,500 Only'
+                ]
+            },
+            {
+                id: 201,
+                category: 'signature',
+                name: 'Talib - Signature Perfume',
+                rating: '5.0',
+                reviews: '(18)',
+                images: ['talib.jpg', 'talib-2.jpg', 'talib-3.jpg'],
+                discount: 'SIGNATURE',
+                desc: 'Our flagship signature fragrance. Crafted with premium oriental oils for exceptional projection and long-lasting elegance.',
+                sizes: [
+                    { size: '5 ML', price: 300 },
+                    { size: '15 ML', price: 800 },
+                    { size: '30 ML', price: 1300 },
+                    { size: '50 ML', price: 2500 }
+                ],
+                notes: {
+                    top: 'Bergamot, Fresh Citrus, Spicy Accords',
+                    heart: 'Rose, Jasmine, Woody Notes',
+                    base: 'Amber, White Musk, Pure Agarwood'
+                }
+            },
+            {
+                id: 202,
+                category: 'signature',
+                name: 'Red Silk - Signature Perfume',
+                rating: '4.9',
+                reviews: '(14)',
+                images: ['red-silk.jpg', 'red-silk-2.jpg'],
+                discount: 'BESTSELLER',
+                desc: 'An alluring luxury blend crafted for special occasions. Rich, seductive and unforgettable.',
+                sizes: [
+                    { size: '5 ML', price: 350 },
+                    { size: '15 ML', price: 900 },
+                    { size: '30 ML', price: 1500 },
+                    { size: '50 ML', price: 2800 }
+                ],
+                notes: {
+                    top: 'Saffron, Red Fruits, Orange Blossom',
+                    heart: 'Cinnamon, Jasmine, Patchouli',
+                    base: 'Vanilla, Ambergris, Cedarwood'
+                }
+            },
+            {
+                id: 1,
+                category: 'attar',
+                name: 'Blue Sea Attar',
+                rating: '4.9',
+                reviews: '(42)',
+                images: ['bulesea.jpg'],
+                discount: '10% OFF',
+                desc: 'Fresh, oceanic aquatic fragrance with long projection.',
+                sizes: [
+                    { size: '3 ML', price: 400 },
+                    { size: '6 ML', price: 700 },
+                    { size: '12 ML', price: 1200 }
+                ],
+                notes: {
+                    top: 'Marine Notes, Sea Salt, Lemon',
+                    heart: 'Lavender, Rosemary, Seaweed',
+                    base: 'Cedarwood, Musk, Oakmoss'
+                }
+            },
+            {
+                id: 2,
+                category: 'attar',
+                name: 'Majmuaa Attar',
+                rating: '5.0',
+                reviews: '(38)',
+                images: ['majmua.jpg'],
+                discount: '',
+                desc: 'Classic traditional floral and woody attar blend.',
+                sizes: [
+                    { size: '3 ML', price: 400 },
+                    { size: '6 ML', price: 700 },
+                    { size: '12 ML', price: 1200 }
+                ],
+                notes: {
+                    top: 'Kewra, Herbal Notes, Spices',
+                    heart: 'Jasmine, Rose, Marigold',
+                    base: 'Sandalwood, Woody Earthy Notes'
+                }
+            },
+            {
+                id: 3,
+                category: 'attar',
+                name: 'Ameer Al Oud Attar',
+                rating: '4.8',
+                reviews: '(25)',
+                images: ['ameeraloud.jpg'],
+                discount: '',
+                desc: 'Rich, oriental agarwood fragrance for royalty.',
+                sizes: [
+                    { size: '3 ML', price: 400 },
+                    { size: '6 ML', price: 700 },
+                    { size: '12 ML', price: 1200 }
+                ]
+            },
+            {
+                id: 4,
+                category: 'attar',
+                name: 'Bakhoor Attar',
+                rating: '4.9',
+                reviews: '(64)',
+                images: ['bakhor.jpg'],
+                discount: 'HOT',
+                desc: 'Warm, smoky oriental incense note attar.',
+                sizes: [
+                    { size: '3 ML', price: 400 },
+                    { size: '6 ML', price: 700 },
+                    { size: '12 ML', price: 1200 }
+                ]
+            },
+            {
+                id: 5,
+                category: 'attar',
+                name: 'Hina Attar',
+                rating: '4.7',
+                reviews: '(19)',
+                images: ['hina.jpg'],
+                discount: '',
+                desc: 'Traditional warm henna herbal attar.',
+                sizes: [
+                    { size: '3 ML', price: 400 },
+                    { size: '6 ML', price: 700 },
+                    { size: '12 ML', price: 1200 }
+                ]
+            },
+            {
+                id: 6,
+                category: 'attar',
+                name: 'Office For Men Attar',
+                rating: '4.8',
+                reviews: '(31)',
+                images: ['office.jpg'],
+                discount: '',
+                desc: 'Fresh, subtle, professional daily office wear fragrance.',
+                sizes: [
+                    { size: '3 ML', price: 400 },
+                    { size: '6 ML', price: 700 },
+                    { size: '12 ML', price: 1200 }
+                ]
+            },
+            {
+                id: 7,
+                category: 'attar',
+                name: 'Oud Ul Lail Attar',
+                rating: '5.0',
+                reviews: '(50)',
+                images: ['oudlail.jpg'],
+                discount: '15% OFF',
+                desc: 'Deep, mysterious night-time oudh fragrance.',
+                sizes: [
+                    { size: '3 ML', price: 400 },
+                    { size: '6 ML', price: 700 },
+                    { size: '12 ML', price: 1200 }
+                ]
+            },
+            {
+                id: 8,
+                category: 'attar',
+                name: 'Zam Zam Attar',
+                rating: '4.8',
+                reviews: '(22)',
+                images: ['zamzam.jpg'],
+                discount: '',
+                desc: 'Spiritual, fresh, clean floral fragrance.',
+                sizes: [
+                    { size: '3 ML', price: 420 },
+                    { size: '6 ML', price: 720 },
+                    { size: '12 ML', price: 1250 }
+                ]
+            },
+            {
+                id: 9,
+                category: 'attar',
+                name: 'Dirham Attar',
+                rating: '4.9',
+                reviews: '(45)',
+                images: ['Drham.jpg'],
+                discount: '',
+                desc: 'Popular Arabic citrus and woody blend.',
+                sizes: [
+                    { size: '3 ML', price: 400 },
+                    { size: '6 ML', price: 700 },
+                    { size: '12 ML', price: 1200 }
+                ]
+            },
+            {
+                id: 10,
+                category: 'attar',
+                name: 'Royal Mirage Attar',
+                rating: '5.0',
+                reviews: '(89)',
+                images: ['Royal.jpg'],
+                discount: 'BEST SELLER',
+                desc: 'Classic fresh spicy fragrance with massive projection.',
+                sizes: [
+                    { size: '3 ML', price: 450 },
+                    { size: '6 ML', price: 800 },
+                    { size: '12 ML', price: 1400 }
+                ]
+            },
+            {
+                id: 11,
+                category: 'attar',
+                name: 'Aseel Super Attar',
+                rating: '4.8',
+                reviews: '(27)',
+                images: ['aseel.jpg'],
+                discount: '',
+                desc: 'Rich oriental spicy attar.',
+                sizes: [
+                    { size: '3 ML', price: 500 },
+                    { size: '6 ML', price: 900 },
+                    { size: '12 ML', price: 1600 }
+                ]
+            },
+            {
+                id: 12,
+                category: 'attar',
+                name: 'Romantic Coffee Attar',
+                rating: '4.7',
+                reviews: '(18)',
+                images: ['kafi.jpg'],
+                discount: '',
+                desc: 'Unique gourmet coffee & dark chocolate fragrance blend.',
+                sizes: [
+                    { size: '3 ML', price: 750 },
+                    { size: '6 ML', price: 1300 },
+                    { size: '12 ML', price: 2400 }
+                ]
+            },
+            {
+                id: 13,
+                category: 'attar',
+                name: 'White Oudh Attar',
+                rating: '4.9',
+                reviews: '(33)',
+                images: ['Whiteoudh.jpg'],
+                discount: '',
+                desc: 'Soft, clean, luxurious white agarwood fragrance.',
+                sizes: [
+                    { size: '3 ML', price: 450 },
+                    { size: '6 ML', price: 800 },
+                    { size: '12 ML', price: 1400 }
+                ]
+            },
+            {
+                id: 14,
+                category: 'attar',
+                name: 'Musk Ul Hind Attar',
+                rating: '5.0',
+                reviews: '(55)',
+                images: ['muskhind.jpg'],
+                discount: '',
+                desc: 'Authentic Indian oriental musk.',
+                sizes: [
+                    { size: '3 ML', price: 400 },
+                    { size: '6 ML', price: 700 },
+                    { size: '12 ML', price: 1200 }
+                ]
+            },
+            {
+                id: 15,
+                category: 'perfume',
+                name: 'Bakhoor Spray Perfume',
+                rating: '4.9',
+                reviews: '(72)',
+                images: ['br.jpg'],
+                discount: '',
+                desc: 'High concentration Bakhoor spray perfume.',
+                sizes: [
+                    { size: '30 ML', price: 1300 },
+                    { size: '50 ML', price: 2000 }
+                ],
+                notes: { top: 'Incense, Spices', heart: 'Amber, Woody Notes', base: 'Oudh, Smoke' }
+            },
+            {
+                id: 16,
+                category: 'perfume',
+                name: 'Imperial Valley Perfume',
+                rating: '4.8',
+                reviews: '(41)',
+                images: ['iv.jpg'],
+                discount: 'POPULAR',
+                desc: 'Luxury designer style Imperial Valley spray perfume.',
+                sizes: [
+                    { size: '30 ML', price: 1800 },
+                    { size: '50 ML', price: 3000 }
+                ],
+                notes: { top: 'Lavender, Artemisia', heart: 'Leather, Cinnamon', base: 'Amber, Oud' }
+            },
+            {
+                id: 17,
+                category: 'perfume',
+                name: 'Havoc Spray Perfume',
+                rating: '5.0',
+                reviews: '(94)',
+                images: ['havokk.jpg'],
+                discount: '',
+                desc: 'Classic Havoc iconic long-lasting scent.',
+                sizes: [
+                    { size: '30 ML', price: 1000 },
+                    { size: '50 ML', price: 1700 }
+                ],
+                notes: { top: 'Aldehydes, Green Notes', heart: 'Floral Bouquet', base: 'Musk, Oakmoss' }
+            },
+            {
+                id: 18,
+                category: 'perfume',
+                name: 'White Musk Spray Perfume',
+                rating: '4.9',
+                reviews: '(60)',
+                images: ['wm.jpg'],
+                discount: '',
+                desc: 'Elegant White Musk spray.',
+                sizes: [
+                    { size: '30 ML', price: 1800 },
+                    { size: '50 ML', price: 3000 }
+                ],
+                notes: { top: 'White Musk, Lily', heart: 'Jasmine, Rose', base: 'Powdery Notes, Musk' }
+            },
+            {
+                id: 19,
+                category: 'perfume',
+                name: 'Royal Mirage Perfume',
+                rating: '4.7',
+                reviews: '(29)',
+                images: ['rm.jpg'],
+                discount: '',
+                desc: 'Royal Mirage intense spray perfume.',
+                sizes: [
+                    { size: '30 ML', price: 1600 },
+                    { size: '50 ML', price: 2800 }
+                ],
+                notes: { top: 'Bergamot, Green Leaves', heart: 'Spicy Floral', base: 'Woody, Amber' }
+            },
+            {
+                id: 20,
+                category: 'perfume',
+                name: '9 PM Style Perfume',
+                rating: '5.0',
+                reviews: '(110)',
+                images: ['9mp.jpg'],
+                discount: 'TOP RATED',
+                desc: 'Sweet, vanilla, bubblegum evening party scent.',
+                sizes: [
+                    { size: '30 ML', price: 1800 },
+                    { size: '50 ML', price: 3000 }
+                ],
+                notes: { top: 'Cinnamon, Apple, Lavender', heart: 'Orange Blossom, Lily', base: 'Vanilla, Tonka Bean, Amber' }
+            },
+            {
+                id: 21,
+                category: 'perfume',
+                name: 'Khamrah Perfume',
+                rating: '4.8',
+                reviews: '(35)',
+                images: ['khamrap.jpg'],
+                discount: '',
+                desc: 'Warm cinnamon, gourmand luxury fragrance.',
+                sizes: [
+                    { size: '30 ML', price: 1300 },
+                    { size: '50 ML', price: 2000 }
+                ],
+                notes: { top: 'Cinnamon, Nutmeg, Bergamot', heart: 'Dates, Praline, Tuberose', base: 'Vanilla, Tonka Bean, Myrrh' }
+            },
+            {
+                id: 22,
+                category: 'kufi',
+                name: 'Premium Summer Comfort Cap',
+                rating: '4.9',
+                reviews: '(40)',
+                images: ['kufi-1.jpg'],
+                discount: '',
+                desc: 'Breathable, soft, high quality Islamic cap.',
+                sizes: [
+                    { size: 'Size 21', price: 800 },
+                    { size: 'Size 22', price: 800 },
+                    { size: 'Size 22.5', price: 800 },
+                    { size: 'Size 23', price: 800 }
+                ]
+            }
         ];
 
         let cart = [];
         let customer = { name: '', phone: '', address: '' };
+        let currentFilter = 'all'; 
+        let activeDetailProduct = null;
+        let detailQuantity = 1;
+        let savedScrollPosition = 0;
 
-        // Name Validation: Only Alphabets & Spaces Allowed
         function validateName(input) {
             input.value = input.value.replace(/[^a-zA-Z\s]/g, '');
             customer.name = input.value;
         }
 
-        // Phone Validation: Only Numbers Allowed & Max 11 Digits
         function validatePhone(input) {
             input.value = input.value.replace(/[^0-9]/g, '');
             if (input.value.length > 11) {
@@ -402,98 +1002,410 @@
             customer.phone = input.value;
         }
 
-        function render(f='all') {
+        function render(f='all', customList = null) {
+            currentFilter = f;
             const grid = document.getElementById('productGrid'); 
             grid.innerHTML = '';
-            const filteredProducts = products.filter(p => f === 'all' || p.category === f);
             
-            if (filteredProducts.length === 0) {
-                grid.innerHTML = `<div style="grid-column: span 4; text-align: center; padding: 40px; color: #777; font-size: 1rem;">No products found in this category!</div>`;
+            const listToRender = customList || (f === 'all' ? products : products.filter(p => p.category === f));
+            
+            if (listToRender.length === 0) {
+                grid.innerHTML = `<div style="grid-column: span 2; text-align: center; padding: 30px; color: #777; font-size: 0.85rem;">No products found!</div>`;
                 return;
             }
 
-            filteredProducts.forEach(p => {
+            listToRender.forEach(p => {
                 const discountBadge = p.discount ? `<div class="badge-discount">${p.discount}</div>` : '';
+                const displayImg = (p.images && p.images.length > 0) ? p.images[0] : 'https://via.placeholder.com/300';
+                
+                let priceOrSizesHTML = '';
+                if(p.isInteractiveDeal) {
+                    priceOrSizesHTML = `<span class="price">Online: Rs. ${p.onlinePrice} <br><small style="color:#666; font-weight:500;">Shop Visit: Rs. ${p.shopPrice}</small></span>`;
+                } else if(p.sizes && p.sizes.length > 0) {
+                    let sizeOptionsHTML = '';
+                    p.sizes.forEach((s, idx) => {
+                        sizeOptionsHTML += `<option value="${idx}">${s.size} — Rs. ${s.price}</option>`;
+                    });
+                    priceOrSizesHTML = `
+                        <div class="size-selector-box">
+                            <label>Size / Variant:</label>
+                            <select class="size-dropdown" id="size-sel-${p.id}" onchange="updateCardPrice(${p.id})">
+                                ${sizeOptionsHTML}
+                            </select>
+                        </div>
+                        <span class="price" id="price-display-${p.id}">Rs. ${p.sizes[0].price}</span>
+                    `;
+                } else {
+                    priceOrSizesHTML = `<span class="price">Rs. ${p.price}</span>`;
+                }
+
                 grid.innerHTML += `
                     <div class="card">
                         ${discountBadge}
-                        <div class="image-slider" onclick="openProductModal(${p.id})">
-                            <img src="${p.img}" alt="${p.name}" onerror="this.src='https://via.placeholder.com/300x400?text=Suddais+Collection'">
+                        <div class="image-slider" onclick="openProductDetail(${p.id})">
+                            <img src="${displayImg}" alt="${p.name}" onerror="this.src='https://via.placeholder.com/300x400?text=Suddais+Collection'">
                         </div>
                         <div class="card-body">
                             <div>
-                                <h3>${p.name}</h3>
+                                <h3 onclick="openProductDetail(${p.id})">${p.name}</h3>
                                 <div class="rating-box">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
                                     <span>${p.rating} ${p.reviews}</span>
                                 </div>
-                                <span class="price">Rs. ${p.price}</span>
+                                ${priceOrSizesHTML}
                             </div>
                             <div class="btn-group">
-                                <button class="btn btn-cart" onclick="addToCart(${p.id})">Add to Cart</button>
-                                <button class="btn btn-detail" onclick="openProductModal(${p.id})">View Details</button>
+                                <button class="btn btn-cart" onclick="addCardToCart(${p.id})">${p.isInteractiveDeal ? 'Configure Deal' : 'Add to Cart'}</button>
+                                <button class="btn btn-detail" onclick="openProductDetail(${p.id})">View Details</button>
                             </div>
                         </div>
                     </div>`;
             });
         }
 
-        /* RESET TO HOME PAGE & ALL PRODUCTS */
-        function resetToHome(e) {
-            if(e) e.preventDefault();
-            showSection('home-view');
-            filter('all');
-        }
-
-        /* SECTION SWITCHING (Navigation) */
-        function showSection(sectionId, e) {
-            if(e) e.preventDefault();
-            document.querySelectorAll('.section-view').forEach(sec => sec.classList.remove('active'));
-            document.getElementById(sectionId).classList.add('active');
-            window.scrollTo(0, 0);
-        }
-
-        /* PRODUCT DETAIL MODAL FUNCTIONS */
-        function openProductModal(id) {
+        function updateCardPrice(id) {
             const p = products.find(x => x.id === id);
-            if(!p) return;
-            
-            document.getElementById('detailImg').src = p.img;
-            document.getElementById('detailName').innerText = p.name;
-            document.getElementById('detailPrice').innerText = 'Rs. ' + p.price;
-            document.getElementById('detailDesc').innerText = p.desc || 'High quality long-lasting fragrance formulated with pure ingredients.';
-            
-            const addBtn = document.getElementById('detailAddBtn');
-            addBtn.onclick = function() {
-                addToCart(p.id);
-                closeProductModal();
-            };
-
-            document.getElementById('productModal').style.display = 'flex';
+            const selectEl = document.getElementById(`size-sel-${id}`);
+            const priceEl = document.getElementById(`price-display-${id}`);
+            if(p && selectEl && priceEl) {
+                const selectedSizeObj = p.sizes[selectEl.value];
+                priceEl.innerText = 'Rs. ' + selectedSizeObj.price;
+            }
         }
 
-        function closeProductModal() {
-            document.getElementById('productModal').style.display = 'none';
-        }
+        function addCardToCart(id) {
+            const p = products.find(x => x.id === id);
+            if(p.isInteractiveDeal) {
+                openProductDetail(id);
+                return;
+            }
 
-        function addToCart(id) {
-            const prod = products.find(p => p.id === id); 
-            const inCart = cart.find(item => item.id === id);
-            if(inCart) inCart.qty++; else cart.push({...prod, qty: 1});
-            
-            const icon = document.getElementById('cartIcon'); 
-            icon.classList.add('shine'); 
-            setTimeout(() => icon.classList.remove('shine'), 600);
-            
+            let size = 'Standard';
+            let price = p.price || 0;
+
+            if(p.sizes && p.sizes.length > 0) {
+                const selectEl = document.getElementById(`size-sel-${p.id}`);
+                const selectedSizeObj = p.sizes[selectEl.value];
+                size = selectedSizeObj.size;
+                price = selectedSizeObj.price;
+            }
+
+            const cartItemId = `${p.id}-${size}`;
+            const existing = cart.find(item => item.cartItemId === cartItemId);
+
+            if(existing) {
+                existing.qty++;
+            } else {
+                cart.push({
+                    cartItemId: cartItemId,
+                    id: p.id,
+                    name: p.name,
+                    size: size,
+                    price: price,
+                    img: p.images[0],
+                    qty: 1
+                });
+            }
+
+            triggerCartAnimation();
             showToast('Item added to cart! 🛍️'); 
             updateCartUI();
             toggleCart();
         }
 
+        function triggerCartAnimation() {
+            const icon = document.getElementById('cartIcon'); 
+            icon.classList.add('shine'); 
+            setTimeout(() => icon.classList.remove('shine'), 600);
+        }
+
+        // FULL PRODUCT DETAIL & 11.11 DEAL BUILDER
+        function openProductDetail(id) {
+            savedScrollPosition = window.scrollY;
+            const p = products.find(x => x.id === id);
+            if(!p) return;
+            activeDetailProduct = p;
+            detailQuantity = 1;
+            document.getElementById('detailQtyVal').innerText = detailQuantity;
+
+            showSection('product-detail-view');
+
+            document.getElementById('detailCategoryTag').innerText = p.category.toUpperCase();
+            document.getElementById('detailName').innerText = p.name;
+            document.getElementById('detailRatingText').innerText = `${p.rating} ${p.reviews}`;
+            document.getElementById('detailDesc').innerText = p.desc || '';
+
+            // Render Images
+            const mainImgEl = document.getElementById('detailMainImg');
+            const thumbsEl = document.getElementById('detailThumbs');
+            thumbsEl.innerHTML = '';
+
+            if(p.images && p.images.length > 0) {
+                mainImgEl.src = p.images[0];
+                mainImgEl.onerror = function() { this.src='https://via.placeholder.com/400?text=Suddais+Collection'; };
+
+                if(p.images.length > 1) {
+                    p.images.forEach((imgSrc, idx) => {
+                        thumbsEl.innerHTML += `
+                            <div class="thumb-img ${idx === 0 ? 'active' : ''}" onclick="switchMainImage('${imgSrc}', this)">
+                                <img src="${imgSrc}" onerror="this.src='https://via.placeholder.com/80'">
+                            </div>
+                        `;
+                    });
+                }
+            }
+
+            const sizeBox = document.getElementById('detailSizeBox');
+            const sizeSelect = document.getElementById('detailSizeSelect');
+            const priceEl = document.getElementById('detailPrice');
+            const dealBuilderContainer = document.getElementById('dealBuilderContainer');
+            const qtyRow = document.getElementById('qtySelectorRow');
+
+            if(p.isInteractiveDeal) {
+                sizeBox.style.display = 'none';
+                qtyRow.style.display = 'none';
+                priceEl.innerHTML = `🌐 Online Price: Rs. ${p.onlinePrice} <br><span style="font-size:0.9rem; color:#555; font-weight:600;">🏪 Shop Visit Price: Rs. ${p.shopPrice} (Visit our shop and get this deal for Rs. 3,000)</span>`;
+                
+                const thirtyMlEligible = products.filter(prod => !prod.isInteractiveDeal && prod.sizes && prod.sizes.some(s => s.size === '30 ML'));
+                
+                let optionsHTML = '<option value="">-- Select 30 ML Perfume --</option>';
+                thirtyMlEligible.forEach(prod => {
+                    const size30Obj = prod.sizes.find(s => s.size === '30 ML');
+                    optionsHTML += `<option value="${prod.id}">${prod.name} (30 ML)</option>`;
+                });
+
+                dealBuilderContainer.style.display = 'block';
+                dealBuilderContainer.innerHTML = `
+                    <div class="deal-builder-box">
+                        <h4>🔥 Configure Your 11.11 Mega Sale Deal</h4>
+                        <div class="deal-select-group">
+                            <label>Choose Your First 30 ML Perfume:</label>
+                            <select id="dealPerfume1" class="deal-dropdown">${optionsHTML}</select>
+                        </div>
+                        <div class="deal-select-group" style="margin-top: 8px;">
+                            <label>Choose Your Second 30 ML Perfume:</label>
+                            <select id="dealPerfume2" class="deal-dropdown">${optionsHTML}</select>
+                        </div>
+                        <div class="free-gift-badge">
+                            🎁 FREE GIFT UNLOCKED: TALIB — Signature Perfume (FREE)
+                        </div>
+                        <div style="font-size:0.8rem; color:#444; margin-top:5px; font-weight:600;">
+                            Fixed Online Price: <span style="color:var(--dark-gold);">Rs. ${p.onlinePrice}</span> | Shop Visit Price: <span style="color:#27ae60;">Rs. ${p.shopPrice}</span>
+                        </div>
+                    </div>
+                `;
+            } else {
+                dealBuilderContainer.style.display = 'none';
+                qtyRow.style.display = 'flex';
+
+                if(p.sizes && p.sizes.length > 0) {
+                    sizeBox.style.display = 'block';
+                    let opts = '';
+                    p.sizes.forEach((s, idx) => {
+                        opts += `<option value="${idx}">${s.size} — Rs. ${s.price}</option>`;
+                    });
+                    sizeSelect.innerHTML = opts;
+                    priceEl.innerText = 'Rs. ' + p.sizes[0].price;
+                } else {
+                    sizeBox.style.display = 'none';
+                    priceEl.innerText = 'Rs. ' + (p.price || 0);
+                }
+            }
+
+            // Fragrance Notes
+            const notesContainer = document.getElementById('detailNotesContainer');
+            if(p.notes) {
+                notesContainer.innerHTML = `
+                    <div class="detail-notes-box">
+                        <h4><i class="fas fa-leaf"></i> Fragrance Notes</h4>
+                        <p><b>Top Notes:</b> ${p.notes.top}</p>
+                        <p><b>Heart Notes:</b> ${p.notes.heart}</p>
+                        <p><b>Base Notes:</b> ${p.notes.base}</p>
+                    </div>
+                `;
+            } else {
+                notesContainer.innerHTML = '';
+            }
+
+            // Deal Includes / How it works
+            const dealIncludesContainer = document.getElementById('detailDealIncludesContainer');
+            if(p.howItWorks || (p.dealIncludes && p.dealIncludes.length > 0)) {
+                let items = p.howItWorks || p.dealIncludes;
+                let liHTML = '';
+                items.forEach(item => { liHTML += `<li>${item}</li>`; });
+                dealIncludesContainer.innerHTML = `
+                    <div class="deal-includes-box">
+                        <h4><i class="fas fa-gift"></i> How The Deal Works:</h4>
+                        <ul>${liHTML}</ul>
+                    </div>
+                `;
+            } else {
+                dealIncludesContainer.innerHTML = '';
+            }
+
+            renderRecommended(p);
+            window.scrollTo({ top: 0, behavior: 'instant' });
+        }
+
+        function switchMainImage(src, thumbEl) {
+            document.getElementById('detailMainImg').src = src;
+            document.querySelectorAll('.thumb-img').forEach(el => el.classList.remove('active'));
+            thumbEl.classList.add('active');
+        }
+
+        function updateDetailPrice() {
+            if(!activeDetailProduct || !activeDetailProduct.sizes) return;
+            const selectEl = document.getElementById('detailSizeSelect');
+            const selectedSizeObj = activeDetailProduct.sizes[selectEl.value];
+            document.getElementById('detailPrice').innerText = 'Rs. ' + selectedSizeObj.price;
+        }
+
+        function adjustDetailQty(delta) {
+            detailQuantity += delta;
+            if(detailQuantity < 1) detailQuantity = 1;
+            document.getElementById('detailQtyVal').innerText = detailQuantity;
+        }
+
+        function addDetailToCart() {
+            if(!activeDetailProduct) return;
+
+            if(activeDetailProduct.isInteractiveDeal) {
+                const p1Id = document.getElementById('dealPerfume1').value;
+                const p2Id = document.getElementById('dealPerfume2').value;
+
+                if(!p1Id || !p2Id) {
+                    alert('Please select both 30 ML perfumes to claim your 11.11 Mega Sale deal!');
+                    return;
+                }
+
+                const prod1 = products.find(x => x.id == p1Id);
+                const prod2 = products.find(x => x.id == p2Id);
+
+                const dealCartItemId = `deal-1111-${Date.now()}`;
+                cart.push({
+                    cartItemId: dealCartItemId,
+                    isDeal: true,
+                    name: '🔥 11.11 MEGA SALE',
+                    items: [
+                        { name: prod1.name, size: '30 ML' },
+                        { name: prod2.name, size: '30 ML' },
+                        { name: 'TALIB — Signature Perfume', size: '30 ML', isFree: true }
+                    ],
+                    price: activeDetailProduct.onlinePrice,
+                    shopPrice: activeDetailProduct.shopPrice,
+                    img: activeDetailProduct.images[0],
+                    qty: 1
+                });
+
+                triggerCartAnimation();
+                showToast('11.11 Deal added to cart! 🛍️');
+                updateCartUI();
+                toggleCart();
+                return;
+            }
+
+            let size = 'Standard';
+            let price = activeDetailProduct.price || 0;
+
+            if(activeDetailProduct.sizes && activeDetailProduct.sizes.length > 0) {
+                const selectEl = document.getElementById('detailSizeSelect');
+                const selectedSizeObj = activeDetailProduct.sizes[selectEl.value];
+                size = selectedSizeObj.size;
+                price = selectedSizeObj.price;
+            }
+
+            const cartItemId = `${activeDetailProduct.id}-${size}`;
+            const existing = cart.find(item => item.cartItemId === cartItemId);
+
+            if(existing) {
+                existing.qty += detailQuantity;
+            } else {
+                cart.push({
+                    cartItemId: cartItemId,
+                    id: activeDetailProduct.id,
+                    name: activeDetailProduct.name,
+                    size: size,
+                    price: price,
+                    img: activeDetailProduct.images[0],
+                    qty: detailQuantity
+                });
+            }
+
+            triggerCartAnimation();
+            showToast('Item added to cart! 🛍️');
+            updateCartUI();
+            toggleCart();
+        }
+
+        function buyDetailViaWhatsApp() {
+            addDetailToCart();
+            sendOrder();
+        }
+
+        function goBackToCatalog() {
+            showSection('home-view');
+            filter(currentFilter);
+            setTimeout(() => {
+                window.scrollTo({ top: savedScrollPosition, behavior: 'instant' });
+            }, 10);
+        }
+
+        function renderRecommended(currentProd) {
+            const grid = document.getElementById('recommendedGrid');
+            grid.innerHTML = '';
+            
+            const related = products.filter(p => p.category === currentProd.category && p.id !== currentProd.id).slice(0, 2);
+            if(related.length === 0) {
+                grid.innerHTML = `<div style="grid-column: span 2; text-align: center; color: #777; font-size: 0.8rem;">No other products in this category.</div>`;
+                return;
+            }
+
+            related.forEach(p => {
+                const displayImg = p.images[0];
+                grid.innerHTML += `
+                    <div class="card" onclick="openProductDetail(${p.id})">
+                        <div class="image-slider" style="height: 110px;">
+                            <img src="${displayImg}" alt="${p.name}" onerror="this.src='https://via.placeholder.com/200'">
+                        </div>
+                        <div class="card-body" style="padding: 6px;">
+                            <h3 style="font-size: 0.75rem; margin-bottom: 3px;">${p.name}</h3>
+                            <span class="price" style="font-size: 0.8rem;">Rs. ${p.isInteractiveDeal ? p.onlinePrice : (p.sizes ? p.sizes[0].price : p.price)}</span>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function handleSearch(query) {
+            const q = query.trim().toLowerCase();
+            if(!q) {
+                filter(currentFilter);
+                return;
+            }
+
+            showSection('home-view');
+            const searchResults = products.filter(p => p.name.toLowerCase().includes(q) || p.category.toLowerCase().includes(q) || (p.desc && p.desc.toLowerCase().includes(q)));
+            
+            document.getElementById('categoryIndicator').innerText = `Search Results for: "${query}"`;
+            render(currentFilter, searchResults);
+        }
+
+        function resetToHome(e) {
+            if(e) e.preventDefault();
+            document.getElementById('searchInput').value = '';
+            showSection('home-view');
+            filter('all');
+            window.scrollTo({ top: 0, behavior: 'instant' });
+        }
+
+        function showSection(sectionId, e) {
+            if(e) e.preventDefault();
+            document.querySelectorAll('.section-view').forEach(sec => sec.classList.remove('active'));
+            document.getElementById(sectionId).classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'instant' });
+        }
+
+        // Cart Management
         function updateCartUI() {
             const content = document.getElementById('cartContent'), 
                   count = document.getElementById('cart-count'), 
@@ -533,38 +1445,59 @@
             `;
 
             if(cart.length === 0) { 
-                htmlContent += '<p style="text-align:center; color:#777; margin-top:20px; font-size:0.9rem;">Your cart is currently empty!</p>'; 
+                htmlContent += '<p style="text-align:center; color:#777; margin-top:20px; font-size:0.85rem;">Your cart is currently empty!</p>'; 
                 content.innerHTML = htmlContent;
                 total.innerText = 'Rs. 0'; 
                 return; 
             }
             
-            htmlContent += '<h4 style="font-size:0.9rem; margin-bottom:10px; color:#555;">Selected Items:</h4>';
+            htmlContent += '<h4 style="font-size:0.85rem; margin-bottom:8px; color:#555;">Selected Items:</h4>';
             cart.forEach(item => { 
                 let subTotal = item.price * item.qty;
-                htmlContent += `
-                    <div class="cart-item">
-                        <div>
-                            <h4 style="font-size:0.85rem; margin-bottom:2px; font-weight:600;">${item.name}</h4>
-                            <small style="color:#666; font-size:0.75rem;">Rs. ${item.price} × ${item.qty} = <b>Rs. ${subTotal}</b></small>
-                        </div>
-                        <div class="qty-box">
-                            <button class="qty-btn" onclick="changeQty(${item.id}, -1)">-</button>
-                            <span style="font-weight:bold; font-size:0.85rem;">${item.qty}</span>
-                            <button class="qty-btn" onclick="changeQty(${item.id}, 1)">+</button>
-                        </div>
-                    </div>`; 
+                if(item.isDeal) {
+                    let dealItemsStr = '';
+                    item.items.forEach(di => {
+                        dealItemsStr += `<br>&nbsp;&nbsp;• ${di.name} (${di.size}) ${di.isFree ? '<span style="color:var(--whatsapp); font-weight:bold;">[FREE GIFT]</span>' : ''}`;
+                    });
+                    htmlContent += `
+                        <div class="cart-item">
+                            <div>
+                                <h4 style="font-size:0.8rem; margin-bottom:2px; font-weight:700; color:var(--dark-gold);">${item.name}</h4>
+                                <small style="color:#444; font-size:0.7rem;">${dealItemsStr}</small><br>
+                                <small style="color:#666; font-size:0.68rem;"><b>Online Price: Rs. ${subTotal}</b></small>
+                            </div>
+                            <div class="qty-box">
+                                <button class="qty-btn" onclick="changeQty('${item.cartItemId}', -1)">-</button>
+                                <span style="font-weight:bold; font-size:0.8rem;">${item.qty}</span>
+                                <button class="qty-btn" onclick="changeQty('${item.cartItemId}', 1)">+</button>
+                            </div>
+                        </div>`;
+                } else {
+                    htmlContent += `
+                        <div class="cart-item">
+                            <div>
+                                <h4 style="font-size:0.8rem; margin-bottom:2px; font-weight:600;">${item.name}</h4>
+                                <small style="color:var(--dark-gold); font-size:0.72rem; font-weight:600;">Size: ${item.size}</small><br>
+                                <small style="color:#666; font-size:0.68rem;">Rs. ${item.price} × ${item.qty} = <b>Rs. ${subTotal}</b></small>
+                            </div>
+                            <div class="qty-box">
+                                <button class="qty-btn" onclick="changeQty('${item.cartItemId}', -1)">-</button>
+                                <span style="font-weight:bold; font-size:0.8rem;">${item.qty}</span>
+                                <button class="qty-btn" onclick="changeQty('${item.cartItemId}', 1)">+</button>
+                            </div>
+                        </div>`; 
+                }
             });
             
             content.innerHTML = htmlContent;
             total.innerText = 'Rs. ' + sum;
         }
 
-        function changeQty(id, delta) {
-            const item = cart.find(x => x.id === id); 
+        function changeQty(cartItemId, delta) {
+            const item = cart.find(x => x.cartItemId === cartItemId); 
             if(item) {
                 item.qty += delta;
-                if(item.qty < 1) cart = cart.filter(x => x.id !== id);
+                if(item.qty < 1) cart = cart.filter(x => x.cartItemId !== cartItemId);
             }
             updateCartUI();
         }
@@ -577,10 +1510,12 @@
             const t = document.getElementById('toast'); 
             t.innerText = text;
             t.style.display = 'block'; 
-            setTimeout(() => t.style.display = 'none', 2500); 
+            setTimeout(() => t.style.display = 'none', 2200); 
         }
         
         function filter(c, event) { 
+            if(event) event.preventDefault();
+            document.getElementById('searchInput').value = '';
             showSection('home-view');
             document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
             
@@ -589,10 +1524,11 @@
             
             const indicator = document.getElementById('categoryIndicator');
             let catName = 'All Products';
-            if(c === 'attar') catName = 'Attars Category';
+            if(c === 'signature') catName = 'Our Signature Products';
+            else if(c === 'deals') catName = '🔥 Deals & Offers';
+            else if(c === 'attar') catName = 'Attars Category';
             else if(c === 'perfume') catName = 'Perfumes Category';
             else if(c === 'kufi') catName = 'Caps (Kufi) Category';
-            else if(c === 'our-products') catName = 'Special Combo Offers';
             
             indicator.innerText = 'Showing: ' + catName;
             render(c); 
@@ -624,7 +1560,15 @@
             cart.forEach((i, index) => {
                 let subTotal = i.price * i.qty;
                 totalSum += subTotal;
-                msg += `${index + 1}. ${i.name} (Qty: ${i.qty}) - Rs. ${subTotal}\n`;
+                if(i.isDeal) {
+                    msg += `${index + 1}. *${i.name}* (Qty: ${i.qty})\n`;
+                    i.items.forEach(di => {
+                        msg += `   - ${di.name} (${di.size}) ${di.isFree ? '🎁 *[FREE GIFT]*' : ''}\n`;
+                    });
+                    msg += `   Online Deal Price: Rs. ${subTotal}\n   Shop Visit Price: Rs. ${i.shopPrice}\n\n`;
+                } else {
+                    msg += `${index + 1}. ${i.name} (${i.size}) - Qty: ${i.qty} - Rs. ${subTotal}\n`;
+                }
             });
             
             let deliveryFee = totalSum >= 5000 ? 0 : 200;
@@ -642,7 +1586,7 @@
             }, 1000);
         }
 
-        render();
+        render('all');
         updateCartUI();
     </script>
 </body>
