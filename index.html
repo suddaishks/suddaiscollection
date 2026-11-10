@@ -16,9 +16,48 @@
             --accent: #1a1a1a; 
             --whatsapp: #25d366;
             --danger: #e74c3c;
+            --transition-smooth: all 0.3s ease;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; -webkit-tap-highlight-color: transparent; }
+        html { scroll-behavior: smooth; }
         body { background: var(--bg); color: var(--text); overflow-x: hidden; width: 100%; }
+
+        /* 1. BULLETPROOF LIGHTWEIGHT LOADING SCREEN */
+        #page-loader {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--accent);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 99999;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+        #page-loader.fade-out {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+        .loader-logo {
+            width: 70px; height: 70px;
+            border-radius: 50%;
+            border: 2px solid var(--primary);
+            object-fit: cover;
+            animation: subtleScale 1.2s infinite alternate ease-in-out;
+            margin-bottom: 12px;
+        }
+        .loader-title {
+            color: var(--primary);
+            font-size: 1rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+        @keyframes subtleScale {
+            0% { transform: scale(0.97); }
+            100% { transform: scale(1.03); }
+        }
 
         /* ANNOUNCEMENT BAR */
         .announcement-bar {
@@ -35,8 +74,11 @@
         }
 
         /* HEADER & NAVBAR MOBILE RESPONSIVE */
-        header { background: var(--accent); padding: 10px 12px; border-bottom: 3px solid var(--primary); position: sticky; top: 0; z-index: 9999; width: 100%; }
-        .header-top { display: flex; justify-content: space-between; align-items: center; max-width: 1400px; margin: 0 auto; gap: 8px; }
+        header { background: var(--accent); padding: 10px 15px; border-bottom: 3px solid var(--primary); position: sticky; top: 0; z-index: 9999; width: 100%; }
+        .header-top { display: flex; justify-content: space-between; align-items: center; max-width: 1400px; margin: 0 auto; gap: 10px; }
+        
+        .mobile-menu-toggle { display: none; background: none; border: none; color: var(--primary); font-size: 1.3rem; cursor: pointer; }
+        
         .logo { display: flex; align-items: center; gap: 8px; text-decoration: none; min-width: 0; }
         .logo img { width: 38px; height: 38px; border-radius: 50%; border: 2px solid var(--primary); object-fit: cover; flex-shrink: 0; }
         .brand-name { font-weight: 800; font-size: 0.95rem; color: var(--primary); letter-spacing: 0.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -51,80 +93,146 @@
         .cart-trigger { position: relative; font-size: 1.35rem; color: var(--primary); cursor: pointer; padding: 4px; }
         #cart-count { position: absolute; top: -2px; right: -5px; background: #ff4757; color: white; font-size: 0.65rem; padding: 2px 5px; border-radius: 50%; font-weight: bold; }
 
-        /* NAVIGATION MENU & PROPER DROPDOWN FIX */
-        nav { display: flex; justify-content: flex-start; background: #252525; border-top: 1px solid #333; margin-top: 8px; padding: 6px 8px; overflow-x: visible; position: relative; }
-        .nav-links { display: flex; list-style: none; gap: 12px; align-items: center; white-space: nowrap; position: relative; }
-        .nav-links li { text-align: center; position: relative; }
-        .nav-links a { color: #fff; text-decoration: none; font-size: 0.78rem; font-weight: 600; padding: 4px 8px; transition: 0.3s; border-radius: 4px; display: inline-block; }
-        .nav-links a:hover { color: var(--primary); background: rgba(212,175,55,0.1); }
-        
-        /* DROPDOWN MENU FIX */
-        .dropdown { position: relative; }
-        .dropdown-content { display: none; position: absolute; background-color: var(--accent); min-width: 190px; box-shadow: 0px 10px 25px rgba(0,0,0,0.5); z-index: 10000; border: 1px solid var(--primary); border-radius: 6px; top: 100%; left: 0; text-align: left; padding: 6px 0; margin-top: 4px; }
-        .dropdown-content a { color: #fff; padding: 8px 14px; text-decoration: none; display: block; font-size: 0.78rem; white-space: nowrap; transition: 0.2s; }
-        .dropdown-content a:hover { background-color: var(--primary); color: #000; padding-left: 18px; }
-        .dropdown:hover .dropdown-content { display: block; }
+        /* MAIN LAYOUT (VERTICAL SIDEBAR + CONTENT) */
+        .main-layout {
+            display: flex;
+            max-width: 1400px;
+            margin: 0 auto;
+            min-height: 80vh;
+        }
+
+        /* VERTICAL SIDEBAR NAVIGATION */
+        .sidebar {
+            width: 260px;
+            background: #222;
+            border-right: 1px solid #333;
+            padding: 20px 12px;
+            flex-shrink: 0;
+            position: sticky;
+            top: 61px;
+            height: calc(100vh - 61px);
+            overflow-y: auto;
+            scrollbar-width: thin;
+        }
+        .sidebar h3 {
+            color: var(--primary);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+            padding-left: 8px;
+            border-left: 3px solid var(--primary);
+        }
+        .sidebar-menu { list-style: none; }
+        .sidebar-menu li { margin-bottom: 6px; }
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #ddd;
+            text-decoration: none;
+            font-size: 0.82rem;
+            font-weight: 600;
+            padding: 8px 10px;
+            border-radius: 6px;
+            transition: 0.2s;
+        }
+        .sidebar-menu a:hover, .sidebar-menu a.active {
+            background: rgba(212, 175, 55, 0.15);
+            color: var(--primary);
+            padding-left: 14px;
+        }
+        .sidebar-menu a i { width: 18px; text-align: center; color: var(--primary); }
+
+        .sidebar-submenu {
+            list-style: none;
+            padding-left: 24px;
+            margin-top: 4px;
+        }
+        .sidebar-submenu li { margin-bottom: 4px; }
+        .sidebar-submenu a {
+            font-size: 0.78rem;
+            padding: 5px 8px;
+            color: #bbb;
+        }
+
+        /* CONTENT AREA */
+        .content-area {
+            flex-grow: 1;
+            padding: 15px;
+            min-width: 0;
+        }
 
         /* CATEGORY HEADER INDICATOR */
-        .category-indicator { background: #f4efd8; text-align: center; padding: 8px; font-weight: 700; color: var(--dark-gold); font-size: 0.9rem; border-bottom: 1px solid #e6dbb9; }
+        .category-indicator { background: #f4efd8; text-align: center; padding: 10px; font-weight: 700; color: var(--dark-gold); font-size: 0.95rem; border-bottom: 1px solid #e6dbb9; border-radius: 8px; margin-bottom: 15px; scroll-margin-top: 75px; }
 
         /* SHINE ANIMATION */
-        .shine { animation: shine 0.6s ease-in-out; }
+        .shine { animation: shine 0.5s ease-in-out; }
         @keyframes shine { 
             0% { transform: scale(1); } 
-            50% { transform: scale(1.3); color: #fff; text-shadow: 0 0 15px var(--primary); } 
+            50% { transform: scale(1.25); color: #fff; text-shadow: 0 0 10px var(--primary); } 
             100% { transform: scale(1); } 
         }
 
         /* BANNERS & PROMO */
-        .offers-container { padding: 10px; max-width: 1400px; margin: 0 auto; display: flex; flex-direction: column; gap: 10px; }
+        .offers-container { margin-bottom: 15px; display: flex; flex-direction: column; gap: 10px; }
         .offer-banner { width: 100%; height: 160px; border-radius: 10px; overflow: hidden; border: 2px solid var(--primary); box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-        .offer-banner img { width: 100%; height: 100%; object-fit: cover; transition: opacity 0.5s ease-in-out; }
+        .offer-banner img { width: 100%; height: 100%; object-fit: cover; transition: opacity 0.4s ease-in-out; }
+
+        @media (min-width: 576px) { .offer-banner { height: 230px; } }
 
         /* PROMO TEXT SLIDER */
-        .promo-slider { width: 100%; height: 50px; border-radius: 10px; background: linear-gradient(135deg, var(--accent), #2c2c2c); border: 2px solid var(--primary); display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.1); text-align: center; padding: 0 8px; }
-        .promo-slide-item { position: absolute; width: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.8s ease-in-out; }
+        .promo-slider { width: 100%; height: 45px; border-radius: 8px; background: linear-gradient(135deg, var(--accent), #2c2c2c); border: 2px solid var(--primary); display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.1); text-align: center; padding: 0 8px; }
+        .promo-slide-item { position: absolute; width: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.6s ease-in-out; }
         .promo-slide-item.active { opacity: 1; }
-        .promo-slide-item h3 { color: var(--primary); font-size: 0.82rem; font-weight: 700; letter-spacing: 0.5px; padding: 0 5px; }
+        .promo-slide-item h3 { color: var(--primary); font-size: 0.78rem; font-weight: 700; letter-spacing: 0.5px; padding: 0 5px; }
 
-        /* TABS */
-        .tabs { display: flex; justify-content: flex-start; overflow-x: auto; gap: 6px; padding: 10px 12px; background: #fff; border-bottom: 1px solid #eee; scrollbar-width: none; }
-        .tabs::-webkit-scrollbar { display: none; }
-        .tab-btn { padding: 6px 14px; border: 2px solid var(--primary); background: #fff; color: var(--text); border-radius: 50px; font-weight: 700; cursor: pointer; font-size: 0.78rem; white-space: nowrap; flex-shrink: 0; transition: 0.3s; }
-        .tab-btn.active, .tab-btn:hover { background: linear-gradient(135deg, var(--primary), var(--dark-gold)); color: #fff; border-color: var(--primary); }
+        /* CALL TO ACTION BANNER */
+        .cta-custom-banner { background: linear-gradient(135deg, #1a1a1a, #2c2c2c); border: 2px dashed var(--primary); border-radius: 10px; padding: 12px 15px; margin-bottom: 15px; display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+        .cta-custom-banner .text-box { flex: 1; min-width: 240px; }
+        .cta-custom-banner h4 { color: var(--primary); font-size: 0.85rem; font-weight: 700; }
+        .cta-custom-banner p { color: #ddd; font-size: 0.73rem; margin-top: 2px; }
+        .btn-cta-custom { background: linear-gradient(135deg, var(--primary), var(--dark-gold)); color: #fff; padding: 7px 14px; border-radius: 20px; text-decoration: none; font-size: 0.73rem; font-weight: 700; border: none; cursor: pointer; white-space: nowrap; transition: 0.2s; }
+        .btn-cta-custom:hover { opacity: 0.9; }
 
-        /* GRID SYSTEM */
-        .container { padding: 12px 8px; max-width: 1400px; margin: auto; width: 100%; }
-        .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+        /* GRID SYSTEM & PROFESSIONAL PRODUCT CARDS */
+        .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
 
         @media (min-width: 576px) {
             .grid { grid-template-columns: repeat(3, 1fr); gap: 14px; }
-            .offer-banner { height: 220px; }
         }
-        @media (min-width: 992px) {
-            .grid { grid-template-columns: repeat(4, 1fr); gap: 20px; }
-            .offer-banner { height: 320px; }
-            .brand-name { font-size: 1.2rem; }
-            .nav-links a { font-size: 0.85rem; padding: 6px 12px; }
-            .header-search { max-width: 400px; }
+        @media (min-width: 1100px) {
+            .grid { grid-template-columns: repeat(3, 1fr); gap: 16px; }
         }
 
-        /* PRODUCT CARD */
-        .card { background: var(--card-bg); border-radius: 10px; overflow: hidden; border: 1px solid #e6dbb9; display: flex; flex-direction: column; box-shadow: 0 3px 10px rgba(0,0,0,0.04); position: relative; transition: 0.3s; }
-        .card:hover { transform: translateY(-3px); box-shadow: 0 6px 16px rgba(0,0,0,0.1); }
+        .card { 
+            background: var(--card-bg); 
+            border-radius: 10px; 
+            overflow: hidden; 
+            border: 1px solid #e6dbb9; 
+            display: flex; 
+            flex-direction: column; 
+            box-shadow: 0 3px 10px rgba(0,0,0,0.04); 
+            position: relative; 
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .card:hover { 
+            transform: translateY(-3px); 
+            box-shadow: 0 6px 16px rgba(0,0,0,0.1); 
+        }
         .badge-discount { position: absolute; top: 6px; left: 6px; background: var(--danger); color: #fff; padding: 2px 6px; border-radius: 3px; font-size: 0.62rem; font-weight: 700; z-index: 10; text-transform: uppercase; }
         
-        .image-slider { position: relative; width: 100%; height: 135px; overflow: hidden; background: #fff; border-bottom: 1px solid #eee; cursor: pointer; }
-        @media (min-width: 576px) { .image-slider { height: 170px; } }
-        .image-slider img { width: 100%; height: 100%; object-fit: contain; padding: 6px; transition: transform 0.4s ease; }
-        .image-slider:hover img { transform: scale(1.05); }
+        .image-slider { position: relative; width: 100%; height: 140px; overflow: hidden; background: #fff; border-bottom: 1px solid #eee; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+        @media (min-width: 576px) { .image-slider { height: 180px; } }
+        .image-slider img { width: 100%; height: 100%; object-fit: contain; padding: 8px; transition: transform 0.3s ease; }
+        .image-slider:hover img { transform: scale(1.04); }
         
-        .card-body { padding: 8px; text-align: center; display: flex; flex-direction: column; flex-grow: 1; justify-content: space-between; }
-        .card-body h3 { font-size: 0.78rem; color: var(--text); font-weight: 700; margin-bottom: 3px; line-height: 1.25; cursor: pointer; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; height: 2.5em; }
+        .card-body { padding: 10px; text-align: center; display: flex; flex-direction: column; flex-grow: 1; justify-content: space-between; }
+        .card-body h3 { font-size: 0.78rem; color: var(--text); font-weight: 700; margin-bottom: 4px; line-height: 1.25; cursor: pointer; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; height: 2.5em; }
         @media (min-width: 576px) { .card-body h3 { font-size: 0.88rem; } }
         .card-body h3:hover { color: var(--dark-gold); }
         
-        .rating-box { display: flex; align-items: center; justify-content: center; gap: 2px; margin-bottom: 3px; font-size: 0.65rem; color: #f39c12; }
+        .rating-box { display: flex; align-items: center; justify-content: center; gap: 2px; margin-bottom: 4px; font-size: 0.65rem; color: #f39c12; }
         .rating-box span { color: #777; font-size: 0.62rem; font-weight: 500; }
 
         .size-selector-box { margin: 4px 0; text-align: left; }
@@ -134,22 +242,214 @@
         .price { font-weight: 800; color: var(--dark-gold); font-size: 0.85rem; margin: 4px 0; display: block; }
         @media (min-width: 576px) { .price { font-size: 0.95rem; } }
         
-        .btn-group { display: flex; gap: 4px; flex-direction: column; }
-        .btn { padding: 6px 4px; border-radius: 5px; text-decoration: none; font-size: 0.72rem; font-weight: 700; text-align: center; cursor: pointer; border: none; width: 100%; transition: 0.3s; }
+        .btn-group { display: flex; gap: 4px; flex-direction: column; margin-top: 6px; }
+        .btn { padding: 6px 4px; border-radius: 5px; text-decoration: none; font-size: 0.72rem; font-weight: 700; text-align: center; cursor: pointer; border: none; width: 100%; transition: 0.2s; }
         @media (min-width: 576px) { .btn { font-size: 0.78rem; padding: 7px 5px; } }
         .btn-cart { background: linear-gradient(135deg, var(--primary), var(--dark-gold)); color: #fff; box-shadow: 0 2px 6px rgba(212,175,55,0.3); }
         .btn-cart:hover { opacity: 0.9; }
         .btn-detail { background: #333; color: #fff; }
         .btn-detail:hover { background: #555; }
 
+        /* CUSTOM PERFUME IMPRESSION SECTION */
+        .custom-impression-section { background: #faf9f6; border: 2px solid #e6dbb9; border-radius: 12px; padding: 22px 15px; margin: 25px 0; box-shadow: 0 4px 20px rgba(0,0,0,0.05); }
+        .custom-impression-header { text-align: center; margin-bottom: 15px; }
+        .custom-impression-header h3 { font-size: 1.2rem; color: var(--accent); font-weight: 800; }
+        .custom-impression-header h3 span { color: var(--dark-gold); }
+        .custom-impression-header p { font-size: 0.8rem; color: #555; margin-top: 4px; line-height: 1.5; }
+        
+        .impression-form { max-width: 550px; margin: 0 auto; background: #fff; border: 1px solid var(--primary); padding: 18px; border-radius: 10px; box-shadow: 0 3px 10px rgba(0,0,0,0.03); }
+        .impression-form .form-group { margin-bottom: 10px; text-align: left; }
+        .impression-form label { font-size: 0.78rem; font-weight: 700; color: #444; display: block; margin-bottom: 3px; }
+        .impression-form input, .impression-form textarea { width: 100%; padding: 8px 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 0.8rem; outline: none; }
+        .impression-form input:focus, .impression-form textarea:focus { border-color: var(--primary); }
+        .btn-submit-impression { width: 100%; padding: 10px; background: linear-gradient(135deg, var(--primary), var(--dark-gold)); color: #fff; border: none; border-radius: 6px; font-size: 0.85rem; font-weight: 700; cursor: pointer; box-shadow: 0 3px 10px rgba(212,175,55,0.3); transition: 0.2s; margin-top: 5px; }
+        .btn-submit-impression:hover { opacity: 0.95; }
+
+        /* ABOUT US & CONTACT US SECTIONS STYLING */
+        .page-content-box {
+            background: #faf9f6;
+            border: 1px solid #e6dbb9;
+            border-radius: 12px;
+            padding: 25px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+        }
+        .page-content-box h2 {
+            color: var(--accent);
+            font-size: 1.4rem;
+            font-weight: 800;
+            margin-bottom: 12px;
+            position: relative;
+            padding-bottom: 6px;
+        }
+        .page-content-box h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: var(--primary);
+        }
+        .page-content-box h3 {
+            color: var(--dark-gold);
+            font-size: 1.05rem;
+            font-weight: 700;
+            margin: 15px 0 6px 0;
+        }
+        .page-content-box p {
+            font-size: 0.85rem;
+            color: #444;
+            line-height: 1.7;
+            margin-bottom: 10px;
+        }
+        .page-content-box ul {
+            list-style: disc;
+            padding-left: 20px;
+            margin-bottom: 12px;
+        }
+        .page-content-box ul li {
+            font-size: 0.85rem;
+            color: #444;
+            margin-bottom: 6px;
+            line-height: 1.5;
+        }
+        
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        @media(min-width: 768px) {
+            .contact-grid { grid-template-columns: 1fr 1fr; }
+        }
+        .contact-card {
+            background: #fff;
+            border: 1px solid var(--primary);
+            border-radius: 8px;
+            padding: 15px;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+        .contact-card i {
+            font-size: 1.3rem;
+            color: var(--dark-gold);
+            margin-top: 3px;
+        }
+        .contact-card h4 {
+            font-size: 0.9rem;
+            color: var(--accent);
+            font-weight: 700;
+            margin-bottom: 2px;
+        }
+        .contact-card p, .contact-card a {
+            font-size: 0.82rem;
+            color: #555;
+            text-decoration: none;
+            word-break: break-all;
+        }
+        .contact-card a:hover { color: var(--dark-gold); }
+
+        .btn-contact-wa {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background: var(--whatsapp);
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            text-decoration: none;
+            margin-top: 15px;
+            box-shadow: 0 3px 10px rgba(37,211,102,0.3);
+            transition: 0.2s;
+        }
+        .btn-contact-wa:hover { opacity: 0.9; }
+
+        /* THANK YOU / ORDER CONFIRMATION PAGE STYLING */
+        .thankyou-box {
+            background: #faf9f6;
+            border: 2px solid var(--primary);
+            border-radius: 12px;
+            padding: 30px 20px;
+            text-align: center;
+            max-width: 650px;
+            margin: 20px auto;
+            box-shadow: 0 6px 25px rgba(0,0,0,0.08);
+        }
+        .thankyou-icon {
+            font-size: 3.5rem;
+            color: var(--whatsapp);
+            margin-bottom: 15px;
+        }
+        .thankyou-box h2 {
+            font-size: 1.5rem;
+            color: var(--accent);
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+        .thankyou-box p {
+            font-size: 0.88rem;
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        .order-summary-card {
+            background: #fff;
+            border: 1px solid #e6dbb9;
+            border-radius: 8px;
+            padding: 15px;
+            text-align: left;
+            margin: 15px 0;
+            font-size: 0.8rem;
+        }
+        .order-summary-card h4 {
+            color: var(--dark-gold);
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+            border-bottom: 1px dashed #eee;
+            padding-bottom: 5px;
+        }
+        .thankyou-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        .btn-thankyou {
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 0.82rem;
+            cursor: pointer;
+            text-decoration: none;
+            border: none;
+            transition: 0.2s;
+        }
+        .btn-continue {
+            background: linear-gradient(135deg, var(--primary), var(--dark-gold));
+            color: #fff;
+            box-shadow: 0 3px 10px rgba(212,175,55,0.3);
+        }
+        .btn-home {
+            background: #333;
+            color: #fff;
+        }
+        .btn-thankyou:hover { opacity: 0.9; }
+
         /* FULL PRODUCT DETAILS PAGE */
         .section-view { display: none; }
         .section-view.active { display: block; }
 
-        .product-detail-container { max-width: 1000px; margin: 15px auto; background: #faf9f6; border-radius: 12px; border: 1px solid #e6dbb9; padding: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.06); }
+        .product-detail-container { background: #faf9f6; border-radius: 12px; border: 1px solid #e6dbb9; padding: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.06); }
         @media (min-width: 768px) { .product-detail-container { padding: 20px; } }
         .back-btn-box { margin-bottom: 12px; }
-        .btn-back { background: #333; color: #fff; padding: 6px 12px; border-radius: 6px; font-size: 0.78rem; font-weight: 600; border: none; cursor: pointer; display: inline-flex; align-items: center; gap: 5px; transition: 0.3s; }
+        .btn-back { background: #333; color: #fff; padding: 6px 12px; border-radius: 6px; font-size: 0.78rem; font-weight: 600; border: none; cursor: pointer; display: inline-flex; align-items: center; gap: 5px; transition: 0.2s; }
         .btn-back:hover { background: var(--dark-gold); }
 
         .product-detail-grid { display: grid; grid-template-columns: 1fr; gap: 15px; }
@@ -174,13 +474,11 @@
         @media (min-width: 768px) { .detail-price { font-size: 1.3rem; } }
         .detail-desc { font-size: 0.82rem; color: #555; line-height: 1.5; margin-bottom: 12px; }
 
-        /* NOTES & DEAL SELECTORS */
         .detail-notes-box, .deal-includes-box { background: #fff; border: 1px dashed var(--primary); padding: 10px; border-radius: 6px; margin: 12px 0; font-size: 0.78rem; }
         .detail-notes-box h4, .deal-includes-box h4 { color: var(--dark-gold); margin-bottom: 5px; font-size: 0.82rem; font-weight: 700; display: flex; align-items: center; gap: 5px; }
         .detail-notes-box p, .deal-includes-box li { color: #555; line-height: 1.4; margin-bottom: 3px; }
         .deal-includes-box ul { padding-left: 16px; }
 
-        /* INTERACTIVE 11.11 DEAL BUILDER BOX */
         .deal-builder-box { background: #fff; border: 2px solid var(--primary); padding: 12px; border-radius: 8px; margin: 12px 0; }
         .deal-builder-box h4 { color: var(--dark-gold); font-size: 0.85rem; font-weight: 700; margin-bottom: 8px; }
         .deal-select-group { margin-bottom: 8px; }
@@ -199,12 +497,11 @@
         .btn-add-detail { flex: 1; padding: 10px; background: linear-gradient(135deg, var(--primary), var(--dark-gold)); color: #fff; border: none; border-radius: 6px; font-weight: 700; font-size: 0.82rem; cursor: pointer; box-shadow: 0 3px 10px rgba(212,175,55,0.3); }
         .btn-buy-detail { flex: 1; padding: 10px; background: var(--whatsapp); color: #fff; border: none; border-radius: 6px; font-weight: 700; font-size: 0.82rem; cursor: pointer; box-shadow: 0 3px 10px rgba(37,211,102,0.3); }
 
-        /* RECOMMENDED SECTION */
         .recommended-section { margin-top: 30px; border-top: 2px solid #e6dbb9; padding-top: 15px; }
         .recommended-title { font-size: 1rem; font-weight: 700; color: var(--dark-gold); margin-bottom: 12px; text-align: center; }
 
         /* CART DRAWER SIDEBAR */
-        #cart-drawer { position: fixed; top: 0; right: -100%; width: 100%; max-width: 350px; height: 100%; background: #fff; z-index: 20000; box-shadow: -5px 0 25px rgba(0,0,0,0.25); transition: 0.4s ease; display: flex; flex-direction: column; }
+        #cart-drawer { position: fixed; top: 0; right: -100%; width: 100%; max-width: 350px; height: 100%; background: #fff; z-index: 20000; box-shadow: -5px 0 25px rgba(0,0,0,0.25); transition: 0.3s ease; display: flex; flex-direction: column; }
         #cart-drawer.open { right: 0; }
         .cart-header { padding: 14px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; background: var(--accent); color: var(--primary); }
         .cart-header h3 { font-size: 1.05rem; font-weight: 700; }
@@ -223,11 +520,6 @@
         .cart-footer { padding: 12px; border-top: 1px solid #eee; background: #faf9f6; }
         .btn-wa-order { background: var(--whatsapp); color: #fff; box-shadow: 0 3px 10px rgba(37,211,102,0.3); margin-top: 6px; font-size: 0.85rem; padding: 9px; font-weight: 700; }
 
-        /* ABOUT & CONTACT SECTIONS */
-        .about, .contact-box { background: #faf9f6; padding: 20px 15px; margin-top: 15px; border-radius: 10px; text-align: center; border: 1px solid #e6dbb9; }
-        .about h3, .contact-box h3 { color: var(--dark-gold); font-size: 1.2rem; margin-bottom: 8px; font-weight: 700; }
-        .about p, .contact-box p { font-size: 0.85rem; line-height: 1.5; color: #444; }
-
         /* FOOTER */
         footer { background: var(--accent); color: #ccc; padding: 30px 15px 15px 15px; margin-top: 30px; border-top: 3px solid var(--primary); }
         .footer-container { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr; gap: 25px; text-align: left; }
@@ -239,30 +531,62 @@
         .footer-col p { font-size: 0.78rem; line-height: 1.6; color: #bbb; margin-bottom: 10px; }
         .footer-col ul { list-style: none; }
         .footer-col ul li { margin-bottom: 7px; }
-        .footer-col ul li a { color: #bbb; text-decoration: none; font-size: 0.78rem; transition: 0.3s; display: inline-block; }
+        .footer-col ul li a { color: #bbb; text-decoration: none; font-size: 0.78rem; transition: 0.2s; display: inline-block; }
         .footer-col ul li a:hover { color: var(--primary); transform: translateX(3px); }
 
         .footer-bottom-bar { max-width: 1200px; margin: 25px auto 0 auto; padding-top: 15px; border-top: 1px solid #333; display: flex; flex-direction: column; align-items: center; gap: 10px; text-align: center; }
         @media (min-width: 768px) { .footer-bottom-bar { flex-direction: row; justify-content: space-between; } }
         .footer-bottom-bar p { font-size: 0.75rem; color: #999; }
         .footer-legal-links { display: flex; gap: 15px; font-size: 0.75rem; }
-        .footer-legal-links a { color: #999; text-decoration: none; transition: 0.3s; }
+        .footer-legal-links a { color: #999; text-decoration: none; }
         .footer-legal-links a:hover { color: var(--primary); }
 
         .payment-badges { display: flex; justify-content: center; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
         .payment-badge { background: #252525; border: 1px solid #444; padding: 4px 8px; border-radius: 4px; font-size: 0.68rem; font-weight: 600; color: #ddd; }
 
         .footer-socials { display: flex; gap: 12px; margin-top: 10px; font-size: 1.1rem; }
-        .footer-socials a { color: var(--primary); transition: 0.3s; }
-        .footer-socials a:hover { transform: scale(1.15); color: #fff; }
+        .footer-socials a { color: var(--primary); transition: 0.2s; }
+        .footer-socials a:hover { color: #fff; }
 
-        .wa-float { position: fixed; bottom: 20px; right: 20px; width: 45px; height: 45px; background: var(--whatsapp); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; z-index: 10001; box-shadow: 0 4px 15px rgba(37,211,102,0.4); text-decoration: none; transition: 0.3s; }
+        .wa-float { position: fixed; bottom: 20px; right: 20px; width: 45px; height: 45px; background: var(--whatsapp); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; z-index: 10001; box-shadow: 0 4px 15px rgba(37,211,102,0.4); text-decoration: none; transition: 0.2s; }
         .wa-float:hover { transform: scale(1.1); }
         
         #toast { display: none; position: fixed; bottom: 75px; left: 50%; transform: translateX(-50%); background: var(--accent); color: var(--primary); border: 1px solid var(--primary); padding: 8px 18px; border-radius: 30px; z-index: 30000; font-weight: 700; font-size: 0.78rem; box-shadow: 0 4px 15px rgba(0,0,0,0.3); white-space: nowrap; }
+
+        /* MOBILE SIDEBAR OVERLAY DRAWER */
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.6);
+            z-index: 15000;
+        }
+        .sidebar-overlay.active { display: block; }
+
+        @media (max-width: 991px) {
+            .main-layout { flex-direction: column; }
+            .sidebar {
+                position: fixed;
+                top: 0; left: -280px;
+                width: 280px;
+                height: 100%;
+                z-index: 20000;
+                transition: 0.3s ease;
+                overflow-y: auto;
+                border-radius: 0;
+            }
+            .sidebar.mobile-open { left: 0; }
+            .mobile-menu-toggle { display: block; }
+        }
     </style>
 </head>
 <body>
+
+    <!-- LIGHTWEIGHT BULLETPROOF LOADING SCREEN -->
+    <div id="page-loader">
+        <img src="Logo.jpg" alt="Suddais Collection Logo" class="loader-logo" onerror="this.src='https://via.placeholder.com/70?text=S'">
+        <div class="loader-title">SUDDAIS COLLECTION</div>
+    </div>
 
     <!-- Top Announcement Bar -->
     <div class="announcement-bar">
@@ -272,6 +596,8 @@
     <!-- Header & Navigation -->
     <header>
         <div class="header-top">
+            <button class="mobile-menu-toggle" onclick="toggleMobileSidebar()"><i class="fas fa-bars"></i></button>
+            
             <a href="#" class="logo" onclick="resetToHome(event)">
                 <img src="Logo.jpg" alt="Suddais Collection Logo" onerror="this.src='https://via.placeholder.com/55?text=S'">
                 <span class="brand-name">SUDDAIS COLLECTION</span>
@@ -290,156 +616,272 @@
                 </div>
             </div>
         </div>
-
-        <!-- Navigation Bar with Correct Products Dropdown -->
-        <nav>
-            <ul class="nav-links">
-                <li><a href="#" onclick="resetToHome(event)">Home</a></li>
-                <li class="dropdown">
-                    <a href="#" onclick="resetToHome(event)">Products <i class="fas fa-caret-down"></i></a>
-                    <div class="dropdown-content">
-                        <a href="#" onclick="filter('signature', event)">Our Signature Products</a>
-                        <a href="#" onclick="filter('deals', event)">🔥 Deals & Offers</a>
-                        <a href="#" onclick="filter('attar', event)">Attars</a>
-                        <a href="#" onclick="filter('perfume', event)">Perfumes</a>
-                        <a href="#" onclick="filter('kufi', event)">Caps (Kufi)</a>
-                        <a href="#" onclick="resetToHome(event)">All Products</a>
-                    </div>
-                </li>
-                <li><a href="#" onclick="filter('deals', event)">Deals & Offers</a></li>
-                <li><a href="#" onclick="showSection('about-view', event)">About Us</a></li>
-                <li><a href="#" onclick="showSection('contact-view', event)">Contact Us</a></li>
-            </ul>
-        </nav>
     </header>
 
-    <!-- SECTION: HOME / CATALOGUE PAGE -->
-    <div id="home-view" class="section-view active">
-        <!-- Banner Offers & Promo Slides -->
-        <div class="offers-container">
-            <div class="offer-banner">
-                <img id="offerImg" src="offer-banner1.jpg" alt="Special Offers" onerror="this.src='https://via.placeholder.com/1200x350?text=Suddais+Collection+Special+Offers'">
-            </div>
-            
-            <div class="promo-slider">
-                <div class="promo-slide-item active">
-                    <h3>مہک ایسی جو دل کو چھو جائے، احساس ایسا جو ہمیشہ یاد رہ جائے۔</h3>
-                </div>
-                <div class="promo-slide-item">
-                    <h3>MEGA DISCOUNT - FREE DELIVERY OVER RS. 5000</h3>
-                </div>
-            </div>
-        </div>
+    <!-- Sidebar Overlay for Mobile -->
+    <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleMobileSidebar()"></div>
 
-        <!-- Active Category Header -->
-        <div class="category-indicator" id="categoryIndicator">
-            Showing: All Products
-        </div>
+    <!-- MAIN LAYOUT WRAPPER -->
+    <div class="main-layout">
+        
+        <!-- VERTICAL SIDEBAR NAVIGATION -->
+        <aside class="sidebar" id="appSidebar">
+            <h3>Navigation</h3>
+            <ul class="sidebar-menu">
+                <li><a href="#" id="link-home" onclick="resetToHome(event);"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="#" id="link-signature" onclick="filter('signature', event);"><i class="fas fa-crown"></i> Our Signature Products</a></li>
+                <li><a href="#" id="link-deals" onclick="filter('deals', event);"><i class="fas fa-fire"></i> Deals & Offers</a></li>
+                
+                <!-- Perfumes Category with Sub-categories -->
+                <li>
+                    <a href="#" onclick="filter('all', event);"><i class="fas fa-spray-can"></i> Perfumes</a>
+                    <ul class="sidebar-submenu">
+                        <li><a href="#" id="link-mens-perfume" onclick="filter('mens-perfume', event);">Men's Perfumes</a></li>
+                        <li><a href="#" id="link-womens-perfume" onclick="filter('womens-perfume', event);">Women's Perfumes</a></li>
+                        <li><a href="#" id="link-unisex-perfume" onclick="filter('unisex-perfume', event);">Unisex / Premium</a></li>
+                    </ul>
+                </li>
 
-        <!-- Category Tabs -->
-        <div class="tabs">
-            <button class="tab-btn active" id="tab-all" onclick="filter('all', event)">All Products</button>
-            <button class="tab-btn" id="tab-signature" onclick="filter('signature', event)">Our Signature Products</button>
-            <button class="tab-btn" id="tab-deals" onclick="filter('deals', event)">🔥 Deals & Offers</button>
-            <button class="tab-btn" id="tab-attar" onclick="filter('attar', event)">Attars</button>
-            <button class="tab-btn" id="tab-perfume" onclick="filter('perfume', event)">Perfumes</button>
-            <button class="tab-btn" id="tab-kufi" onclick="filter('kufi', event)">Caps (Kufi)</button>
-        </div>
+                <li><a href="#" id="link-attar" onclick="filter('attar', event);"><i class="fas fa-leaf"></i> Attars Collection</a></li>
+                <li><a href="#" id="link-kufi" onclick="filter('kufi', event);"><i class="fas fa-hat-cowboy"></i> Caps (Kufi)</a></li>
+                <li><a href="#custom-impression" onclick="scrollToImpression(event);"><i class="fas fa-magic"></i> Custom Impression</a></li>
+                <li><a href="#" id="link-about" onclick="showSection('about-view', event);"><i class="fas fa-info-circle"></i> About Us</a></li>
+                <li><a href="#" id="link-contact" onclick="showSection('contact-view', event);"><i class="fas fa-phone-alt"></i> Contact Us</a></li>
+            </ul>
+        </aside>
 
-        <!-- Main Products Grid -->
-        <div class="container">
-            <div class="grid" id="productGrid"></div>
-        </div>
-    </div>
+        <!-- CONTENT AREA -->
+        <main class="content-area">
 
-    <!-- SECTION: FULL PRODUCT DETAILS PAGE -->
-    <div id="product-detail-view" class="section-view container">
-        <div class="product-detail-container">
-            <div class="back-btn-box">
-                <button class="btn-back" onclick="goBackToCatalog()"><i class="fas fa-arrow-left"></i> Back to Products</button>
-            </div>
-            
-            <div class="product-detail-grid">
-                <!-- Gallery Column -->
-                <div class="detail-gallery-col">
-                    <div class="gallery-main">
-                        <img id="detailMainImg" src="" alt="Product Image" onerror="this.src='https://via.placeholder.com/400?text=Suddais+Collection'">
+            <!-- SECTION: HOME / CATALOGUE PAGE -->
+            <div id="home-view" class="section-view active">
+                <!-- Banner Offers & Promo Slides -->
+                <div class="offers-container">
+                    <div class="offer-banner">
+                        <img id="offerImg" src="offer-banner1.jpg" alt="Special Offers" onerror="this.src='https://via.placeholder.com/1200x350?text=Suddais+Collection+Special+Offers'">
                     </div>
-                    <div class="gallery-thumbs" id="detailThumbs"></div>
-                </div>
-
-                <!-- Info Column -->
-                <div class="detail-info">
-                    <span class="category-tag" id="detailCategoryTag">Category</span>
-                    <h2 id="detailName">Product Name</h2>
                     
-                    <div class="rating-box" style="justify-content: flex-start; margin-bottom: 6px;" id="detailRatingBox">
-                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-                        <span id="detailRatingText">5.0 (20)</span>
+                    <div class="promo-slider">
+                        <div class="promo-slide-item active">
+                            <h3>مہک ایسی جو دل کو چھو جائے، احساس ایسا جو ہمیشہ یاد رہ جائے۔</h3>
+                        </div>
+                        <div class="promo-slide-item">
+                            <h3>MEGA DISCOUNT - FREE DELIVERY OVER RS. 5000</h3>
+                        </div>
                     </div>
+                </div>
 
-                    <span class="detail-price" id="detailPrice">Rs. 0</span>
-
-                    <!-- Standard Size Selector -->
-                    <div class="size-selector-box" id="detailSizeBox" style="margin: 10px 0;">
-                        <label for="detailSizeSelect">Select Size / Variant:</label>
-                        <select id="detailSizeSelect" class="size-dropdown" onchange="updateDetailPrice()"></select>
+                <!-- Call to Action Banner for Custom Perfume Impression -->
+                <div class="cta-custom-banner">
+                    <div class="text-box">
+                        <h4>🌟 Looking for a perfume that's not listed?</h4>
+                        <p>Tell us the fragrance you love. We can craft a high-quality inspired impression for you!</p>
                     </div>
+                    <button class="btn-cta-custom" onclick="scrollToImpression(event)">Request Custom Scent</button>
+                </div>
 
-                    <!-- Interactive 11.11 Deal Selector Box -->
-                    <div id="dealBuilderContainer" style="display:none;"></div>
+                <!-- Active Category Header Indicator -->
+                <div class="category-indicator" id="categoryIndicator">
+                    Showing: All Products
+                </div>
 
-                    <p class="detail-desc" id="detailDesc">Description goes here...</p>
+                <!-- Main Products Grid -->
+                <div class="grid" id="productGrid"></div>
 
-                    <!-- Fragrance Notes Box -->
-                    <div id="detailNotesContainer"></div>
+                <!-- SUDDAIS COLLECTION CUSTOM PERFUME IMPRESSION SECTION -->
+                <div class="custom-impression-section" id="custom-impression">
+                    <div class="custom-impression-header">
+                        <h3>✨ Can't Find Your Favorite Perfume? <span>Custom Impression</span></h3>
+                        <p>Suddais Collection crafts high-quality inspired fragrance impressions designed to offer a remarkably close scent experience. Send us your desired fragrance details and we will check availability, sizing, and pricing for you!</p>
+                    </div>
+                    
+                    <form class="impression-form" onsubmit="sendCustomImpressionRequest(event)">
+                        <div class="form-group">
+                            <label for="impName">👤 Your Full Name:</label>
+                            <input type="text" id="impName" placeholder="Enter your name" required oninput="validateName(this)">
+                        </div>
+                        <div class="form-group">
+                            <label for="impPhone">📱 WhatsApp Number:</label>
+                            <input type="tel" id="impPhone" placeholder="03XXXXXXXXX (11 digits)" required oninput="validatePhone(this)" maxlength="11">
+                        </div>
+                        <div class="form-group">
+                            <label for="impPerfume">🌸 Desired Perfume Name:</label>
+                            <input type="text" id="impPerfume" placeholder="e.g. Dior Sauvage, Blue de Chanel, Gucci Flora" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="impDetails">📝 Additional Details (Optional):</label>
+                            <textarea id="impDetails" rows="3" placeholder="Specify preferred bottle size (30ml, 50ml), perfume vs attar, or special notes..."></textarea>
+                        </div>
+                        <button type="submit" class="btn-submit-impression"><i class="fab fa-whatsapp"></i> 🔥 Request Your Impression</button>
+                    </form>
+                </div>
+            </div>
 
-                    <!-- Deal Includes Box -->
-                    <div id="detailDealIncludesContainer"></div>
+            <!-- SECTION: FULL PRODUCT DETAILS PAGE -->
+            <div id="product-detail-view" class="section-view">
+                <div class="product-detail-container">
+                    <div class="back-btn-box">
+                        <button class="btn-back" onclick="goBackToCatalog()"><i class="fas fa-arrow-left"></i> Back to Products</button>
+                    </div>
+                    
+                    <div class="product-detail-grid">
+                        <!-- Gallery Column -->
+                        <div class="detail-gallery-col">
+                            <div class="gallery-main">
+                                <img id="detailMainImg" src="" alt="Product Image" onerror="this.src='https://via.placeholder.com/400?text=Suddais+Collection'">
+                            </div>
+                            <div class="gallery-thumbs" id="detailThumbs"></div>
+                        </div>
 
-                    <!-- Quantity Selector -->
-                    <div class="qty-selector-row" id="qtySelectorRow">
-                        <label>Quantity:</label>
-                        <div class="qty-control">
-                            <button onclick="adjustDetailQty(-1)">-</button>
-                            <span id="detailQtyVal">1</span>
-                            <button onclick="adjustDetailQty(1)">+</button>
+                        <!-- Info Column -->
+                        <div class="detail-info">
+                            <span class="category-tag" id="detailCategoryTag">Category</span>
+                            <h2 id="detailName">Product Name</h2>
+                            
+                            <div class="rating-box" style="justify-content: flex-start; margin-bottom: 6px;" id="detailRatingBox">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                                <span id="detailRatingText">5.0 (20)</span>
+                            </div>
+
+                            <span class="detail-price" id="detailPrice">Rs. 0</span>
+
+                            <!-- Standard Size Selector -->
+                            <div class="size-selector-box" id="detailSizeBox" style="margin: 10px 0;">
+                                <label for="detailSizeSelect">Select Size / Variant:</label>
+                                <select id="detailSizeSelect" class="size-dropdown" onchange="updateDetailPrice()"></select>
+                            </div>
+
+                            <!-- Interactive 11.11 Deal Selector Box -->
+                            <div id="dealBuilderContainer" style="display:none;"></div>
+
+                            <p class="detail-desc" id="detailDesc">Description goes here...</p>
+
+                            <!-- Fragrance Notes Box -->
+                            <div id="detailNotesContainer"></div>
+
+                            <!-- Deal Includes Box -->
+                            <div id="detailDealIncludesContainer"></div>
+
+                            <!-- Quantity Selector -->
+                            <div class="qty-selector-row" id="qtySelectorRow">
+                                <label>Quantity:</label>
+                                <div class="qty-control">
+                                    <button onclick="adjustDetailQty(-1)">-</button>
+                                    <span id="detailQtyVal">1</span>
+                                    <button onclick="adjustDetailQty(1)">+</button>
+                                </div>
+                            </div>
+
+                            <!-- Action Buttons -->
+                            <div class="detail-action-buttons">
+                                <button class="btn-add-detail" onclick="addDetailToCart()"><i class="fas fa-shopping-bag"></i> Add to Cart</button>
+                                <button class="btn-buy-detail" onclick="buyDetailViaWhatsApp()"><i class="fab fa-whatsapp"></i> Order on WhatsApp</button>
+                            </div>
                         </div>
                     </div>
 
-                    <!-- Action Buttons -->
-                    <div class="detail-action-buttons">
-                        <button class="btn-add-detail" onclick="addDetailToCart()"><i class="fas fa-shopping-bag"></i> Add to Cart</button>
-                        <button class="btn-buy-detail" onclick="buyDetailViaWhatsApp()"><i class="fab fa-whatsapp"></i> Order on WhatsApp</button>
+                    <!-- Recommended Section -->
+                    <div class="recommended-section">
+                        <div class="recommended-title">You May Also Like</div>
+                        <div class="grid" id="recommendedGrid"></div>
                     </div>
                 </div>
             </div>
 
-            <!-- Recommended Section -->
-            <div class="recommended-section">
-                <div class="recommended-title">You May Also Like</div>
-                <div class="grid" id="recommendedGrid"></div>
+            <!-- SECTION: THANK YOU / ORDER CONFIRMATION PAGE -->
+            <div id="thankyou-view" class="section-view">
+                <div class="thankyou-box">
+                    <div class="thankyou-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <h2 id="thankyouTitle">Thank You, Valued Customer!</h2>
+                    <p>Thank you for shopping with <b>Suddais Collection</b>. Your order details have been prepared successfully. We appreciate your trust in us!</p>
+                    <p style="font-size: 0.8rem; color: #777;">Please click Send on WhatsApp if WhatsApp didn't open automatically, or continue exploring our collection.</p>
+                    
+                    <div class="order-summary-card" id="thankyouSummary"></div>
+
+                    <div class="thankyou-buttons">
+                        <button class="btn-thankyou btn-continue" onclick="resetToHome();">Continue Shopping</button>
+                        <button class="btn-thankyou btn-home" onclick="resetToHome();">Back to Home</button>
+                    </div>
+                </div>
             </div>
-        </div>
-    </div>
 
-    <!-- SECTION: ABOUT US PAGE -->
-    <div id="about-view" class="section-view container">
-        <section class="about">
-            <h3>About Suddais Collection</h3>
-            <p>Welcome to <b>Suddais Collection</b>! We specialize in premium non-alcoholic Attars, long-lasting luxury spray Perfumes, and high-quality Islamic Caps (Kufi). All our fragrances are carefully crafted using original concentrated perfume oils to ensure long-lasting freshness. Choose your favorite product and order directly via WhatsApp!</p>
-            <p style="margin-top: 12px; font-style: italic; color: var(--dark-gold); font-weight: 600;">"مہک ایسی جو دل کو چھو جائے، احساس ایسا جو ہمیشہ یاد رہ جائے۔"</p>
-        </section>
-    </div>
+            <!-- SECTION: ABOUT US PAGE -->
+            <div id="about-view" class="section-view">
+                <div class="page-content-box">
+                    <h2>About Suddais Collection</h2>
+                    <p>Welcome to <b>Suddais Collection</b> — your ultimate destination for authentic, long-lasting oriental and western luxury fragrances. Established with a profound passion for fine perfumery, we take pride in bringing you exquisite scents that define elegance, confidence, and individuality.</p>
+                    
+                    <h3>Our Essence & Offerings</h3>
+                    <p>We specialize in a comprehensive range of high-end fragrance categories crafted to perfection:</p>
+                    <ul>
+                        <li><b>Premium Spray Perfumes:</b> Handcrafted interpretations and original formulations delivering exceptional projection and sillage.</li>
+                        <li><b>Traditional & Pure Attars:</b> Non-alcoholic concentrated perfume oils distilled from natural botanical extracts and pure agarwood.</li>
+                        <li><b>Signature Fragrances:</b> Exclusive custom-blended masterpieces like <i>Talib</i> and <i>Red Silk</i>, created uniquely for our valued patrons.</li>
+                        <li><b>Bakhoor & Oud:</b> Rich, therapeutic incense chips and oils that elevate your home environment with royal Arabian ambience.</li>
+                    </ul>
 
-    <!-- SECTION: CONTACT US PAGE -->
-    <div id="contact-view" class="section-view container">
-        <section class="contact-box">
-            <h3>Contact Us</h3>
-            <p>📍 <b>Address:</b> Sherpao F2 Street, labour colony double Kebin Street, Near M A Decoration, Malir, Karachi, Pakistan.</p>
-            <p>📞 <b>Phone / WhatsApp:</b> +92 318 2187575</p>
-            <p>⏰ <b>Shop Timing:</b> Daily from 10:00 AM to 11:00 PM</p>
-        </section>
+                    <h3>Our Commitment to Quality & Trust</h3>
+                    <p>At Suddais Collection, quality is never compromised. We source premium concentrated perfume oils and ingredients to ensure every bottle offers a rich, skin-friendly, and long-lasting olfactory experience. We believe that luxury should be accessible without breaking the bank, which is why we meticulously balance premium presentation with fair, realistic pricing.</p>
+
+                    <h3>Our Brand Promise</h3>
+                    <p>We strive to ensure every customer finds a signature scent that resonates with their personality and memories. Backed by dedicated customer support and easy WhatsApp ordering, your satisfaction remains our highest priority.</p>
+                    <p style="margin-top: 15px; font-style: italic; color: var(--dark-gold); font-weight: 600; text-align: center;">"مہک ایسی جو دل کو چھو جائے، احساس ایسا جو ہمیشہ یاد رہ جائے۔"</p>
+                </div>
+            </div>
+
+            <!-- SECTION: CONTACT US PAGE -->
+            <div id="contact-view" class="section-view">
+                <div class="page-content-box">
+                    <h2>Contact Us</h2>
+                    <p>Have questions regarding our fragrance catalog, need assistance in choosing a custom scent, or want to place a bulk or retail order? We are always here to guide you with pleasure!</p>
+
+                    <div class="contact-grid">
+                        <div class="contact-card">
+                            <i class="fas fa-phone-alt"></i>
+                            <div>
+                                <h4>Phone / WhatsApp</h4>
+                                <p><a href="https://wa.me/923182187575" target="_blank">+92 318 2187575</a></p>
+                            </div>
+                        </div>
+
+                        <div class="contact-card">
+                            <i class="fas fa-envelope"></i>
+                            <div>
+                                <h4>Email Address</h4>
+                                <p><a href="mailto:suddaisahmed93@gmail.com">suddaisahmed93@gmail.com</a></p>
+                            </div>
+                        </div>
+
+                        <div class="contact-card">
+                            <i class="fab fa-instagram"></i>
+                            <div>
+                                <h4>Instagram Handle</h4>
+                                <p><a href="https://instagram.com/suddaishk" target="_blank">@suddaishk</a></p>
+                            </div>
+                        </div>
+
+                        <div class="contact-card">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <div>
+                                <h4>Store Location</h4>
+                                <p>Sherpao F2 Street, Labour Colony Double Kebin Street, Near M A Decoration, Malir, Karachi, Pakistan.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="text-align: center; margin-top: 25px;">
+                        <p style="font-weight: 600; color: var(--accent); margin-bottom: 5px;">Need immediate assistance or want to order via WhatsApp?</p>
+                        <a href="https://wa.me/923182187575?text=Hello%20Suddais%20Collection,%20I%20need%20assistance%20regarding%20fragrances." target="_blank" class="btn-contact-wa">
+                            <i class="fab fa-whatsapp" style="font-size: 1.2rem;"></i> Chat with Us on WhatsApp
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+
     </div>
 
     <!-- Cart Drawer Sidebar -->
@@ -474,7 +916,7 @@
                 <p>📍 Karachi, Pakistan</p>
                 <div class="footer-socials">
                     <a href="https://wa.me/923182187575" target="_blank"><i class="fab fa-whatsapp"></i></a>
-                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="https://instagram.com/suddaishk" target="_blank"><i class="fab fa-instagram"></i></a>
                     <a href="#"><i class="fab fa-facebook"></i></a>
                 </div>
             </div>
@@ -484,10 +926,11 @@
                 <ul>
                     <li><a href="#" onclick="filter('all', event)">All Products</a></li>
                     <li><a href="#" onclick="filter('signature', event)">Our Signature Products</a></li>
+                    <li><a href="#" onclick="filter('mens-perfume', event)">Men's Perfumes</a></li>
+                    <li><a href="#" onclick="filter('womens-perfume', event)">Women's Perfumes</a></li>
+                    <li><a href="#" onclick="filter('unisex-perfume', event)">Unisex / Premium Perfumes</a></li>
+                    <li><a href="#" onclick="filter('attar', event)">Attars Collection</a></li>
                     <li><a href="#" onclick="filter('deals', event)">Deals & Offers</a></li>
-                    <li><a href="#" onclick="filter('attar', event)">Attars</a></li>
-                    <li><a href="#" onclick="filter('perfume', event)">Perfumes</a></li>
-                    <li><a href="#" onclick="filter('kufi', event)">Caps (Kufi)</a></li>
                 </ul>
             </div>
 
@@ -496,10 +939,10 @@
                 <ul>
                     <li><a href="#" onclick="showSection('about-view', event)">About Us</a></li>
                     <li><a href="#" onclick="showSection('contact-view', event)">Contact Us</a></li>
-                    <li><a href="#" onclick="showSection('about-view', event)">How to Order</a></li>
+                    <li><a href="#custom-impression" onclick="scrollToImpression(event)">Custom Impressions</a></li>
                     <li><a href="#" onclick="showSection('about-view', event)">Shipping Information</a></li>
                     <li><a href="#" onclick="showSection('about-view', event)">Cash on Delivery</a></li>
-                    <li><a href="#" onclick="showSection('about-view', event)">Return & Exchange Policy</a></li>
+                    <li><a href="#" onclick="showSection('about-view', event)">Return Policy</a></li>
                 </ul>
             </div>
 
@@ -533,6 +976,21 @@
 
     <!-- JavaScript Logic -->
     <script>
+        // Bulletproof Loader Dismissal Logic (Guaranteed to hide within 1.2s max)
+        function hideLoader() {
+            const loader = document.getElementById('page-loader');
+            if(loader && !loader.classList.contains('fade-out')) {
+                loader.classList.add('fade-out');
+            }
+        }
+
+        window.addEventListener('load', () => {
+            setTimeout(hideLoader, 400);
+        });
+
+        // Safety fallback timer so page never gets stuck
+        setTimeout(hideLoader, 1200);
+
         const offers = ['offer-banner1.jpg', 'offer-banner2.jpg'];
         let currentOffer = 0; 
         setInterval(() => { 
@@ -554,8 +1012,9 @@
             }
         }, 3500);
         
-        // Products Database
+        // Comprehensive Products Database categorized properly
         const products = [
+            /* --- DEALS --- */
             {
                 id: 301,
                 category: 'deals',
@@ -597,6 +1056,8 @@
                     '🌐 Online Deal Price: Rs. 3,500 Only'
                 ]
             },
+
+            /* --- SIGNATURE PRODUCTS --- */
             {
                 id: 201,
                 category: 'signature',
@@ -639,26 +1100,311 @@
                     base: 'Vanilla, Ambergris, Cedarwood'
                 }
             },
+
+            /* --- MEN'S PERFUMES --- */
             {
-                id: 1,
-                category: 'attar',
-                name: 'Blue Sea Attar',
-                rating: '4.9',
-                reviews: '(42)',
-                images: ['bulesea.jpg'],
-                discount: '10% OFF',
-                desc: 'Fresh, oceanic aquatic fragrance with long projection.',
+                id: 101,
+                category: 'mens-perfume',
+                name: 'Office For Men Perfume',
+                rating: '4.8',
+                reviews: '(31)',
+                images: ['office.jpg'],
+                discount: 'MEN',
+                desc: 'Fresh, subtle, professional daily office wear spray fragrance for men.',
                 sizes: [
-                    { size: '3 ML', price: 400 },
-                    { size: '6 ML', price: 700 },
-                    { size: '12 ML', price: 1200 }
+                    { size: '30 ML', price: 1300 },
+                    { size: '50 ML', price: 2200 }
                 ],
-                notes: {
-                    top: 'Marine Notes, Sea Salt, Lemon',
-                    heart: 'Lavender, Rosemary, Seaweed',
-                    base: 'Cedarwood, Musk, Oakmoss'
-                }
+                notes: { top: 'Bergamot, Ambroxan', heart: 'Floral Notes', base: 'Woody, Musk' }
             },
+            {
+                id: 102,
+                category: 'mens-perfume',
+                name: '9 PM Rebel Perfume',
+                rating: '5.0',
+                reviews: '(110)',
+                images: ['9mp.jpg'],
+                discount: 'HOT',
+                desc: 'Sweet, vanilla, bubblegum evening party scent for men.',
+                sizes: [
+                    { size: '30 ML', price: 1800 },
+                    { size: '50 ML', price: 3000 }
+                ],
+                notes: { top: 'Cinnamon, Apple, Lavender', heart: 'Orange Blossom, Lily', base: 'Vanilla, Tonka Bean, Amber' }
+            },
+            {
+                id: 103,
+                category: 'mens-perfume',
+                name: 'Janaan Sport Perfume',
+                rating: '4.9',
+                reviews: '(24)',
+                images: ['janaan-sport.jpg'],
+                discount: 'SPORT',
+                desc: 'Energizing and refreshing sport fragrance for active men.',
+                sizes: [
+                    { size: '30 ML', price: 1400 },
+                    { size: '50 ML', price: 2400 }
+                ],
+                notes: { top: 'Citrus, Mint', heart: 'Marine Notes, Geranium', base: 'Cedar, Musk' }
+            },
+            {
+                id: 104,
+                category: 'mens-perfume',
+                name: 'Janaan J. Perfume',
+                rating: '4.8',
+                reviews: '(19)',
+                images: ['janaan-j.jpg'],
+                discount: 'MEN',
+                desc: 'Sophisticated oriental woody fragrance tailored for men.',
+                sizes: [
+                    { size: '30 ML', price: 1500 },
+                    { size: '50 ML', price: 2600 }
+                ]
+            },
+            {
+                id: 105,
+                category: 'mens-perfume',
+                name: 'Dirham Perfume',
+                rating: '4.9',
+                reviews: '(45)',
+                images: ['Drham.jpg'],
+                discount: '',
+                desc: 'Popular Arabic citrus and woody spray blend for men.',
+                sizes: [
+                    { size: '30 ML', price: 1200 },
+                    { size: '50 ML', price: 2000 }
+                ]
+            },
+            {
+                id: 106,
+                category: 'mens-perfume',
+                name: 'Azzaro Wanted Perfume',
+                rating: '4.9',
+                reviews: '(52)',
+                images: ['azzaro.jpg'],
+                discount: 'POPULAR',
+                desc: 'Daring, woody and spicy masculine luxury fragrance.',
+                sizes: [
+                    { size: '30 ML', price: 1700 },
+                    { size: '50 ML', price: 2900 }
+                ]
+            },
+            {
+                id: 107,
+                category: 'mens-perfume',
+                name: 'Hugo Boss Perfume',
+                rating: '4.8',
+                reviews: '(48)',
+                images: ['hugo-boss.jpg'],
+                discount: '',
+                desc: 'Crisp, clean and masculine signature fragrance by Hugo Boss.',
+                sizes: [
+                    { size: '30 ML', price: 1600 },
+                    { size: '50 ML', price: 2700 }
+                ]
+            },
+            {
+                id: 108,
+                category: 'mens-perfume',
+                name: 'Creed Aventus Perfume',
+                rating: '5.0',
+                reviews: '(95)',
+                images: ['creed-aventus.jpg'],
+                discount: 'LUXURY',
+                desc: 'Legendary fruity-chypre fragrance for successful men.',
+                sizes: [
+                    { size: '30 ML', price: 2200 },
+                    { size: '50 ML', price: 3800 }
+                ]
+            },
+            {
+                id: 109,
+                category: 'mens-perfume',
+                name: '212 Men Perfume',
+                rating: '4.7',
+                reviews: '(36)',
+                images: ['212-men.jpg'],
+                discount: '',
+                desc: 'Urban, dynamic and modern fragrance for men.',
+                sizes: [
+                    { size: '30 ML', price: 1500 },
+                    { size: '50 ML', price: 2600 }
+                ]
+            },
+            {
+                id: 110,
+                category: 'mens-perfume',
+                name: 'Red Tiger Perfume',
+                rating: '4.8',
+                reviews: '(29)',
+                images: ['red-tiger.jpg'],
+                discount: '',
+                desc: 'Bold, fiery and fierce masculine fragrance.',
+                sizes: [
+                    { size: '30 ML', price: 1300 },
+                    { size: '50 ML', price: 2200 }
+                ]
+            },
+
+            /* --- WOMEN'S PERFUMES --- */
+            {
+                id: 120,
+                category: 'womens-perfume',
+                name: 'Gucci Flora Perfume',
+                rating: '5.0',
+                reviews: '(58)',
+                images: ['gucci-flora.jpg'],
+                discount: 'WOMEN',
+                desc: 'Magnificent floral fragrance bursting with notes of peony, rose and citrus.',
+                sizes: [
+                    { size: '30 ML', price: 1800 },
+                    { size: '50 ML', price: 3100 }
+                ]
+            },
+            {
+                id: 121,
+                category: 'womens-perfume',
+                name: 'Fog Paradise Perfume',
+                rating: '4.8',
+                reviews: '(34)',
+                images: ['fog-paradise.jpg'],
+                discount: 'NEW',
+                desc: 'Dreamy, exotic and refreshing floral-fruity scent for women.',
+                sizes: [
+                    { size: '30 ML', price: 1400 },
+                    { size: '50 ML', price: 2400 }
+                ]
+            },
+            {
+                id: 122,
+                category: 'womens-perfume',
+                name: 'Raat Ki Rani Perfume',
+                rating: '4.9',
+                reviews: '(47)',
+                images: ['raat-ki-rani.jpg'],
+                discount: 'CLASSIC',
+                desc: 'Intoxicating night-blooming jasmine fragrance with deep sweet aura.',
+                sizes: [
+                    { size: '30 ML', price: 1300 },
+                    { size: '50 ML', price: 2200 }
+                ]
+            },
+            {
+                id: 123,
+                category: 'womens-perfume',
+                name: 'Desire Perfume (Women)',
+                rating: '4.7',
+                reviews: '(26)',
+                images: ['desire-women.jpg'],
+                discount: 'WOMEN',
+                desc: 'Seductive, sweet and glamorous fragrance tailored for women.',
+                sizes: [
+                    { size: '30 ML', price: 1500 },
+                    { size: '50 ML', price: 2600 }
+                ]
+            },
+            {
+                id: 124,
+                category: 'womens-perfume',
+                name: 'Delicia Perfume',
+                rating: '4.9',
+                reviews: '(41)',
+                images: ['delicia.jpg'],
+                discount: 'POPULAR',
+                desc: 'Deliciously sweet, gourmand and long-lasting feminine spray.',
+                sizes: [
+                    { size: '30 ML', price: 1600 },
+                    { size: '50 ML', price: 2800 }
+                ]
+            },
+            {
+                id: 125,
+                category: 'womens-perfume',
+                name: '212 Women Perfume',
+                rating: '4.8',
+                reviews: '(39)',
+                images: ['212-women.jpg'],
+                discount: '',
+                desc: 'Chic, sensual and sophisticated feminine fragrance.',
+                sizes: [
+                    { size: '30 ML', price: 1500 },
+                    { size: '50 ML', price: 2600 }
+                ]
+            },
+            {
+                id: 126,
+                category: 'womens-perfume',
+                name: 'T Rose Perfume',
+                rating: '4.8',
+                reviews: '(32)',
+                images: ['t-rose.jpg'],
+                discount: '',
+                desc: 'Pure, fresh and romantic single-note tea rose fragrance.',
+                sizes: [
+                    { size: '30 ML', price: 1200 },
+                    { size: '50 ML', price: 2000 }
+                ]
+            },
+
+            /* --- UNISEX / PREMIUM PERFUMES --- */
+            {
+                id: 140,
+                category: 'unisex-perfume',
+                name: 'Baccarat Rouge Perfume',
+                rating: '5.0',
+                reviews: '(120)',
+                images: ['baccarat.jpg'],
+                discount: 'LUXURY',
+                desc: 'Iconic amber-floral unisex masterpiece with crystal elegance.',
+                sizes: [
+                    { size: '30 ML', price: 2000 },
+                    { size: '50 ML', price: 3500 }
+                ]
+            },
+            {
+                id: 141,
+                category: 'unisex-perfume',
+                name: 'Khamrah Lattafa Perfume',
+                rating: '4.9',
+                reviews: '(85)',
+                images: ['khamrap.jpg'],
+                discount: 'BESTSELLER',
+                desc: 'Warm cinnamon, date and gourmand luxury unisex fragrance.',
+                sizes: [
+                    { size: '30 ML', price: 1400 },
+                    { size: '50 ML', price: 2300 }
+                ]
+            },
+            {
+                id: 142,
+                category: 'unisex-perfume',
+                name: 'Khamrah Qahwa Perfume',
+                rating: '5.0',
+                reviews: '(78)',
+                images: ['khamrah-qahwa.jpg'],
+                discount: 'NEW',
+                desc: 'Exquisite blend of rich Arabic coffee, warm spices and praline.',
+                sizes: [
+                    { size: '30 ML', price: 1500 },
+                    { size: '50 ML', price: 2500 }
+                ]
+            },
+            {
+                id: 143,
+                category: 'unisex-perfume',
+                name: 'Oud Mood Perfume',
+                rating: '4.8',
+                reviews: '(64)',
+                images: ['oudlail.jpg'],
+                discount: '',
+                desc: 'Rich, smoky oriental agarwood and amber unisex spray.',
+                sizes: [
+                    { size: '30 ML', price: 1300 },
+                    { size: '50 ML', price: 2100 }
+                ]
+            },
+
+            /* --- ATTARS COLLECTION --- */
             {
                 id: 2,
                 category: 'attar',
@@ -666,18 +1412,13 @@
                 rating: '5.0',
                 reviews: '(38)',
                 images: ['majmua.jpg'],
-                discount: '',
+                discount: 'TRADITIONAL',
                 desc: 'Classic traditional floral and woody attar blend.',
                 sizes: [
                     { size: '3 ML', price: 400 },
                     { size: '6 ML', price: 700 },
                     { size: '12 ML', price: 1200 }
-                ],
-                notes: {
-                    top: 'Kewra, Herbal Notes, Spices',
-                    heart: 'Jasmine, Rose, Marigold',
-                    base: 'Sandalwood, Woody Earthy Notes'
-                }
+                ]
             },
             {
                 id: 3,
@@ -686,8 +1427,8 @@
                 rating: '4.8',
                 reviews: '(25)',
                 images: ['ameeraloud.jpg'],
-                discount: '',
-                desc: 'Rich, oriental agarwood fragrance for royalty.',
+                discount: 'OUD',
+                desc: 'Rich, oriental agarwood fragrance attar for royalty.',
                 sizes: [
                     { size: '3 ML', price: 400 },
                     { size: '6 ML', price: 700 },
@@ -712,27 +1453,12 @@
             {
                 id: 5,
                 category: 'attar',
-                name: 'Hina Attar',
+                name: 'Attar Hina',
                 rating: '4.7',
                 reviews: '(19)',
                 images: ['hina.jpg'],
                 discount: '',
                 desc: 'Traditional warm henna herbal attar.',
-                sizes: [
-                    { size: '3 ML', price: 400 },
-                    { size: '6 ML', price: 700 },
-                    { size: '12 ML', price: 1200 }
-                ]
-            },
-            {
-                id: 6,
-                category: 'attar',
-                name: 'Office For Men Attar',
-                rating: '4.8',
-                reviews: '(31)',
-                images: ['office.jpg'],
-                discount: '',
-                desc: 'Fresh, subtle, professional daily office wear fragrance.',
                 sizes: [
                     { size: '3 ML', price: 400 },
                     { size: '6 ML', price: 700 },
@@ -746,8 +1472,8 @@
                 rating: '5.0',
                 reviews: '(50)',
                 images: ['oudlail.jpg'],
-                discount: '15% OFF',
-                desc: 'Deep, mysterious night-time oudh fragrance.',
+                discount: 'OUD',
+                desc: 'Deep, mysterious night-time oudh fragrance attar.',
                 sizes: [
                     { size: '3 ML', price: 400 },
                     { size: '6 ML', price: 700 },
@@ -762,26 +1488,11 @@
                 reviews: '(22)',
                 images: ['zamzam.jpg'],
                 discount: '',
-                desc: 'Spiritual, fresh, clean floral fragrance.',
+                desc: 'Spiritual, fresh, clean floral attar fragrance.',
                 sizes: [
                     { size: '3 ML', price: 420 },
                     { size: '6 ML', price: 720 },
                     { size: '12 ML', price: 1250 }
-                ]
-            },
-            {
-                id: 9,
-                category: 'attar',
-                name: 'Dirham Attar',
-                rating: '4.9',
-                reviews: '(45)',
-                images: ['Drham.jpg'],
-                discount: '',
-                desc: 'Popular Arabic citrus and woody blend.',
-                sizes: [
-                    { size: '3 ML', price: 400 },
-                    { size: '6 ML', price: 700 },
-                    { size: '12 ML', price: 1200 }
                 ]
             },
             {
@@ -792,7 +1503,7 @@
                 reviews: '(89)',
                 images: ['Royal.jpg'],
                 discount: 'BEST SELLER',
-                desc: 'Classic fresh spicy fragrance with massive projection.',
+                desc: 'Classic fresh spicy fragrance attar with massive projection.',
                 sizes: [
                     { size: '3 ML', price: 450 },
                     { size: '6 ML', price: 800 },
@@ -822,7 +1533,7 @@
                 reviews: '(18)',
                 images: ['kafi.jpg'],
                 discount: '',
-                desc: 'Unique gourmet coffee & dark chocolate fragrance blend.',
+                desc: 'Unique gourmet coffee & dark chocolate attar blend.',
                 sizes: [
                     { size: '3 ML', price: 750 },
                     { size: '6 ML', price: 1300 },
@@ -837,7 +1548,7 @@
                 reviews: '(33)',
                 images: ['Whiteoudh.jpg'],
                 discount: '',
-                desc: 'Soft, clean, luxurious white agarwood fragrance.',
+                desc: 'Soft, clean, luxurious white agarwood attar.',
                 sizes: [
                     { size: '3 ML', price: 450 },
                     { size: '6 ML', price: 800 },
@@ -852,7 +1563,7 @@
                 reviews: '(55)',
                 images: ['muskhind.jpg'],
                 discount: '',
-                desc: 'Authentic Indian oriental musk.',
+                desc: 'Authentic Indian oriental musk attar.',
                 sizes: [
                     { size: '3 ML', price: 400 },
                     { size: '6 ML', price: 700 },
@@ -860,110 +1571,172 @@
                 ]
             },
             {
-                id: 15,
-                category: 'perfume',
-                name: 'Bakhoor Spray Perfume',
-                rating: '4.9',
-                reviews: '(72)',
-                images: ['br.jpg'],
-                discount: '',
-                desc: 'High concentration Bakhoor spray perfume.',
-                sizes: [
-                    { size: '30 ML', price: 1300 },
-                    { size: '50 ML', price: 2000 }
-                ],
-                notes: { top: 'Incense, Spices', heart: 'Amber, Woody Notes', base: 'Oudh, Smoke' }
-            },
-            {
-                id: 16,
-                category: 'perfume',
-                name: 'Imperial Valley Perfume',
-                rating: '4.8',
-                reviews: '(41)',
-                images: ['iv.jpg'],
-                discount: 'POPULAR',
-                desc: 'Luxury designer style Imperial Valley spray perfume.',
-                sizes: [
-                    { size: '30 ML', price: 1800 },
-                    { size: '50 ML', price: 3000 }
-                ],
-                notes: { top: 'Lavender, Artemisia', heart: 'Leather, Cinnamon', base: 'Amber, Oud' }
-            },
-            {
-                id: 17,
-                category: 'perfume',
-                name: 'Havoc Spray Perfume',
+                id: 200,
+                category: 'attar',
+                name: 'Dahn Al Oud Attar',
                 rating: '5.0',
-                reviews: '(94)',
-                images: ['havokk.jpg'],
-                discount: '',
-                desc: 'Classic Havoc iconic long-lasting scent.',
+                reviews: '(44)',
+                images: ['dahn-al-oud.jpg'],
+                discount: 'PURE',
+                desc: 'Pure traditional extracted Indian agarwood oil attar.',
                 sizes: [
-                    { size: '30 ML', price: 1000 },
-                    { size: '50 ML', price: 1700 }
-                ],
-                notes: { top: 'Aldehydes, Green Notes', heart: 'Floral Bouquet', base: 'Musk, Oakmoss' }
+                    { size: '3 ML', price: 600 },
+                    { size: '6 ML', price: 1100 },
+                    { size: '12 ML', price: 2000 }
+                ]
             },
             {
-                id: 18,
-                category: 'perfume',
-                name: 'White Musk Spray Perfume',
+                id: 201,
+                category: 'attar',
+                name: 'Hajr-e-Aswad Attar',
                 rating: '4.9',
-                reviews: '(60)',
-                images: ['wm.jpg'],
-                discount: '',
-                desc: 'Elegant White Musk spray.',
+                reviews: '(37)',
+                images: ['hajr-e-aswad.jpg'],
+                discount: 'SACRED',
+                desc: 'Spiritual and serene traditional Arabic attar blend.',
                 sizes: [
-                    { size: '30 ML', price: 1800 },
-                    { size: '50 ML', price: 3000 }
-                ],
-                notes: { top: 'White Musk, Lily', heart: 'Jasmine, Rose', base: 'Powdery Notes, Musk' }
+                    { size: '3 ML', price: 450 },
+                    { size: '6 ML', price: 800 },
+                    { size: '12 ML', price: 1400 }
+                ]
             },
             {
-                id: 19,
-                category: 'perfume',
-                name: 'Royal Mirage Perfume',
-                rating: '4.7',
+                id: 202,
+                category: 'attar',
+                name: 'Raat Ki Rani Attar',
+                rating: '4.8',
                 reviews: '(29)',
-                images: ['rm.jpg'],
+                images: ['raat-ki-rani-attar.jpg'],
                 discount: '',
-                desc: 'Royal Mirage intense spray perfume.',
+                desc: 'Sweet night-blooming jasmine floral attar.',
                 sizes: [
-                    { size: '30 ML', price: 1600 },
-                    { size: '50 ML', price: 2800 }
-                ],
-                notes: { top: 'Bergamot, Green Leaves', heart: 'Spicy Floral', base: 'Woody, Amber' }
+                    { size: '3 ML', price: 400 },
+                    { size: '6 ML', price: 700 },
+                    { size: '12 ML', price: 1200 }
+                ]
             },
             {
-                id: 20,
-                category: 'perfume',
-                name: '9 PM Style Perfume',
+                id: 203,
+                category: 'attar',
+                name: 'Chambeli Attar',
+                rating: '4.9',
+                reviews: '(31)',
+                images: ['chambeli.jpg'],
+                discount: '',
+                desc: 'Fresh pure jasmine (Chambeli) floral attar.',
+                sizes: [
+                    { size: '3 ML', price: 400 },
+                    { size: '6 ML', price: 700 },
+                    { size: '12 ML', price: 1200 }
+                ]
+            },
+            {
+                id: 204,
+                category: 'attar',
+                name: 'Jannat-ul-Firdous Attar',
                 rating: '5.0',
-                reviews: '(110)',
-                images: ['9mp.jpg'],
-                discount: 'TOP RATED',
-                desc: 'Sweet, vanilla, bubblegum evening party scent.',
+                reviews: '(75)',
+                images: ['jannat-ul-firdous.jpg'],
+                discount: 'CLASSIC',
+                desc: 'Legendary lush green herbal and floral Arabic attar.',
                 sizes: [
-                    { size: '30 ML', price: 1800 },
-                    { size: '50 ML', price: 3000 }
-                ],
-                notes: { top: 'Cinnamon, Apple, Lavender', heart: 'Orange Blossom, Lily', base: 'Vanilla, Tonka Bean, Amber' }
+                    { size: '3 ML', price: 380 },
+                    { size: '6 ML', price: 650 },
+                    { size: '12 ML', price: 1100 }
+                ]
             },
             {
-                id: 21,
-                category: 'perfume',
-                name: 'Khamrah Perfume',
+                id: 205,
+                category: 'attar',
+                name: 'Rasha Attar',
                 rating: '4.8',
-                reviews: '(35)',
-                images: ['khamrap.jpg'],
+                reviews: '(23)',
+                images: ['rasha.jpg'],
                 discount: '',
-                desc: 'Warm cinnamon, gourmand luxury fragrance.',
+                desc: 'Spicy, floral and oriental modern Arabic attar.',
                 sizes: [
-                    { size: '30 ML', price: 1300 },
-                    { size: '50 ML', price: 2000 }
-                ],
-                notes: { top: 'Cinnamon, Nutmeg, Bergamot', heart: 'Dates, Praline, Tuberose', base: 'Vanilla, Tonka Bean, Myrrh' }
+                    { size: '3 ML', price: 450 },
+                    { size: '6 ML', price: 800 },
+                    { size: '12 ML', price: 1400 }
+                ]
             },
+            {
+                id: 206,
+                category: 'attar',
+                name: 'Sultan Attar',
+                rating: '4.9',
+                reviews: '(42)',
+                images: ['sultan.jpg'],
+                discount: 'ROYAL',
+                desc: 'Rich, woody and citrus royal signature attar.',
+                sizes: [
+                    { size: '3 ML', price: 500 },
+                    { size: '6 ML', price: 900 },
+                    { size: '12 ML', price: 1600 }
+                ]
+            },
+            {
+                id: 207,
+                category: 'attar',
+                name: 'Hugo Boss Attar',
+                rating: '4.8',
+                reviews: '(26)',
+                images: ['hugo-boss-attar.jpg'],
+                discount: 'NEW',
+                desc: 'Concentrated attar version of Hugo Boss masculine fragrance.',
+                sizes: [
+                    { size: '3 ML', price: 450 },
+                    { size: '6 ML', price: 800 },
+                    { size: '12 ML', price: 1400 }
+                ]
+            },
+            {
+                id: 208,
+                category: 'attar',
+                name: 'Azzaro Wanted Attar',
+                rating: '4.9',
+                reviews: '(30)',
+                images: ['azzaro-attar.jpg'],
+                discount: 'NEW',
+                desc: 'Concentrated woody spicy attar inspired by Azzaro Wanted.',
+                sizes: [
+                    { size: '3 ML', price: 450 },
+                    { size: '6 ML', price: 800 },
+                    { size: '12 ML', price: 1400 }
+                ]
+            },
+            {
+                id: 209,
+                category: 'attar',
+                name: 'Baccarat Attar',
+                rating: '5.0',
+                reviews: '(60)',
+                images: ['baccarat-attar.jpg'],
+                discount: 'LUXURY',
+                desc: 'Concentrated pure oil attar version of Baccarat Rouge.',
+                sizes: [
+                    { size: '3 ML', price: 600 },
+                    { size: '6 ML', price: 1100 },
+                    { size: '12 ML', price: 2000 }
+                ]
+            },
+            {
+                id: 210,
+                category: 'attar',
+                name: '9 PM Rebel Attar',
+                rating: '4.9',
+                reviews: '(48)',
+                images: ['9pm-attar.jpg'],
+                discount: 'HOT',
+                desc: 'Concentrated sweet vanilla attar version of 9 PM.',
+                sizes: [
+                    { size: '3 ML', price: 500 },
+                    { size: '6 ML', price: 900 },
+                    { size: '12 ML', price: 1600 }
+                ]
+            },
+
+            /* --- KUFI / CAPS --- */
             {
                 id: 22,
                 category: 'kufi',
@@ -1002,6 +1775,11 @@
             customer.phone = input.value;
         }
 
+        function toggleMobileSidebar() {
+            document.getElementById('appSidebar').classList.toggle('mobile-open');
+            document.getElementById('sidebarOverlay').classList.toggle('active');
+        }
+
         function render(f='all', customList = null) {
             currentFilter = f;
             const grid = document.getElementById('productGrid'); 
@@ -1010,7 +1788,7 @@
             const listToRender = customList || (f === 'all' ? products : products.filter(p => p.category === f));
             
             if (listToRender.length === 0) {
-                grid.innerHTML = `<div style="grid-column: span 2; text-align: center; padding: 30px; color: #777; font-size: 0.85rem;">No products found!</div>`;
+                grid.innerHTML = `<div style="grid-column: span 2; text-align: center; padding: 30px; color: #777; font-size: 0.85rem;">No products found in this category!</div>`;
                 return;
             }
 
@@ -1116,7 +1894,7 @@
         function triggerCartAnimation() {
             const icon = document.getElementById('cartIcon'); 
             icon.classList.add('shine'); 
-            setTimeout(() => icon.classList.remove('shine'), 600);
+            setTimeout(() => icon.classList.remove('shine'), 500);
         }
 
         // FULL PRODUCT DETAIL & 11.11 DEAL BUILDER
@@ -1170,7 +1948,6 @@
                 
                 let optionsHTML = '<option value="">-- Select 30 ML Perfume --</option>';
                 thirtyMlEligible.forEach(prod => {
-                    const size30Obj = prod.sizes.find(s => s.size === '30 ML');
                     optionsHTML += `<option value="${prod.id}">${prod.name} (30 ML)</option>`;
                 });
 
@@ -1388,21 +2165,73 @@
             
             document.getElementById('categoryIndicator').innerText = `Search Results for: "${query}"`;
             render(currentFilter, searchResults);
+            scrollToIndicator();
         }
 
         function resetToHome(e) {
             if(e) e.preventDefault();
+            localStorage.removeItem('suddais_last_order');
             document.getElementById('searchInput').value = '';
             showSection('home-view');
             filter('all');
-            window.scrollTo({ top: 0, behavior: 'instant' });
+            updateActiveSidebarLink('link-home');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         function showSection(sectionId, e) {
             if(e) e.preventDefault();
             document.querySelectorAll('.section-view').forEach(sec => sec.classList.remove('active'));
             document.getElementById(sectionId).classList.add('active');
-            window.scrollTo({ top: 0, behavior: 'instant' });
+            
+            if(window.innerWidth <= 991) {
+                document.getElementById('appSidebar').classList.remove('mobile-open');
+                document.getElementById('sidebarOverlay').classList.remove('active');
+            }
+
+            if(sectionId === 'about-view') updateActiveSidebarLink('link-about');
+            else if(sectionId === 'contact-view') updateActiveSidebarLink('link-contact');
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function scrollToImpression(e) {
+            if(e) e.preventDefault();
+            showSection('home-view');
+            const el = document.getElementById('custom-impression');
+            if(el) {
+                const offset = 90;
+                const bodyRect = document.body.getBoundingClientRect().top;
+                const elementRect = el.getBoundingClientRect().top;
+                const elementPosition = elementRect - bodyRect;
+                const offsetPosition = elementPosition - offset;
+
+                window.scrollTo({
+                    top: offsetPosition,
+                    behavior: 'smooth'
+                });
+            }
+        }
+
+        function scrollToIndicator() {
+            const el = document.getElementById('categoryIndicator');
+            if(el) {
+                const offset = 80;
+                const bodyRect = document.body.getBoundingClientRect().top;
+                const elementRect = el.getBoundingClientRect().top;
+                const elementPosition = elementRect - bodyRect;
+                const offsetPosition = elementPosition - offset;
+
+                window.scrollTo({
+                    top: offsetPosition,
+                    behavior: 'smooth'
+                });
+            }
+        }
+
+        function updateActiveSidebarLink(activeId) {
+            document.querySelectorAll('.sidebar-menu a').forEach(a => a.classList.remove('active'));
+            const target = document.getElementById(activeId);
+            if(target) target.classList.add('active');
         }
 
         // Cart Management
@@ -1510,28 +2339,36 @@
             const t = document.getElementById('toast'); 
             t.innerText = text;
             t.style.display = 'block'; 
-            setTimeout(() => t.style.display = 'none', 2200); 
+            setTimeout(() => t.style.display = 'none', 2000); 
         }
         
         function filter(c, event) { 
             if(event) event.preventDefault();
             document.getElementById('searchInput').value = '';
             showSection('home-view');
-            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
             
-            const activeTab = document.getElementById('tab-' + c);
-            if(activeTab) activeTab.classList.add('active');
-            
-            const indicator = document.getElementById('categoryIndicator');
+            let linkKey = 'link-home';
             let catName = 'All Products';
-            if(c === 'signature') catName = 'Our Signature Products';
-            else if(c === 'deals') catName = '🔥 Deals & Offers';
-            else if(c === 'attar') catName = 'Attars Category';
-            else if(c === 'perfume') catName = 'Perfumes Category';
-            else if(c === 'kufi') catName = 'Caps (Kufi) Category';
+            if(c === 'signature') { catName = 'Our Signature Products'; linkKey = 'link-signature'; }
+            else if(c === 'mens-perfume') { catName = "Men's Perfumes Category"; linkKey = 'link-mens-perfume'; }
+            else if(c === 'womens-perfume') { catName = "Women's Perfumes Category"; linkKey = 'link-womens-perfume'; }
+            else if(c === 'unisex-perfume') { catName = 'Unisex / Premium Perfumes Category'; linkKey = 'link-unisex-perfume'; }
+            else if(c === 'attar') { catName = 'Attar Collection Category'; linkKey = 'link-attar'; }
+            else if(c === 'deals') { catName = '🔥 Deals & Offers'; linkKey = 'link-deals'; }
+            else if(c === 'kufi') { catName = 'Caps (Kufi) Category'; linkKey = 'link-kufi'; }
+            else if(c === 'all') { catName = 'All Products'; linkKey = 'link-home'; }
             
-            indicator.innerText = 'Showing: ' + catName;
-            render(c); 
+            updateActiveSidebarLink(linkKey);
+
+            document.getElementById('categoryIndicator').innerText = 'Showing: ' + catName;
+            render(c);
+            
+            if(window.innerWidth <= 991) {
+                document.getElementById('appSidebar').classList.remove('mobile-open');
+                document.getElementById('sidebarOverlay').classList.remove('active');
+            }
+
+            scrollToIndicator();
         }
         
         function sendOrder() {
@@ -1540,6 +2377,14 @@
                 return;
             }
             
+            const nameInput = document.getElementById('custName');
+            const phoneInput = document.getElementById('custPhone');
+            const addressInput = document.getElementById('custAddress');
+
+            customer.name = nameInput ? nameInput.value : '';
+            customer.phone = phoneInput ? phoneInput.value : '';
+            customer.address = addressInput ? addressInput.value : '';
+
             if(!customer.name.trim() || !customer.phone.trim() || !customer.address.trim()) {
                 alert('Please enter your Name, Phone Number, and Complete Address in the cart form.');
                 return;
@@ -1557,17 +2402,21 @@
             msg += `📦 *Order Details:*\n`;
             
             let totalSum = 0;
+            let summaryHTML = `<h4>Order Summary for ${customer.name}</h4><p><b>Phone:</b> ${customer.phone}<br><b>Address:</b> ${customer.address}</p><ul style="padding-left:15px; margin-top:5px;">`;
+
             cart.forEach((i, index) => {
                 let subTotal = i.price * i.qty;
                 totalSum += subTotal;
                 if(i.isDeal) {
                     msg += `${index + 1}. *${i.name}* (Qty: ${i.qty})\n`;
+                    summaryHTML += `<li><b>${i.name}</b> (Rs. ${subTotal})</li>`;
                     i.items.forEach(di => {
                         msg += `   - ${di.name} (${di.size}) ${di.isFree ? '🎁 *[FREE GIFT]*' : ''}\n`;
                     });
                     msg += `   Online Deal Price: Rs. ${subTotal}\n   Shop Visit Price: Rs. ${i.shopPrice}\n\n`;
                 } else {
                     msg += `${index + 1}. ${i.name} (${i.size}) - Qty: ${i.qty} - Rs. ${subTotal}\n`;
+                    summaryHTML += `<li>${i.name} (${i.size}) × ${i.qty} = Rs. ${subTotal}</li>`;
                 }
             });
             
@@ -1578,16 +2427,88 @@
             msg += `🚚 *Delivery Charges:* ${deliveryFee === 0 ? 'FREE SHIPPING' : 'Rs. ' + deliveryFee}\n`;
             msg += `💳 *Total Payable Amount: Rs. ${finalTotal}*\n\n`;
             msg += `Please confirm my order. Thank you!`;
-            
-            showToast('Redirecting to WhatsApp... ✅');
 
+            summaryHTML += `</ul><p style="margin-top:8px; border-top:1px solid #eee; padding-top:5px;"><b>Total Payable: Rs. ${finalTotal}</b> (${deliveryFee === 0 ? 'Free Shipping' : 'Delivery: Rs. 200'})</p>`;
+
+            const orderData = {
+                customerName: customer.name,
+                summaryHTML: summaryHTML
+            };
+            localStorage.setItem('suddais_last_order', JSON.stringify(orderData));
+
+            cart = [];
+            updateCartUI();
+            toggleCart();
+
+            showThankYouPage(orderData);
+
+            showToast('Opening WhatsApp... ✅');
             setTimeout(() => {
                 window.open(`https://wa.me/923182187575?text=${encodeURIComponent(msg)}`);
-            }, 1000);
+            }, 600);
         }
 
-        render('all');
-        updateCartUI();
+        function showThankYouPage(orderData) {
+            document.querySelectorAll('.section-view').forEach(sec => sec.classList.remove('active'));
+            document.getElementById('thankyou-view').classList.add('active');
+            
+            document.getElementById('thankyouTitle').innerText = `Thank You, ${orderData.customerName}!`;
+            document.getElementById('thankyouSummary').innerHTML = orderData.summaryHTML;
+
+            if(window.innerWidth <= 991) {
+                document.getElementById('appSidebar').classList.remove('mobile-open');
+                document.getElementById('sidebarOverlay').classList.remove('active');
+            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function sendCustomImpressionRequest(e) {
+            e.preventDefault();
+            const name = document.getElementById('impName').value.trim();
+            const phone = document.getElementById('impPhone').value.trim();
+            const perfume = document.getElementById('impPerfume').value.trim();
+            const details = document.getElementById('impDetails').value.trim();
+
+            if(!name || !phone || !perfume) {
+                alert('Please fill out your Name, Phone Number, and Desired Perfume Name.');
+                return;
+            }
+
+            if(phone.length !== 11) {
+                alert('Phone number must be exactly 11 digits (e.g. 03182187575).');
+                return;
+            }
+
+            let msg = `Hello Suddais Collection!\n\nI want to request a Custom Perfume Impression.\n\n`;
+            msg += `👤 *Name:* ${name}\n`;
+            msg += `📱 *WhatsApp:* ${phone}\n`;
+            msg += `🌸 *Requested Perfume:* ${perfume}\n`;
+            if(details) {
+                msg += `📝 *Additional Details:* ${details}\n`;
+            }
+            msg += `\nPlease let me know:\n• Is this fragrance impression available?\n• Can you create an impression?\n• What sizes are available?\n• What will be the estimated price?`;
+
+            showToast('Opening WhatsApp... 📲');
+            setTimeout(() => {
+                window.open(`https://wa.me/923182187575?text=${encodeURIComponent(msg)}`);
+            }, 600);
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedOrder = localStorage.getItem('suddais_last_order');
+            if(savedOrder) {
+                try {
+                    const parsedOrder = JSON.parse(savedOrder);
+                    showThankYouPage(parsedOrder);
+                } catch(e) {
+                    localStorage.removeItem('suddais_last_order');
+                }
+            } else {
+                render('all');
+            }
+            updateCartUI();
+            updateActiveSidebarLink('link-home');
+        });
     </script>
 </body>
 </html>
